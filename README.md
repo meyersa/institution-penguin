@@ -2,6 +2,17 @@
 
 CPS Senior Design project to make a chat space that resembles Club Penguin, but introduces awareness for penguin habitat loss
 
+## Local Development 
+
+- Make sure you have npm and dependencies installed
+- Collect dependencies for project `npm install`
+- Run dev server `npm run dev`
+
+## Push to Production 
+Small project, dev is prod:)
+
+- Commit and push code, container will autorebuild
+
 ### Github-Runner 
 
 ``` 
