@@ -9,4 +9,4 @@ jobs:
       - name: Build docker
         run: docker compose build
       - name: Deploy docker
-        run: docker compose up
+        run: docker compose up -d
