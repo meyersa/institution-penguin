@@ -9,9 +9,11 @@ CPS Senior Design project to make a chat space that resembles Club Penguin, but 
 - Run dev server `npm run dev`
 
 ## Push to Production 
-Small project, dev is prod:)
 
-- Commit and push code, container will autorebuild
+> :warning: **Development should be run on a separate branch then pushed to main**
+
+- Merge branch to main
+- Runner rebuilds with pushes to main 
 
 ### Github-Runner 
 
