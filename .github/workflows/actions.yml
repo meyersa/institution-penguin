@@ -2,7 +2,7 @@ name: Update container
 on: [push]
 jobs:
   build-deploy:
-    runs-on: o4-runner
+    runs-on: self-hosted
     steps:
       - name: Check out code
         uses: actions/checkout@v3
