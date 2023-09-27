@@ -1,0 +1,12 @@
+name: Update container
+on: [push]
+jobs:
+  build-deploy:
+    runs-on: o4-runner
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: Build docker
+        run: docker compose build
+      - name: Deploy docker
+        run: docker compose up
