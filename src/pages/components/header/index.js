@@ -8,6 +8,7 @@ export default function Header() {
     <nav className={styles.container}>
       <div className={styles.logoContainer}>
         <Link href="/">Institution Penguin</Link>
+        <Link href="/leaderboard"></Link>
       </div>
     </nav>     
   )
