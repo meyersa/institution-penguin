@@ -8,7 +8,6 @@ export default function Home() {
         <title>Institution Penguin</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to Institution Penguin!
