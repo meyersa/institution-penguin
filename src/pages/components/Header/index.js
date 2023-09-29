@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from 'next/link';
 
-import styles from "./header.module.css";
+import styles from './header.module.css'
 
 export default function Header() {
   return (
-    <nav className={styles.container}>
-      <div className={styles.logoContainer}>
-        <Link href="/">Institution Penguin</Link>
-        <Link href="/leaderboard"></Link>
-      </div>
-    </nav>     
-  )
-}
+      <nav>
+        <ul class="header-bar">
+          <li>
+            <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/about">About</Link>
+          </li>
+        </ul>
+      </nav>
+  );
+};
