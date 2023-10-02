@@ -5,15 +5,14 @@ import styles from './header.module.css'
 
 export default function Header() {
   return (
-      <nav>
-        <ul class="header-bar">
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
-        </ul>
-      </nav>
+    <div className={styles.headerbar}>
+      <div className={styles.leftheader}>
+        <a href="/" className={styles.inside}>Institution Penguin</a>
+      </div> 
+      <div className={styles.rightheader}>
+          <a className={styles.inside} href="#about">About</a>
+          <a className={styles.inside} href="#leaderboard">Leaderboard</a>
+      </div> 
+  </div>
   );
 };

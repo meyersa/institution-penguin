@@ -1,6 +1,29 @@
-.header-bar {
+.headerbar {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    display: inline;
-  }
+    display: flex; 
+    padding: 1em; 
+    background-color: #57BDE1;
+    align-items: center; 
+    justify-content: space-between;
+    
+}
+
+.headerbar a { 
+  filter: brightness(1.5);
+
+}
+
+/* .leftheader{ 
+
+} */
+/* .rightheader { 
+  display: flex; 
+
+} */
+
+.inside { 
+  padding: 1em;
+
+}
