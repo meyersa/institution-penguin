@@ -1,0 +1,22 @@
+.footer {
+  position: absolute;
+  height: 4em; 
+  bottom: 0;
+  width: 100%;
+
+}
+
+.footertext { 
+  text-align: center;
+  display: flex; 
+  align-items: center;
+  justify-content: center ;
+  
+}
+
+.inside { 
+  padding: 1em;
+  font-size: .75em;
+  color: #FEF9F3;
+
+}

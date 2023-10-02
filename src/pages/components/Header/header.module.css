@@ -3,25 +3,28 @@
     margin: 0;
     padding: 0;
     display: flex; 
-    padding: 1em; 
-    background-color: #57BDE1;
+    padding: 1.5em; 
+    background-color: rgb(10, 186, 250);
     align-items: center; 
     justify-content: space-between;
-    
+
+}
+
+.leftheader { 
+  font-size: 2em;
+  font-family: Sedgwick Ave Display;
+  
+}
+
+.rightheader { 
+  font-size: 1em; 
+
 }
 
 .headerbar a { 
   filter: brightness(1.5);
 
 }
-
-/* .leftheader{ 
-
-} */
-/* .rightheader { 
-  display: flex; 
-
-} */
 
 .inside { 
   padding: 1em;

@@ -1,0 +1,17 @@
+.outside { 
+    position: absolute;
+    top: 3em;
+    bottom: 3em;
+    margin: 5em;
+    left: 0; 
+    right: 0;
+    padding: 5em;
+    background-color: black;
+
+}
+
+.h1 { 
+    text-decoration: none;
+    text-align: center;
+    
+}
