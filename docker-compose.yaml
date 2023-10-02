@@ -1,6 +1,6 @@
 services: 
   ip: 
-    build: https://github.com/meyersa/institution-penguin.git
+    build: .
     container_name: ip 
     restart: unless-stopped 
 
