@@ -10,6 +10,6 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
       - name: Build docker
-        run: docker compose build
+        run: docker compose build --no-cache
       - name: Deploy docker
         run: docker compose up -d
