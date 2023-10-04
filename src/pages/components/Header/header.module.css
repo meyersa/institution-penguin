@@ -28,13 +28,34 @@
 }
 
 .inside { 
-  /* padding: 1em; */
   height: 100%;
   padding: 0 1em 0 1em;
 
 }
 
+.burgerWrapper { 
+  display: none; 
+
+}
+
 @media (min-width: 320px) and (max-width: 480px) { 
+  .burgerWrapper { 
+    display: block; 
+    
+  }
+
+  .menuitem { 
+    font-size: 3em; 
+
+  }
+
+  .menuitemsmall { 
+    position: fixed;
+    font-size: .75em; 
+    bottom: 3em; 
+    left: 3em;
+
+  }
   .headerbar { 
     padding: 1.5em 0 1.5em 0;
 
