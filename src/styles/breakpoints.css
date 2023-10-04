@@ -1,0 +1,17 @@
+/* Full width */ 
+
+@media (min-width: 1025px) {
+    
+}
+
+/* Tablets and iPads in portrait */ 
+
+@media (min-width: 768px) and (max-width: 1024px) { 
+
+}
+
+/* Phone */ 
+
+@media (min-width: 320px) and (max-width: 480px) { 
+
+}

@@ -4,6 +4,7 @@
     padding: 0;
     display: flex; 
     padding: 1.5em; 
+    height: 6em;
     background-color: rgb(10, 186, 250);
     align-items: center; 
     justify-content: space-between;
@@ -27,6 +28,20 @@
 }
 
 .inside { 
-  padding: 1em;
+  /* padding: 1em; */
+  height: 100%;
+  padding: 0 1em 0 1em;
 
+}
+
+@media (min-width: 320px) and (max-width: 480px) { 
+  .headerbar { 
+    padding: 1.5em 0 1.5em 0;
+
+  }
+
+  .rightheader .inside { 
+    display: none; 
+
+  }
 }

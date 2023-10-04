@@ -1,4 +1,5 @@
 import React from "react";
+import Burger from "../Burger/index.js"
 
 import styles from './header.module.css'
 
@@ -13,6 +14,7 @@ export default function Header() {
           <a className={styles.inside} href="/about">About</a>
           <a className={styles.inside} href="/leaderboard">Leaderboard</a>
           <a className={styles.inside} href="/login">Login</a>
+          <Burger />
       </div> 
     </div>
   );
