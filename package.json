@@ -2,12 +2,16 @@
     "private": true,
     "scripts": {
         "dev": "next dev",
-        "build": "next build"
+        "build": "next build",
+        "cypress:open": "cypress open --e2e"
     },
     "dependencies": {
         "next": "^13.5.4",
         "react": "^18.2.0",
         "react-burger-menu": "^3.0.9",
         "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "cypress": "^13.3.3"
     }
 }
