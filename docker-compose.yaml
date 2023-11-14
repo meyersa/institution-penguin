@@ -20,4 +20,4 @@ networks:
   default:
   proxy: 
     name: proxy
-    # external: true
+    external: true
