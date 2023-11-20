@@ -12,8 +12,10 @@ export default function Custom404() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header />
-            <Image src="/images/habitat.jpeg" alt="404 Habitat not found" width="64" height="64" />
-            <h1>404 - Page Not Found</h1>
+            <CenterContent>
+                <Image src="/images/habitat.jpeg" alt="404 Habitat not found" width="64" height="64" />
+                <h1>404 - Page Not Found</h1>
+            </CenterContent>
             <Footer />
         </div>
     )
