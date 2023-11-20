@@ -3,15 +3,20 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "cypress:open": "cypress open --e2e"
+        "cypress:open": "cypress open",
+        "cypress:run": "cypress run",
+        "test": "concurrently \"npm run dev\" \"npm run cypress:open\"",
+        "test:ci": "concurrently \"npm run dev\" \"npm run cypress:run\""
     },
     "dependencies": {
         "next": "^13.5.4",
+        "next-auth": "^4.24.5",
         "react": "^18.2.0",
         "react-burger-menu": "^3.0.9",
         "react-dom": "^18.2.0"
     },
     "devDependencies": {
+        "concurrently": "^8.2.2",
         "cypress": "^13.3.3"
     }
 }
