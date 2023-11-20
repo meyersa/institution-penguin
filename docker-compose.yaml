@@ -3,6 +3,9 @@ services:
     build: .
     container_name: ip 
     restart: always 
+    networks:
+      - default 
+      - proxy
   mongodb: 
     image: mongo:latest 
     container_name: ip-db 
@@ -13,9 +16,6 @@ services:
       MONGO_DB: ip-users
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
-    networks:
-      - default 
-      - proxy
 networks: 
   default:
   proxy: 
