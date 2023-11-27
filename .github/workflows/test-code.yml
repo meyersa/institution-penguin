@@ -5,9 +5,10 @@ jobs:
   run-tests: 
     runs-on: self-hosted 
     container:
-        image: node:latest
-    steps: 
-      - name: Check out code 
-        uses: actions/checkout@v4 
-      - name: Run cypress tests 
-        uses: cypress-io/github-action@v6
+      image: cypress/browsers:latest
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
