@@ -4,6 +4,10 @@ on:
 jobs:
   run-tests: 
     runs-on: self-hosted 
-    steps:
-      - uses: actions/checkout@v4
-      - uses: cypress-io/github-action@v6
+    container:
+        image: cypress/included
+    steps: 
+      - name: Check out code 
+        uses: actions/checkout@v4 
+      - name: Run cypress tests 
+        uses: cypress-io/github-action@v6
