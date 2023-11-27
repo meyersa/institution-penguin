@@ -10,6 +10,6 @@ jobs:
       - name: Check out code 
         uses: actions/checkout@v4 
       - name: Start server 
-        run:  node run dev
+        run:  npm run dev
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
