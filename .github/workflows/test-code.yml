@@ -4,6 +4,8 @@ on:
 jobs:
   run-tests: 
     runs-on: self-hosted 
+    container:
+        image: cypress/browsers:latest
     steps: 
       - name: Check out code 
         uses: actions/checkout@v3 
