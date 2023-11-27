@@ -10,7 +10,7 @@ jobs:
       - name: Check out code 
         uses: actions/checkout@v3 
       - name: Run cypress tests 
-        use: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v6
   build-deploy:
     runs-on: self-hosted
     steps:
