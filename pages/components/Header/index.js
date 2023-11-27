@@ -56,9 +56,9 @@ export default function Header() {
       <div className={styles.rightheader}>
           <div className={styles.burgerWrapper}>
             <Menu styles={burgerStyles} right>
-              <a id="about" className={styles.menuitem} href="/about">About</a>
-              <a id="leaderboard" className={styles.menuitem} href="/leaderboard">leaderboard</a>
-              <a id="login" className={styles.menuitem} href="/login">login</a>
+              <Link id="about" className={styles.menuitem} href="/about">About</Link>
+              <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">Leaderboard</Link>
+              <Link id="login" className={styles.menuitem} href="/login">Login</Link>
               <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com 2023</a>
             </Menu>
           </div>
