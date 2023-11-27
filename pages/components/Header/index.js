@@ -63,9 +63,9 @@ export default function Header() {
               <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com 2023</a>
             </Menu>
           </div>
-          <a className={styles.inside} href="/about">About</a>
-          <a className={styles.inside} href="/leaderboard">Leaderboard</a>
-          <a className={styles.inside} href="/login">Login</a>
+          <Link className={styles.inside} href="/about">About</Link>
+          <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
+          <Link className={styles.inside} href="/login">Login</Link>
       </div> 
     </div>
   );
