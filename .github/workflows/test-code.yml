@@ -9,7 +9,7 @@ jobs:
     steps: 
       - name: Check out code 
         uses: actions/checkout@v4 
-      - name: Start server 
-        run:  npm run dev
+      - name: Install dependencies
+        run:  npm install
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
