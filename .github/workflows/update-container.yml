@@ -1,16 +1,9 @@
-name: Update container
+name: Update docker container on main
 on:
   push: 
     branches: 
       - main
 jobs:
-  run-tests: 
-    runs-on: self-hosted 
-    steps: 
-      - name: Check out code 
-        uses: actions/checkout@v3 
-      - name: Run cypress tests 
-        uses: cypress-io/github-action@v6
   build-deploy:
     runs-on: self-hosted
     steps:
@@ -20,3 +13,8 @@ jobs:
         run: docker compose build
       - name: Deploy docker
         run: docker compose up -d
+  cleanup:
+    runs-on: self-hosted 
+    steps:
+      - name: Cleanup docker images
+        run: docker image prune -f 

@@ -1,0 +1,9 @@
+name: Build docker container
+on:
+  pull-request:
+jobs:
+  build-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Build docker
+        run: docker compose build
