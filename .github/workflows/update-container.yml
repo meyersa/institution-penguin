@@ -8,13 +8,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build docker
         run: docker compose build
       - name: Deploy docker
         run: docker compose up -d
-  cleanup:
-    runs-on: self-hosted 
-    steps:
-      - name: Cleanup docker images
-        run: docker image prune -f 

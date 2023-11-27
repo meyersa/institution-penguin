@@ -8,6 +8,8 @@ jobs:
         image: cypress/browsers:latest
     steps: 
       - name: Check out code 
-        uses: actions/checkout@v3 
+        uses: actions/checkout@v4 
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
