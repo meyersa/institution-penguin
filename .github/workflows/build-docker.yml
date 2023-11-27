@@ -1,6 +1,6 @@
 name: Build docker container
 on:
-  pull-request:
+  pull_request:
 jobs:
   build-deploy:
     runs-on: self-hosted
