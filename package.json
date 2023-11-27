@@ -3,7 +3,7 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "start": "node server.js",
+        "start": "next start",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
         "test": "concurrently \"npm run dev\" \"npm run cypress:open\"",
