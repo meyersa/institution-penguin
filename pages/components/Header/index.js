@@ -1,5 +1,6 @@
 import React from "react";
 import { slide as Menu } from 'react-burger-menu'
+import Link from 'next/link'
 
 import styles from './header.module.css'
 
