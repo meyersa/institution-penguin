@@ -14,5 +14,5 @@ jobs:
         with:
           browser: chrome
           build: yarn build
-          start: yarn start
+          start: node .next/standalone/server.js
           wait-on: "http://localhost:3000"
