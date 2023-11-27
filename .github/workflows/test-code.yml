@@ -4,11 +4,6 @@ on:
 jobs:
   run-tests: 
     runs-on: self-hosted 
-    container:
-      image: cypress/browsers:latest
-      options: --user 1001
     steps:
       - uses: actions/checkout@v4
       - uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
