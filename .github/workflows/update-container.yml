@@ -8,6 +8,10 @@ jobs:
     runs-on: self-hosted
     environment: production
     steps:
+      - name: Import ENV
+      env:
+        AUTH_ID: ${{ secrets.AUTH_ID }}
+        AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
       - name: Check out code
         uses: actions/checkout@v4
       - name: Build docker
