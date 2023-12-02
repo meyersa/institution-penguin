@@ -7,7 +7,6 @@ import Image from 'next/image';
 export default function Login() {
 
     const { data: session, status: status } = useSession();
-    console.log(useSession())
 
     if (status === "authenticated") {
         // add login/sign-up logic 
