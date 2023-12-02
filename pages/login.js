@@ -19,7 +19,7 @@ export default function Login() {
                 </Head>
                 <Header />
                 <CenterContent>
-                    <Image src="/images/logged-in.png" alt="Logged In" width="1280" height="1280" />
+                    <Image src="/images/login.png" alt="Logged In" width="1280" height="1280" />
                     <h1>Signed in as {session.user.name}</h1>
                     <button onClick={() => signOut()}>Sign out</button>
                     <button onClick={redirectToGame}>Return to game</button>
