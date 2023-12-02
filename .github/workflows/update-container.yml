@@ -1,4 +1,4 @@
-name: Update docker container on main
+name: Update docker container
 on:
   push: 
     branches: 
