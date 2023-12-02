@@ -2,7 +2,7 @@ name: Run cypress tests on push
 on:
   push:
     branches:
-    - 'main'
+      - 'main'
 jobs:
   run-tests: 
     runs-on: self-hosted 
