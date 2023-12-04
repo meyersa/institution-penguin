@@ -9,8 +9,7 @@ jobs:
     environment: production
     steps:
       - name: Reset Permission
-        run: |
-          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+        uses: AutoModality/action-clean@v1
       - name: Check out code
         uses: actions/checkout@v4
       - name: Build docker
