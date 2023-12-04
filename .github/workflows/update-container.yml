@@ -8,6 +8,9 @@ jobs:
     runs-on: self-hosted
     environment: production
     steps:
+      - name: Reset Permission
+        run: |
+          sudo chown -R $USER:$USER $GITHUB_WORKSPACE
       - name: Check out code
         uses: actions/checkout@v4
       - name: Build docker
