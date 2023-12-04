@@ -6,7 +6,7 @@ on:
 jobs:
   build-deploy:
     runs-on: self-hosted
-    environment: production
+    environment: Prod
     steps:
       - name: Reset Permission
         uses: AutoModality/action-clean@v1
