@@ -36,7 +36,7 @@ export default function Login() {
             <CenterContent>
                 <Image src="/images/login_failed.png" alt="Logged In" width="1280" height="1280" />
                 <h1>Not signed in</h1>
-                <button onClick={() => signIn()}>Sign in/Sign up</button>
+                <button onClick={redirectToGame()}>Sign in/Sign up</button>
             </CenterContent>
         </div>
     )
