@@ -7,7 +7,7 @@ let speed = 2;
 let playerSheet = {};
 
 //On Page Startup
-window.onload = function() {
+window.onload = function () {
 
     //Initializing application
     app = new PIXI.Application(
@@ -18,7 +18,7 @@ window.onload = function() {
             backgroundColor: 0xAAAAAA,
             padding: 0,
             margin: 0
-        
+
         }
     );
 
@@ -39,7 +39,7 @@ window.onload = function() {
 /*doneLoading
 * Runs functions to load sprites after page has completed loading
 */
-function doneLoading(e){
+function doneLoading(e) {
     createBackground();
     createPlayerSheet();
     createPlayer();
@@ -56,16 +56,16 @@ function createPlayerSheet() {
     const frames = {
         "0": { "frame": { "x": 5, "y": 5, "w": 61, "h": 97 } },
         "1": { "frame": { "x": 75, "y": 5, "w": 55, "h": 94 } },
-        "2": {"frame": {"x":139,"y":5,"w":61,"h":97} },
-        "12": {"frame": {"x":209,"y":5,"w":49,"h":94} },
-        "13": {"frame": {"x":267,"y":5,"w":49,"h":94} },
-        "14": { "frame": {"x":325,"y":5,"w":49,"h":94} },
-        "24": { "frame": {"x":383,"y":5,"w":49,"h":94} },
-        "25": { "frame": {"x":441,"y":5,"w":49,"h":94} },
-        "26": { "frame": {"x":499,"y":5,"w":49,"h":94} },
-        "36": {"frame": {"x":557,"y":5,"w":61,"h":97} },
-        "37": {"frame": {"x":627,"y":5,"w":55,"h":94} },
-        "38": {"frame": {"x":691,"y":5,"w":61,"h":97} },
+        "2": { "frame": { "x": 139, "y": 5, "w": 61, "h": 97 } },
+        "12": { "frame": { "x": 209, "y": 5, "w": 49, "h": 94 } },
+        "13": { "frame": { "x": 267, "y": 5, "w": 49, "h": 94 } },
+        "14": { "frame": { "x": 325, "y": 5, "w": 49, "h": 94 } },
+        "24": { "frame": { "x": 383, "y": 5, "w": 49, "h": 94 } },
+        "25": { "frame": { "x": 441, "y": 5, "w": 49, "h": 94 } },
+        "26": { "frame": { "x": 499, "y": 5, "w": 49, "h": 94 } },
+        "36": { "frame": { "x": 557, "y": 5, "w": 61, "h": 97 } },
+        "37": { "frame": { "x": 627, "y": 5, "w": 55, "h": 94 } },
+        "38": { "frame": { "x": 691, "y": 5, "w": 61, "h": 97 } },
         // ... Add all other frame data from your JSON file here
         // Remember to include frames for all directions and animations
     };
@@ -102,7 +102,7 @@ function createPlayerSheet() {
     playerSheet["walkEast"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["24"].frame.x, frames["24"].frame.y, frames["24"].frame.w, frames["24"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["26"].frame.x, frames["26"].frame.y, frames["26"].frame.w, frames["26"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h)), 
+        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h)),
     ];
 
     playerSheet["walkNorth"] = [
@@ -114,7 +114,7 @@ function createPlayerSheet() {
 
 
 //Function to load player sprite
-function createPlayer(){
+function createPlayer() {
     player = new PIXI.AnimatedSprite(playerSheet.standSouth);
     player.anchor.set(0.5);
     player.animationSpeed = .2;
@@ -129,7 +129,7 @@ function createPlayer(){
 
 
 //function to load background image
-function createBackground(){
+function createBackground() {
     //background image
     Background = PIXI.Sprite.from("./Images/CPBackground.webp");
     Background.anchor.set(0.5);
@@ -153,82 +153,81 @@ function createBackground(){
 
 
 //Function to detect and handle collision events
-function handleCollision(object1, object2)
-    {
-        const playerBounds = object1.getBounds();
-        const treeBounds = object2.getBounds();
-    
-        //if players touching
-        if (playerBounds.x < treeBounds.x + treeBounds.width &&
-            playerBounds.x + playerBounds.width > treeBounds.x &&
-            playerBounds.y < treeBounds.y + treeBounds.height &&
-            playerBounds.y + playerBounds.height > treeBounds.y) {
-                
-            // Calculate the overlap between the player and the tree
-            const overlapX = Math.min(playerBounds.x + playerBounds.width, treeBounds.x + treeBounds.width) - Math.max(playerBounds.x, treeBounds.x);
-            const overlapY = Math.min(playerBounds.y + playerBounds.height, treeBounds.y + treeBounds.height) - Math.max(playerBounds.y, treeBounds.y);
+function handleCollision(object1, object2) {
+    const playerBounds = object1.getBounds();
+    const treeBounds = object2.getBounds();
 
-            // Determine the direction of the collision
-            if (overlapX < overlapY) {
-                if (playerBounds.x < treeBounds.x) {
-                    player.x -= overlapX;
-                } else {
-                    player.x += overlapX;
-                }
+    //if players touching
+    if (playerBounds.x < treeBounds.x + treeBounds.width &&
+        playerBounds.x + playerBounds.width > treeBounds.x &&
+        playerBounds.y < treeBounds.y + treeBounds.height &&
+        playerBounds.y + playerBounds.height > treeBounds.y) {
+
+        // Calculate the overlap between the player and the tree
+        const overlapX = Math.min(playerBounds.x + playerBounds.width, treeBounds.x + treeBounds.width) - Math.max(playerBounds.x, treeBounds.x);
+        const overlapY = Math.min(playerBounds.y + playerBounds.height, treeBounds.y + treeBounds.height) - Math.max(playerBounds.y, treeBounds.y);
+
+        // Determine the direction of the collision
+        if (overlapX < overlapY) {
+            if (playerBounds.x < treeBounds.x) {
+                player.x -= overlapX;
             } else {
-                if (playerBounds.y < treeBounds.y) {
-                    player.y -= overlapY;
-                } else {
-                    player.y += overlapY;
-                }
+                player.x += overlapX;
+            }
+        } else {
+            if (playerBounds.y < treeBounds.y) {
+                player.y -= overlapY;
+            } else {
+                player.y += overlapY;
             }
         }
-
     }
 
-    
+}
+
+
 //Function to switch scenes when player follows path
-function switchScenes(){
-    if(player.y < 350 && player.y > 300 && player.x < 30){
+function switchScenes() {
+    if (player.y < 350 && player.y > 300 && player.x < 30) {
         speed = 0;
 
         //ADD REDIRECT LOCATION HERE
-        window.location.href = "./NewPage.html";
+        window.location.href = "/minigame/minigame.html";
     }
 }
 
 //Function to keep player within app view
-function checkBounds(){
-    if(player.x > app.view.width){
+function checkBounds() {
+    if (player.x > app.view.width) {
         player.x = app.view.width;
-    }else if(player.x < 0){
+    } else if (player.x < 0) {
         player.x = 0;
     }
 
-    if(player.y > app.view.height){
+    if (player.y > app.view.height) {
         player.y = app.view.height;
-    }else if(player.y < 0){
+    } else if (player.y < 0) {
         player.y = 0;
     }
 
 }
 
 //functions attached to event listener to detect key presses
-function keysDown(e){
+function keysDown(e) {
     keys[e.keyCode] = true;
 }
-function keysUp(e){
+function keysUp(e) {
     keys[e.keyCode] = false;
 }
 
 
 //Function that loops every frame
-function gameLoop(){
+function gameLoop() {
     //keysDiv.innerHTML = JSON.stringify(keys);
 
     //"W" key
-    if(keys["87"]){
-        if(!player.playing){
+    if (keys["87"]) {
+        if (!player.playing) {
             player.textures = playerSheet.walkNorth;
             player.play();
         }
@@ -236,8 +235,8 @@ function gameLoop(){
         console.log("X: " + player.x + "\nY:" + player.y);
     }
     //"A" key
-    if(keys["65"]){
-        if(!player.playing){
+    if (keys["65"]) {
+        if (!player.playing) {
             player.textures = playerSheet.walkWest;
             player.play();
         }
@@ -245,8 +244,8 @@ function gameLoop(){
         console.log("X: " + player.x + "\nY:" + player.y);
     }
     //"S" key
-    if(keys["83"]){
-        if(!player.playing){
+    if (keys["83"]) {
+        if (!player.playing) {
             player.textures = playerSheet.walkSouth;
             player.play();
         }
@@ -254,8 +253,8 @@ function gameLoop(){
         console.log("X: " + player.x + "\nY:" + player.y);
     }
     //"D" key
-    if(keys["68"]){
-        if(!player.playing){
+    if (keys["68"]) {
+        if (!player.playing) {
             player.textures = playerSheet.walkEast;
             player.play();
         }
@@ -263,10 +262,10 @@ function gameLoop(){
         console.log("X: " + player.x + "\nY:" + player.y);
     }
 
-    
+
 
     checkBounds();
-    
+
     //check if player is following trail to switch scenes
     switchScenes();
 
