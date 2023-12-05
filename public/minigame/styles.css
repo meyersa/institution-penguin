@@ -1,0 +1,11 @@
+.game-over-popup {
+    position: fixed;
+    top: 50px; 
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}

@@ -11,13 +11,18 @@
         "test:ci": "concurrently \"npm run dev\" \"npm run cypress:run\""
     },
     "dependencies": {
+        "@pixi/react": "^7.1.1",
+        "html-to-react": "^1.7.0",
         "next": "^14.0.3",
         "next-auth": "^4.24.5",
+        "pixi.js": "^7.3.2",
         "react": "^18.2.0",
         "react-burger-menu": "^3.0.9",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-helmet": "^6.1.0"
     },
     "devDependencies": {
+        "@types/react": "18.2.42",
         "concurrently": "^8.2.2",
         "cypress": "^13.3.3",
         "eslint": "8.54.0",

@@ -1,4 +1,4 @@
-import { useSession, getSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react"
 import Head from 'next/head'
 import Header from './components/Header/index.js'
 import CenterContent from './components/CenterContent/index.js'
@@ -34,6 +34,7 @@ export default function Login() {
             </Head>
             <Header />
             <CenterContent>
+                <Image src="/images/login_failed.png" alt="Logged In" width="1280" height="1280" />
                 <h1>Not signed in</h1>
                 <button onClick={() => signIn()}>Sign in/Sign up</button>
             </CenterContent>
@@ -42,5 +43,5 @@ export default function Login() {
 }
 
 function redirectToGame() {
-    location.href = "/404";
+    location.href = "./minigame/minigame.html";
 }
