@@ -5,5 +5,12 @@ jobs:
   build-deploy:
     runs-on: self-hosted
     steps:
+      - name: Reset Permission
+        uses: AutoModality/action-clean@v1
+      - name: Check out code
+        uses: actions/checkout@v4
       - name: Build docker
+        env:
+          AUTH_ID: ${{ secrets.AUTH_ID }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
         run: docker compose build
