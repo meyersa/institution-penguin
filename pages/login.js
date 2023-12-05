@@ -43,5 +43,5 @@ export default function Login() {
 }
 
 function redirectToGame() {
-    location.href = "./minigame/minigame.html";
+    location.href = "./Game/lobby.html";
 }
