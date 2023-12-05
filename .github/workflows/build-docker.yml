@@ -11,6 +11,8 @@ jobs:
         uses: AutoModality/action-clean@v1
       - name: Check out code
         uses: actions/checkout@v4
+        with: 
+          path: '${{ github.ref }}'
       - name: Build docker
         env:
           AUTH_ID: ${{ secrets.AUTH_ID }}
