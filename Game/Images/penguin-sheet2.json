@@ -1,0 +1,111 @@
+{"frames": {
+
+"penguins-0.png":
+{
+	"frame": {"x":5,"y":5,"w":61,"h":97},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":49,"w":61,"h":97},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-1.png":
+{
+	"frame": {"x":75,"y":5,"w":55,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":46,"w":55,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-2.png":
+{
+	"frame": {"x":139,"y":5,"w":61,"h":97},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":49,"w":61,"h":97},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-12.png":
+{
+	"frame": {"x":209,"y":5,"w":49,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":49,"y":46,"w":49,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-13.png":
+{
+	"frame": {"x":267,"y":5,"w":49,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":49,"y":43,"w":49,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-14.png":
+{
+	"frame": {"x":325,"y":5,"w":49,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":49,"y":46,"w":49,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-24.png":
+{
+	"frame": {"x":383,"y":5,"w":49,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":40,"w":49,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-25.png":
+{
+	"frame": {"x":441,"y":5,"w":49,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":37,"w":49,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-26.png":
+{
+	"frame": {"x":499,"y":5,"w":49,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":40,"w":49,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-36.png":
+{
+	"frame": {"x":557,"y":5,"w":61,"h":97},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":31,"w":61,"h":97},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-37.png":
+{
+	"frame": {"x":627,"y":5,"w":55,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":46,"y":28,"w":55,"h":94},
+	"sourceSize": {"w":144,"h":150}
+},
+"penguins-38.png":
+{
+	"frame": {"x":691,"y":5,"w":61,"h":97},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":31,"w":61,"h":97},
+	"sourceSize": {"w":144,"h":150}
+}},
+"animations": {
+	"penguins": ["penguins-0.png","penguins-1.png","penguins-2.png","penguins-12.png","penguins-13.png","penguins-14.png","penguins-24.png","penguins-25.png","penguins-26.png","penguins-36.png","penguins-37.png","penguins-38.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.1",
+	"image": "penguin-sheet2.png",
+	"format": "RGBA8888",
+	"size": {"w":757,"h":107},
+	"scale": "3",
+	"smartupdate": "$TexturePacker:SmartUpdate:7dad8e2134858186a611063e0ec604fd:26d30c6807a8b292036aa7a84bf5c7ff:696c5ef1a36a18efe14db9fbade3d15b$"
+}
+}
