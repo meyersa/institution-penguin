@@ -4,11 +4,7 @@ on:
 jobs:
   build-deploy:
     runs-on: self-hosted
-    container: 
-      image: ubuntu:latest
     steps:
-      - name: Reset Permission
-        uses: AutoModality/action-clean@v1
       - name: Check out code
         uses: actions/checkout@v4
         with: 
