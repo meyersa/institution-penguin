@@ -6,7 +6,9 @@ jobs:
     runs-on: self-hosted 
     container:
         image: cypress/browsers
-    steps: 
+    steps:        
+      - name: Cache         
+        uses: actions/cache@v3.3.2
       - name: Check out code 
         uses: actions/checkout@v4 
       - name: Run cypress tests 
