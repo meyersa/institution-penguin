@@ -5,8 +5,12 @@ import CenterContent from './components/CenterContent/index.js'
 import Image from 'next/image';
 
 export default function Login() {
-
     const { data: session, status: status } = useSession();
+    const router = useRouter();
+
+    const redirectToGame = () => {
+        router.push('./Game/lobby.html');
+    };
 
     if (status === "authenticated") {
         // add login/sign-up logic 
@@ -36,12 +40,8 @@ export default function Login() {
             <CenterContent>
                 <Image src="/images/login_failed.png" alt="Logged In" width="1280" height="1280" />
                 <h1>Not signed in</h1>
-                <button onClick={redirectToGame()}>Sign in/Sign up</button>
+                <button onClick={redirectToGame}>Sign in/Sign up</button>
             </CenterContent>
         </div>
     )
-}
-
-function redirectToGame() {
-    location.href = "./Game/lobby.html";
 }
