@@ -13,7 +13,7 @@
     "dependencies": {
         "@pixi/react": "^7.1.1",
         "html-to-react": "^1.7.0",
-        "next": "^14.0.3",
+        "next": "^14.0.4",
         "next-auth": "^4.24.5",
         "pixi.js": "^7.3.2",
         "react": "^18.2.0",
