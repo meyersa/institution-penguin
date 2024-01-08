@@ -13,7 +13,7 @@
     "dependencies": {
         "@pixi/react": "^7.1.1",
         "html-to-react": "^1.7.0",
-        "next": "^14.0.3",
+        "next": "^14.0.4",
         "next-auth": "^4.24.5",
         "pixi.js": "^7.3.2",
         "react": "^18.2.0",
@@ -22,10 +22,10 @@
         "react-helmet": "^6.1.0"
     },
     "devDependencies": {
-        "@types/react": "18.2.42",
+        "@types/react": "18.2.47",
         "concurrently": "^8.2.2",
-        "cypress": "^13.6.1",
-        "eslint": "8.55.0",
-        "eslint-config-next": "14.0.3"
+        "cypress": "^13.6.2",
+        "eslint": "8.56.0",
+        "eslint-config-next": "14.0.4"
     }
 }
