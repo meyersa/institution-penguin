@@ -9,10 +9,13 @@ export default function Login() {
     const { data: session, status: status } = useSession();
     const router = useRouter();
 
+        console.log(process.env.NEXTAUTH_SECRET)
+
+    
     const redirectToGame = () => {
         router.push('./Game/lobby.html');
     };
-
+    
     if (status === "authenticated") {
         // add login/sign-up logic 
         return (
