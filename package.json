@@ -24,7 +24,7 @@
     "devDependencies": {
         "@types/react": "18.2.51",
         "concurrently": "^8.2.2",
-        "cypress": "^13.6.2",
+        "cypress": "^13.6.4",
         "eslint": "8.56.0",
         "eslint-config-next": "14.1.0"
     }
