@@ -25,8 +25,8 @@ window.onload = function () {
     document.body.appendChild(app.view);
 
     //Load Background and Player Sprite
-    app.loader.add("background", "/images/game/CPBackground.webp");
-    app.loader.add("penguin", "/images/game/penguin-sheet2.png");
+    app.loader.add("background", "./Images/CPBackground.webp");
+    app.loader.add("penguin", "./Images/penguin-sheet2.png");
     app.loader.load(doneLoading);
 
     //Event Handlers
@@ -131,7 +131,7 @@ function createPlayer() {
 //function to load background image
 function createBackground() {
     //background image
-    Background = PIXI.Sprite.from("/images/game/CPBackground.webp");
+    Background = PIXI.Sprite.from("./Images/CPBackground.webp");
     Background.anchor.set(0.5);
     Background.x = app.view.width / 2;
     Background.y = app.view.height / 2;
@@ -140,7 +140,7 @@ function createBackground() {
     app.stage.addChild(Background)
 
     //transparent image to stop player from overlapping buildings in background image
-    imageblnk = PIXI.Sprite.from("/images/game/");
+    imageblnk = PIXI.Sprite.from("./Images/");
     imageblnk.anchor.set(0.5);
     imageblnk.x = 700;
     imageblnk.y = 200;

@@ -13,7 +13,7 @@ export default function Login() {
 
     
     const redirectToGame = () => {
-        router.push('/');
+        router.push('./Game/lobby.html');
     };
     
     if (status === "authenticated") {
