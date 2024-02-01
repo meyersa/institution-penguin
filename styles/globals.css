@@ -45,7 +45,7 @@ a, ul {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: #fff;
+  background-color: #5e5a54;
   margin: 2em;
   padding: 1em;
   border-radius: .5em;
@@ -55,7 +55,7 @@ a, ul {
 
 #boxInside a, ul { 
   font-family: sans-serif;
-  color: #51504f;
+  color: #fff;
   margin: .8em;
 
 }
@@ -76,7 +76,7 @@ a, ul {
 
 #boxInside h2 { 
   font-family: sans-serif;
-  color: #51504f;
+  color: #fff;
   size: 2em;
   margin: .8em;
 
