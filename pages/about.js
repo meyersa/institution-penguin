@@ -18,7 +18,7 @@ export default function About() {
                     <div id='boxDisplay'>
                         <div id='boxInside'>
                             <h1>Our Project</h1>
-                            <a>Our vision is to create a Club Penguin clone since the original site was shut down. Our goal is for our site to be easy to access, fun, and educational for all to enjoy. Our main objective is to showcase and inform people of the many habitat struggles penguins face in today\'s world, as well as provide an environment for users to meet new people online and participate in in-game competitions. Our game will be web-native and portable.</a>
+                            <a>Our vision is to create a Club Penguin clone since the original site was shut down. Our goal is for our site to be easy to access, fun, and educational for all to enjoy. Our main objective is to showcase and inform people of the many habitat struggles penguins face in today&apos;s world, as well as provide an environment for users to meet new people online and participate in in-game competitions. Our game will be web-native and portable.</a>
                         </div>
                         <div id='boxInside'>
                             <h1>Project Progress</h1>
