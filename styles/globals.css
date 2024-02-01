@@ -19,12 +19,11 @@ body {
 
 h1 { 
   color: #FEF9F3;
-  filter: brightness(1.5); 
   text-decoration: none;
 
 }
 
-a {
+a, ul {
   color: #FEF9F3;
   text-decoration: none;
 
@@ -35,7 +34,50 @@ a {
   
 }
 
-.splitBox{
-  display:flex;
+#boxDisplay {
+  display: flex;
+  flex-direction: column;
+
+}
+
+#boxInside {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #fff;
+  margin: 2em;
+  padding: 1em;
+  border-radius: .5em;
+  box-shadow: .4em .4em .4em .4em #51504f;
+
+}
+
+#boxInside a, ul { 
+  font-family: sans-serif;
+  color: #51504f;
+  margin: .8em;
+
+}
+
+#boxInside li {
+  padding: .2em;
+
+}
+
+#boxInside h1{ 
+  font-family: sans-serif;
+  color: #fff;
+  background-color: rgb(10, 186, 250);
+  padding: .3em;
+  margin: .3em;
+
+}
+
+#boxInside h2 { 
+  font-family: sans-serif;
+  color: #51504f;
+  size: 2em;
+  margin: .8em;
 
 }
