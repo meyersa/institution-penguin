@@ -9,13 +9,11 @@ export default function Login() {
     const { data: session, status: status } = useSession();
     const router = useRouter();
 
-        console.log(process.env.NEXTAUTH_SECRET)
-
-    
     const redirectToGame = () => {
         router.push('./Game/lobby.html');
+
     };
-    
+
     if (status === "authenticated") {
         // add login/sign-up logic 
         return (
@@ -26,10 +24,13 @@ export default function Login() {
                 </Head>
                 <Header />
                 <CenterContent>
-                    <Image src="/images/login.png" alt="Logged In" width="1280" height="1280" />
-                    <h1>Signed in as {session.user.name}</h1>
-                    <button onClick={() => signOut()}>Sign out</button>
-                    <button onClick={redirectToGame}>Return to game</button>
+                    <div id='boxDisplay'>
+                        <div id='boxInside' style={{ justifyContent: 'center', alignItems: 'center', height: '60vh', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: 'url(\'/images/login.png\')' }}>
+                            <h1>Signed in as {session.user.name}</h1>
+                            <button onClick={() => signOut()}>Sign out</button>
+                            <button onClick={redirectToGame}>Return to game</button>
+                        </div>
+                    </div>
                 </CenterContent>
             </div>
         )
@@ -42,9 +43,12 @@ export default function Login() {
             </Head>
             <Header />
             <CenterContent>
-                <Image src="/images/login_failed.png" alt="Logged In" width="1280" height="1280" />
-                <h1>Not signed in</h1>
-                <button onClick={() => signIn()}>Sign in/Sign up</button>
+                <div id='boxDisplay'>
+                    <div id='boxInside' style={{ justifyContent: 'center', alignItems: 'center', height: '60vh', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: 'url(\'/images/login_failed.png\')' }}>
+                        <h1>Please sign in below</h1>
+                        <button onClick={() => signIn()}>Sign in/Sign up</button>
+                    </div>
+                </div>
             </CenterContent>
         </div>
     )

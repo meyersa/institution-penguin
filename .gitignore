@@ -2,3 +2,5 @@ node_modules/*
 .next/*
 cypress/screenshots/*
 *.DS_Store*
+.env.local
+.env
