@@ -9,18 +9,18 @@ jobs:
     container:
         image: cypress/browsers
     steps:        
-        # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
+      - name: Check out code 
+        uses: actions/checkout@v4 
+      # https://nextjs.org/docs/pages/building-your-application/deploying/ci-build-caching
       - name: Cache Cypress 
         uses: actions/cache@v3
         with:
           path: |
             ~/.npm
             ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-      - name: Check out code 
-        uses: actions/checkout@v4 
+            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:
