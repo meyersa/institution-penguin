@@ -3,3 +3,4 @@ node_modules/*
 cypress/screenshots/*
 *.DS_Store*
 .env.local
+.env
