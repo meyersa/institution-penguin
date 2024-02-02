@@ -12,7 +12,7 @@ export default function Custom404() {
             </Head>
             <Header />
             <CenterContent>
-                <div id='boxDisplay' style={{width: '100%', backgroundSize: 'cover'}}>
+                <div id='boxDisplay'>
                     <div id='boxInside' style={{alignItems: 'center', height: '60vh', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: 'url(\'/images/habitat.jpeg\')'}}>
                         <h1>404 - Page Not Found</h1>
                     </div>

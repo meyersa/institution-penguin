@@ -37,6 +37,8 @@ a, ul {
 #boxDisplay {
   display: flex;
   flex-direction: column;
+  width: 100%; 
+  background-size: cover;
 
 }
 
@@ -79,5 +81,21 @@ a, ul {
   color: #fff;
   size: 2em;
   margin: .8em;
+
+}
+
+#boxInside button { 
+  font-family: sans-serif;
+  height: 3em;
+  width: 10em;
+  border-radius: .5em;
+  border-color: transparent;
+  background-color: rgb(236, 111, 70);
+  color: #fff;
+
+}
+#boxInside button:hover { 
+  background-color: rgb(92, 222, 111); /* Green */
+  color: #fff;
 
 }
