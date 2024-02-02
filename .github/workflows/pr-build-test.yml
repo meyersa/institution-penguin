@@ -19,6 +19,11 @@ jobs:
             ~/.npm
             ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}
+      - name: Cache 
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'npm'
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:
