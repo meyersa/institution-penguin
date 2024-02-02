@@ -1,30 +1,24 @@
+# Builds the container and runs cypress tests 
 name: Build docker container
 on:
   pull_request:
 jobs:
-  build-deploy:
-    runs-on: self-hosted
-    steps:
-      - name: Clean up GitHub workspace
-        uses: docker://ubuntu:latest
-        with:
-          args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
-      - name: Check out code
-        uses: actions/checkout@v4
-      - name: Build docker
-        env:
-          AUTH_ID: ${{ secrets.AUTH_ID }}
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-        run: docker compose build
   run-tests: 
     runs-on: self-hosted 
+    environment: Dev
     container:
         image: cypress/browsers
     steps:        
-      - name: Cache         
-        uses: actions/cache@v3.3.2
       - name: Check out code 
         uses: actions/checkout@v4 
+      - name: Cache Next Build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('*.js', '*.jsx', '*.ts', '*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:

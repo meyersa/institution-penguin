@@ -14,12 +14,15 @@ jobs:
           args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
       - name: Check out code
         uses: actions/checkout@v4
+      - name: Set environmental variables
+        run: |
+          echo "AUTH_ID=${{ secrets.AUTH_ID }}" >> .env
+          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
+          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
+          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
       - name: Build docker
-        env:
-          AUTH_ID: ${{ secrets.AUTH_ID }}
-          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }} 
-          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }} 
         run: docker compose build
       - name: Deploy docker
         run: docker compose up -d
+      - name: Clean-up docker
+        run: docker image prune -f
