@@ -3,8 +3,6 @@ import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
 import CenterContent from './components/CenterContent/index.js'
 
-import Image from 'next/image';
-
 export default function Custom404() {
     return (
         <div>
@@ -20,7 +18,6 @@ export default function Custom404() {
                     </div>
                 </div>
             </CenterContent>
-            <Footer />
         </div>
     )
 }
