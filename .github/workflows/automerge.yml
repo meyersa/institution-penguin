@@ -8,7 +8,8 @@ jobs:
   dependabot:
     runs-on: self-hosted
     container: 
-      image: alpine/git
+      # TODO // Make a new image pipeline for this/move off containers
+      image: maniator/gh
     if: github.actor == 'dependabot[bot]'
     steps:
       - name: Dependabot metadata
