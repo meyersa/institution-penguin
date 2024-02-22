@@ -8,7 +8,7 @@ jobs:
   dependabot:
     runs-on: self-hosted
     container: 
-      image: alpine/git
+      image: maniator/gh
     if: github.actor == 'dependabot[bot]'
     steps:
       - name: Dependabot metadata
