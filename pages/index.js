@@ -7,14 +7,29 @@ import io from 'socket.io-client'
 let socket
 
 export default function Home() {
-  useEffect(() => { socketInitializer() }, [])
+  useEffect(() => {
+    socketInitializer()
 
-  const socketInitializer = async () => {
-    socket = io("http://localhost:3001")
+    return () => {
+      socket.disconnect()
+    }
+  }, [])
 
-    socket.on('connect', () => {
-      console.log('connected')
-    })
+  async function socketInitializer() {
+    await fetch('/api/socket')
+
+    // socket = io(undefined, {
+    //   path: '/api/socket_io',
+    // })
+
+    // socket.on('receive-message', (data) => {
+    //   setAllMessages((pre) => [...pre, data])
+    // })
+
+    // socket.on('retrieve-users', (data) => {
+    //   setAllUsers((pre) => [...pre, data])
+    // })
+    console.log("Success")
   }
 
   return (
