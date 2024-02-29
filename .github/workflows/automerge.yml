@@ -1,23 +1,22 @@
-name: Dependabot auto-approve
-on: pull_request
-
+name: Dependabot auto-merge
+on: pull_request_target
 permissions:
   pull-requests: write
-
+  contents: write
 jobs:
   dependabot:
     runs-on: self-hosted
-    container: 
-      # TODO // Make a new image pipeline for this/move off containers
-      image: maniator/gh
-    if: github.actor == 'dependabot[bot]'
+    container:
+      image: ubuntu
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
+      - name: Install gh
+        run: apt update && apt install gh -y
       - name: Dependabot metadata
-        id: metadata
+        id: dependabot-metadata
         uses: dependabot/fetch-metadata@v1
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Enable auto-merge for Dependabot PRs
+        if: ${{contains(steps.dependabot-metadata.outputs.dependency-names, 'rails') && steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch'}}
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
