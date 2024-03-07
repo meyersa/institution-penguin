@@ -23,7 +23,7 @@
         "sharp": "^0.33.2"
     },
     "devDependencies": {
-        "@types/react": "18.2.61",
+        "@types/react": "18.2.64",
         "concurrently": "^8.2.2",
         "cypress": "^13.6.6",
         "eslint": "8.57.0",
