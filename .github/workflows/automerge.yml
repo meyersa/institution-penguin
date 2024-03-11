@@ -11,7 +11,7 @@ jobs:
     if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
       - name: Install gh
-        run: apt update && apt install gh -y
+        run: apt update && apt upgrade && apt install gh -y
       - name: Dependabot metadata
         id: dependabot-metadata
         uses: dependabot/fetch-metadata@v1
