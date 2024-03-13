@@ -5,20 +5,81 @@ let keys = {};
 let keysDiv;
 let speed = 2;
 let playerSheet = {};
+let playerId = Math.floor(Math.random() * 100);
+let activePlayers = new Map();
+
+// await fetch('/api/socket')
+
+const socket = io(undefined, {
+    path: '/api/socket_io',
+})
+
+socket.on("addPlayer", (arg) => {
+    for (i = 0; i < arg.length; i++) {
+        addPlayer(arg[i]);
+    }
+
+    if (player.textures == playerSheet.walkNorth) {
+        socket.emit("updatePos", [playerId, player.x, player.y, "n"]);
+    }
+    else if (player.textures == playerSheet.walkSouth) {
+        socket.emit("updatePos", [playerId, player.x, player.y, "s"]);
+    }
+    else if (player.textures == playerSheet.walkEast) {
+        socket.emit("updatePos", [playerId, player.x, player.y, "e"]);
+    }
+    else if (player.textures == playerSheet.walkWest) {
+        socket.emit("updatePos", [playerId, player.x, player.y, "w"]);
+    }
+});
+
+socket.on("updatePositions", (arg) => {
+    updatePositions(arg);
+    // console.log(arg);
+});
+
+
+function updatePositions(pos) {
+    currPlayer = activePlayers.get(pos[0]);
+    currPlayer.x = pos[1];
+    currPlayer.y = pos[2];
+
+    switch (pos[3]) {
+        case "n":
+            currPlayer.textures = playerSheet.walkNorth;
+            // currPlayer.walkNorth;
+            break;
+        case "s":
+            currPlayer.textures = playerSheet.walkSouth;
+            // currPlayer.walkSouth;
+            break;
+        case "e":
+            currPlayer.textures = playerSheet.walkEast;
+            // currPlayer.walkEast;
+            break;
+        case "w":
+            currPlayer.textures = playerSheet.walkWest;
+            // currPlayer.walkWest;
+            break;
+    }
+}
+
+
+function addPlayer(id) {
+    if (!activePlayers.has(id)) {
+        activePlayers.set(id, createPlayer(id));
+    }
+}
 
 //On Page Startup
 window.onload = function () {
-
     //Initializing application
     app = new PIXI.Application(
         {
-            //width: 800,
-            //height: 600,
             resizeTo: window,
             backgroundColor: 0xAAAAAA,
             padding: 0,
             margin: 0
-
         }
     );
 
@@ -42,7 +103,10 @@ window.onload = function () {
 function doneLoading(e) {
     createBackground();
     createPlayerSheet();
-    createPlayer();
+    addPlayer(playerId);
+    player = activePlayers.get(playerId);
+    console.log(playerId);
+    socket.emit("joined", playerId);
     app.ticker.add(gameLoop);
 }
 
@@ -112,21 +176,22 @@ function createPlayerSheet() {
     ];
 }
 
-
 //Function to load player sprite
-function createPlayer() {
-    player = new PIXI.AnimatedSprite(playerSheet.standSouth);
-    player.anchor.set(0.5);
-    player.animationSpeed = .2;
-    player.loop = false;
-    player.x = app.view.width / 2;
-    player.y = app.view.height / 2;
-    player.width = 50;
-    player.height = 50;
-    app.stage.addChild(player);
-    player.play();
+function createPlayer(id) {
+    console.log(playerSheet)
+    let newPlayer = new PIXI.AnimatedSprite(playerSheet.standSouth);
+    newPlayer.anchor.set(0.5);
+    newPlayer.animationSpeed = .2;
+    newPlayer.loop = false;
+    newPlayer.x = app.view.width / 2;
+    newPlayer.y = app.view.height / 2;
+    newPlayer.width = 50;
+    newPlayer.height = 50;
+    app.stage.addChild(newPlayer);
+    newPlayer.play();
+    // newPlayer = { ...newPlayer, id: id }
+    return newPlayer;
 }
-
 
 //function to load background image
 function createBackground() {
@@ -149,36 +214,33 @@ function createBackground() {
     app.stage.addChild(imageblnk)
 }
 
-
-
-
 //Function to detect and handle collision events
 function handleCollision(object1, object2) {
-    const playerBounds = object1.getBounds();
-    const treeBounds = object2.getBounds();
+    const obj1 = object1.getBounds();
+    const obj2 = object2.getBounds();
 
     //if players touching
-    if (playerBounds.x < treeBounds.x + treeBounds.width &&
-        playerBounds.x + playerBounds.width > treeBounds.x &&
-        playerBounds.y < treeBounds.y + treeBounds.height &&
-        playerBounds.y + playerBounds.height > treeBounds.y) {
+    if (obj1.x < obj2.x + obj2.width &&
+        obj1.x + obj1.width > obj2.x &&
+        obj1.y < obj2.y + obj2.height &&
+        obj1.y + obj1.height > obj2.y) {
 
         // Calculate the overlap between the player and the tree
-        const overlapX = Math.min(playerBounds.x + playerBounds.width, treeBounds.x + treeBounds.width) - Math.max(playerBounds.x, treeBounds.x);
-        const overlapY = Math.min(playerBounds.y + playerBounds.height, treeBounds.y + treeBounds.height) - Math.max(playerBounds.y, treeBounds.y);
+        const overlapX = Math.min(obj1.x + obj1.width, obj2.x + obj2.width) - Math.max(obj1.x, obj2.x);
+        const overlapY = Math.min(obj1.y + obj1.height, obj2.y + obj2.height) - Math.max(obj1.y, obj2.y);
 
         // Determine the direction of the collision
         if (overlapX < overlapY) {
-            if (playerBounds.x < treeBounds.x) {
-                player.x -= overlapX;
+            if (obj1.x < obj2.x) {
+                object1.x -= overlapX;
             } else {
-                player.x += overlapX;
+                object1.x += overlapX;
             }
         } else {
-            if (playerBounds.y < treeBounds.y) {
-                player.y -= overlapY;
+            if (obj1.y < obj2.y) {
+                object1.y -= overlapY;
             } else {
-                player.y += overlapY;
+                object1.y += overlapY;
             }
         }
     }
@@ -190,24 +252,23 @@ function handleCollision(object1, object2) {
 function switchScenes() {
     if (player.y < 350 && player.y > 300 && player.x < 30) {
         speed = 0;
-
         //ADD REDIRECT LOCATION HERE
         window.location.href = "/minigame/minigame.html";
     }
 }
 
 //Function to keep player within app view
-function checkBounds() {
-    if (player.x > app.view.width) {
-        player.x = app.view.width;
-    } else if (player.x < 0) {
-        player.x = 0;
+function checkBounds(object) {
+    if (object.x > app.view.width) {
+        object.x = app.view.width;
+    } else if (object.x < 0) {
+        object.x = 0;
     }
 
-    if (player.y > app.view.height) {
-        player.y = app.view.height;
-    } else if (player.y < 0) {
-        player.y = 0;
+    if (object.y > app.view.height) {
+        object.y = app.view.height;
+    } else if (object.y < 0) {
+        object.y = 0;
     }
 
 }
@@ -223,9 +284,8 @@ function keysUp(e) {
 
 //Function that loops every frame
 function gameLoop() {
-    //keysDiv.innerHTML = JSON.stringify(keys);
-
     //"W" key
+    // console.log(player)
     if (keys["87"]) {
         if (!player.playing) {
             player.textures = playerSheet.walkNorth;
@@ -233,6 +293,7 @@ function gameLoop() {
         }
         player.y -= speed;
         console.log("X: " + player.x + "\nY:" + player.y);
+        socket.emit("updatePos", [playerId, player.x, player.y, "n"]);
     }
     //"A" key
     if (keys["65"]) {
@@ -242,6 +303,7 @@ function gameLoop() {
         }
         player.x -= speed;
         console.log("X: " + player.x + "\nY:" + player.y);
+        socket.emit("updatePos", [playerId, player.x, player.y, "w"]);
     }
     //"S" key
     if (keys["83"]) {
@@ -251,6 +313,7 @@ function gameLoop() {
         }
         player.y += speed;
         console.log("X: " + player.x + "\nY:" + player.y);
+        socket.emit("updatePos", [playerId, player.x, player.y, "s"]);
     }
     //"D" key
     if (keys["68"]) {
@@ -260,18 +323,16 @@ function gameLoop() {
         }
         player.x += speed;
         console.log("X: " + player.x + "\nY:" + player.y);
+        socket.emit("updatePos", [playerId, player.x, player.y, "e"]);
     }
 
-
-
-    checkBounds();
+    checkBounds(player);
 
     //check if player is following trail to switch scenes
     switchScenes();
 
     //check for collision
-    handleCollision(player, imageblnk)
-
+    // handleCollision(player, imageblnk)
 }
 
 

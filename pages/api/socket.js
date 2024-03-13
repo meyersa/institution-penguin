@@ -1,4 +1,6 @@
+// source: https://github.com/BrandonBartram98/NextJS-SocketIO-Chatroom/blob/main/pages/api/socket.js
 import { Server } from 'socket.io'
+let activePlayers = []
 
 export default async (req, res) => {
     if (res.socket.server.io) {
@@ -15,12 +17,22 @@ export default async (req, res) => {
     res.socket.server.io = io
 
     io.on('connection', (socket) => {
-        socket.on('send-message', (obj) => {
-            io.emit('receive-message', obj)
-        })
-        socket.on('retrieve-users', (obj) => {
-            io.emit('retrieve-user', obj)
-        })
+
+        console.log("Made socket connection", socket.id);
+
+        socket.on("joined", (id) => {
+            if (!activePlayers.includes(id)) {
+                activePlayers.push(id);
+                // console.log(id)
+                io.sockets.emit("addPlayer", activePlayers);
+            }
+        });
+
+        socket.on("updatePos", (args) => {
+            io.sockets.emit("updatePositions", args);
+            // console.log(args);
+        });
+
     })
 
     console.log('Setting up socket')
