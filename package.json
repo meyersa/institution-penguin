@@ -5,6 +5,7 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
+        "node": "node server.js",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
         "test": "concurrently \"npm run dev\" \"npm run cypress:open\"",
@@ -20,7 +21,9 @@
         "react-burger-menu": "^3.0.9",
         "react-dom": "^18.2.0",
         "react-helmet": "^6.1.0",
-        "sharp": "^0.33.2"
+        "sharp": "^0.33.2",
+        "socket.io": "^4.7.4",
+        "socket.io-client": "^4.7.4"
     },
     "devDependencies": {
         "@types/react": "18.2.64",
