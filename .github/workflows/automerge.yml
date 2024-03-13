@@ -10,8 +10,12 @@ jobs:
       image: ubuntu
     if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
+      - name: Update apt
+        run: apt update
       - name: Install gh
-        run: apt update && apt upgrade -y && apt install gh -y
+        run: apt install gh -y
+      - name: Update CA and update
+        run: apt install ca-certificates -y && update-ca-certificates
       - name: Dependabot metadata
         id: dependabot-metadata
         uses: dependabot/fetch-metadata@v1
