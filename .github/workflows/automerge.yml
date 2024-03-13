@@ -1,23 +1,22 @@
-name: Dependabot auto-approve
-on: pull_request
-
+name: Dependabot auto-merge
+on: pull_request_target
 permissions:
   pull-requests: write
-
+  contents: write
 jobs:
   dependabot:
     runs-on: self-hosted
-    container: 
-      image: alpine/git
-    if: github.actor == 'dependabot[bot]'
+    container:
+      image: ubuntu
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
+      - name: Install gh
+        run: apt update && apt upgrade -y && apt install gh -y
       - name: Dependabot metadata
-        id: metadata
+        id: dependabot-metadata
         uses: dependabot/fetch-metadata@v1
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Approve a PR
-        run: gh pr review --approve "$PR_URL"
+      - name: Enable auto-merge for Dependabot PRs
+        run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}

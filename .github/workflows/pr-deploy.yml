@@ -25,4 +25,4 @@ jobs:
       - name: Deploy docker
         run: docker compose up -d
       - name: Clean-up docker
-        run: docker image prune -f
+        run: docker system prune -f
