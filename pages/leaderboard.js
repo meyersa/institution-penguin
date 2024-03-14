@@ -1,3 +1,5 @@
+// TODO: Integrate with MongoDB and get data to fill
+
 import Head from 'next/head'
 import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
