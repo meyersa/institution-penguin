@@ -27,8 +27,8 @@ export default function Login() {
                     <div id='boxDisplay'>
                         <div id='boxInside' style={{ justifyContent: 'center', alignItems: 'center', height: '60vh', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: 'url(\'/images/login.png\')' }}>
                             <h1>Signed in as {session.user.name}</h1>
-                            <button onClick={() => signOut()}>Sign out</button>
-                            <button onClick={redirectToGame}>Return to game</button>
+                            <button onClick={() => signOut()} style={{margin: "0.2rem"}}>Sign out</button>
+                            <button onClick={redirectToGame} style={{margin: "0.2rem"}}>Return to game</button>
                         </div>
                     </div>
                 </CenterContent>
