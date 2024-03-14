@@ -39,6 +39,7 @@ a, ul {
   flex-direction: column;
   width: 100%; 
   background-size: cover;
+  max-width: 1000px;
 
 }
 
@@ -55,7 +56,7 @@ a, ul {
 
 }
 
-#boxInside a, ul { 
+#boxInside a, ul, ol { 
   font-family: sans-serif;
   color: #fff;
   margin: .8em;
@@ -79,8 +80,13 @@ a, ul {
 #boxInside h2 { 
   font-family: sans-serif;
   color: #fff;
-  size: 2em;
+  font-size: 1.3em;
   margin: .8em;
+
+}
+
+#boxInside ol {
+  size: 2rem
 
 }
 
