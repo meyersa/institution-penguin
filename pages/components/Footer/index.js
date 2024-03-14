@@ -7,7 +7,7 @@ export default function Header() {
   return (
     <div className={styles.footer}>
       <div className={styles.footertext}>
-        <a className={styles.inside}>&copy; InstitutionPenguin.com 2023</a>
+        <a className={styles.inside}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
         <Link className={styles.inside} href="/about">About</Link>
         <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
         <Link className={styles.inside} href="/login">Login</Link>
