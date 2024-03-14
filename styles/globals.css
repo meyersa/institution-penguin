@@ -92,6 +92,11 @@ ol {
   size: 2rem
 }
 
+#boxInside Link {
+  color: red
+  
+}
+
 #boxInside button {
   font-family: sans-serif;
   height: 3em;
