@@ -8,6 +8,7 @@ export default function App({
   return (
     <div>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee"></link>
+      <script defer data-domain="institutionpenguin.com" src="https://plausible.meyerstk.com/js/script.js"></script>
       <SessionProvider session={session}>
         <Component {...pageProps} />
       </SessionProvider>
