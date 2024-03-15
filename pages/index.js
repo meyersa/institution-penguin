@@ -8,7 +8,7 @@ let socket
 
 export default function Home() {
 
-  source: https://github.com/BrandonBartram98/NextJS-SocketIO-Chatroom/blob/main/app/page.js
+  //source: https://github.com/BrandonBartram98/NextJS-SocketIO-Chatroom/blob/main/app/page.js
   useEffect(() => {
     socketInitializer()
 

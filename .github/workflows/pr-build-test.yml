@@ -4,6 +4,8 @@ on:
   pull_request:
 jobs:
   run-tests: 
+
+    # Runs on d3 runner
     runs-on: self-hosted 
     environment: Dev
     container:
@@ -11,6 +13,8 @@ jobs:
     steps:        
       - name: Check out code 
         uses: actions/checkout@v4 
+
+      # Caching system, doesn't really speed things up tbh
       - name: Cache Next Build
         uses: actions/cache@v3
         with:
@@ -19,6 +23,8 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('*.js', '*.jsx', '*.ts', '*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
+      
+      # Executes cypress tests
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:

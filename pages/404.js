@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import Header from './components/Header/index.js'
-import Footer from './components/Footer/index.js'
 import CenterContent from './components/CenterContent/index.js'
 
 export default function Custom404() {
