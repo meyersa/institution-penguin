@@ -52,7 +52,7 @@ export default function Header() {
     <div className={styles.headerbar}>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sedgwick+Ave+Display"></link>
       <div className={styles.leftheader}>
-        <Link className={styles.inside} href="/">Institution Penguin</Link>
+        <Link className={styles.inside} href="/">institution penguin</Link>
       </div> 
       <div className={styles.rightheader}>
           <div className={styles.burgerWrapper}>
