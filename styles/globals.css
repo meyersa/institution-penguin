@@ -1,9 +1,11 @@
+@import url('colors.css');
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: ABeeZee;
-  background-color: #59554f;
+  background-color: var(--grey);
   background-image: url('/background.png');
   background-size: cover;
   height: 100%;
@@ -18,14 +20,14 @@ body {
 }
 
 h1 {
-  color: #FEF9F3;
+  color: var(--white);
   text-decoration: none;
 
 }
 
 a,
 ul {
-  color: #FEF9F3;
+  color: var(--white);
   text-decoration: none;
 
 }
@@ -49,11 +51,11 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: #5e5a54;
+  background-color: var(--grey);
   margin: 2em;
   padding: 1em;
   border-radius: .5em;
-  box-shadow: .4em .4em .4em .4em #51504f;
+  box-shadow: .4em .4em .4em .4em var(--dark-grey);
 
 }
 
@@ -61,7 +63,7 @@ ul {
 ul,
 ol {
   font-family: sans-serif;
-  color: #fff;
+  color: var(--light-white);
   margin: .8em;
 
 }
@@ -73,8 +75,8 @@ ol {
 
 #boxInside h1 {
   font-family: sans-serif;
-  color: #fff;
-  background-color: rgb(10, 186, 250);
+  color: var(--white);
+  background-color: var(--blue);
   padding: .3em;
   margin: .3em;
 
@@ -82,7 +84,7 @@ ol {
 
 #boxInside h2 {
   font-family: sans-serif;
-  color: #fff;
+  color: var(--white);
   font-size: 1.3em;
   margin: .8em;
 
@@ -92,10 +94,6 @@ ol {
   size: 2rem
 }
 
-#boxInside Link {
-  color: red
-  
-}
 
 #boxInside button {
   font-family: sans-serif;
@@ -103,14 +101,13 @@ ol {
   width: 10em;
   border-radius: .5em;
   border-color: transparent;
-  background-color: rgb(236, 111, 70);
-  color: #fff;
+  background-color: var(--red);
+  color: var(--white);
 
 }
 
 #boxInside button:hover {
-  background-color: rgb(92, 222, 111);
-  /* Green */
-  color: #fff;
+  background-color: var(--green);
+  color: var(--white);
 
 }
