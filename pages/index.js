@@ -12,24 +12,28 @@ let socket
 
 export default function Home() {
   const router = useRouter();
-  const [isCompatible, setIsCompatible] = useState(true);
-  const { status: status } = useSession();
+  const [isCompatible, setIsCompatible] = useState(false);
+  const { data: session, status: status } = useSession();
 
   useEffect(() => {
-    console.log(typeof window !== 'undefined')
-    console.log(window.innerWidth <= 1000)
-    if (typeof window !== 'undefined' && window.innerWidth <= 1000) {
+    if (window.innerWidth <= 1000) {
       setIsCompatible(false);
 
+    } else {
+      setIsCompatible(true);
+
     }
   }, [])
 
   useEffect(() => {
-    if (status !== "authenticated" && !isCompatible) {
+    
+    // Not authenticated and is compatible
+    if (status !== "authenticated" && isCompatible) {
       router.push('/login');
+      return () => {}
 
     }
-  }, [])
+  }, [isCompatible])
 
   useEffect(() => {
     socketInitializer()
