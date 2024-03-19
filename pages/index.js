@@ -66,7 +66,7 @@ export default function Home() {
       <Header />
       <div id='boxDisplay'>
         <div id='boxInside'>
-          <h1>Not compatible</h1>
+          <h1 style={{backgroundColor: "var(--red)"}}>Not compatible</h1>
           <a>Unfortunately your browser is not compatible with Institution Penguin, please try again on a different browser or computer.</a>
         </div>
         <div id='boxInside'>
