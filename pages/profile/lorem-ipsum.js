@@ -1,3 +1,4 @@
+// TODO: Change to slug instead of generic page
 // TODO: Integrate with MongoDB and get data to fill
 
 import Head from 'next/head'

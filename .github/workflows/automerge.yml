@@ -1,15 +1,24 @@
+# Automerge PRs created by Dependabot 
 name: Dependabot auto-merge
 on: pull_request_target
+
+# Needed permissions to write to repo
 permissions:
   pull-requests: write
   contents: write
 jobs:
   dependabot:
+    
+    # Running on d3 runner
     runs-on: self-hosted
     container:
       image: ubuntu
+
+    # Only for dependabot prs
     if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' }}
     steps:
+
+      # Workarounds for the merge command
       - name: Update apt
         run: apt update
       - name: Install gh

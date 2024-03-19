@@ -3,8 +3,6 @@ import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
 import CenterContent from './components/CenterContent/index.js'
 
-import Image from 'next/image';
-
 export default function About() {
     return (
         <div>
