@@ -1,4 +1,6 @@
 import Head from 'next/head'
+import Link from 'next/link'
+import Image from 'next/image'
 import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
 import { useRouter } from 'next/router';
@@ -14,16 +16,22 @@ export default function Home() {
   const { status: status } = useSession();
 
   useEffect(() => {
+    console.log(typeof window !== 'undefined')
+    console.log(window.innerWidth <= 1000)
     if (typeof window !== 'undefined' && window.innerWidth <= 1000) {
       setIsCompatible(false);
 
     }
+  }, [])
 
-    if (status !== "authenticated") {
+  useEffect(() => {
+    if (status !== "authenticated" && !isCompatible) {
       router.push('/login');
 
     }
+  }, [])
 
+  useEffect(() => {
     socketInitializer()
 
     return () => {
@@ -45,7 +53,10 @@ export default function Home() {
     });
   }
 
-  // Not compatible
+  /*
+   * Not compatible
+   * Display box saying that
+   */
   if (!isCompatible) {
     return <div>
       <Head>
@@ -54,16 +65,50 @@ export default function Home() {
       </Head>
       <Header />
       <div id='boxDisplay'>
-        <div id='boxInside' style={{ alignItems: 'center', height: '60vh', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: 'url(\'/images/habitat.jpeg\')' }}>
+        <div id='boxInside'>
           <h1>Not compatible</h1>
           <a>Unfortunately your browser is not compatible with Institution Penguin, please try again on a different browser or computer.</a>
         </div>
+        <div id='boxInside'>
+          <h1>Checkout profiles and leaderboards</h1>
+          <a>You can still view profiles and leaderboards while on mobile. Click a button below to go there</a>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <Link href="/leaderboard" style={{ padding: "1rem", background: "var(--light-white)", color: "var(--grey)", borderRadius: "0.5rem" }}>Leaderboard</Link>
+          </div>
+        </div>
+        <div id='boxInside'>
+          <h1>Learn more</h1>
+          <a>You can also learn more about our project at the following links</a>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <Link href="https://github.com/meyersa/institution-penguin">
+              <Image src="/images/github.png" width="50" height="50" alt="Github logo" style={{ filter: "invert(100)" }} />
+            </Link>
+            <Link href="/about" style={{ padding: "1rem", background: "var(--light-white)", color: "var(--grey)", borderRadius: "0.5rem" }}>About</Link>
+          </div>
+        </div>
       </div>
       <Footer />
-    </div> // Return null if resolution is not greater than 1000px wide
+    </div>
   }
 
-  // Display game
+  /*
+   * Not authenticated, but compatible
+   * Show limited HTML for cleaner redirect after push
+   */
+  else if (status !== "authenticated") {
+    return <div>
+      <Head>
+        <title>Institution Penguin</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Header />
+    </div>
+  }
+
+  /*
+   * Authenticated and compatible
+   * Load game
+   */
   else {
     return (
       <div>
