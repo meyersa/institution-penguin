@@ -10,6 +10,12 @@
   width: 50%;
 }
 
+/* Hide game on login redirect fix */
+.canvas {
+  display: none
+
+}
+
 @media (min-width: 320px) and (max-width: 480px) { 
     .CenterBox {
       padding: 0;
