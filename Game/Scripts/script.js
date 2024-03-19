@@ -2,6 +2,8 @@ const canvas = document.querySelector('canvas');
  
 const c = canvas.getContext('2d');
 
+let playerName = sessionStorage.getItem('playerName');
+
 //canvas.width = window.innerWidth
 //canvas.height = window.innerHeight
 
@@ -14,8 +16,8 @@ if(window.innerWidth <= 2048){
     canvas.height = 576 * 2
 }
 
-console.log(canvas.width)
-console.log(canvas.height)
+//console.log(canvas.width)
+//console.log(canvas.height)
 
 const collisionsMap = [];
 
@@ -77,39 +79,61 @@ const playerImageWidth = (canvas.width/7.71875)/6
 const playerImageHeight = (canvas.height/12.25)/2
 
 //class for creating sprite
-class Sprite{
+class Sprite {
     //constructor function
-    constructor({position, velocity, image, frames = { max: 1} }){
+    constructor({position, velocity, image, frames = {max: 1}}) {
         this.position = position;
         this.image = image;
         this.frames = frames;
 
         this.image.onload = () => {
-            this.width = this.image.width/this.frames.max
+            this.width = this.image.width / this.frames.max
             this.height = this.image.height
 
         }
     }
-    
 
 
-    draw(){
+    draw() {
         c.drawImage(
             this.image,
             0,
             0,
-            this.image.width/4,
-            this.image.height, 
-            this.position.x, 
+            this.image.width / 4,
+            this.image.height,
+            this.position.x,
             this.position.y,
             playerImageWidth,
             playerImageHeight
         )
-        console.log(this.image.width)
-        console.log(this.image.height)
+        this.drawName();
+        //console.log(this.image.width)
+        //console.log(this.image.height)
+    }
+
+    drawName() {
+        if (playerName) {
+            c.fillStyle = 'black'; // text color
+            c.font = '18px Arial'; // font
+            c.textAlign = 'center'; // center text
+            c.textBaseline = 'bottom'; // align vertically
+
+            // pos above players head
+            const textX = this.position.x + 20;
+            const textY = this.position.y;
+
+            // put text above head
+            c.fillText(playerName, textX, textY);
+
+            // should indicate where name is being put if this func ever gets messed up
+            //console.log(`Drawing name at ${textX}px, ${textY}px: ${playerName}`);
+        } else {
+            playerName = prompt("Please enter a new username: ");
+            //will get replaced with the db stuff later
+
+        }
     }
 }
-
 //creatin sprite object
 const player = new Sprite({
     position:{
@@ -164,7 +188,7 @@ function animate() {
    
     let moving = true;
 
-    console.log(moving);
+    //console.log(moving);
 
     //"W" pressed
     if(keys.w.pressed){
@@ -261,6 +285,43 @@ function animate() {
             player.position.x +=2;
     }
 }
+// used to toggle menu
+function toggleMenu() {
+    const menu = document.getElementById('menu-popup');
+    if (menu) {
+        menu.style.display = (menu.style.display === 'block' || menu.style.display === '') ? 'none' : 'block';
+    } else {
+        console.error("Menu not found");
+    }
+}
+
+function attachMenuEventListeners() {
+    const menuButton = document.getElementById('menu-button');
+    const saveButton = document.getElementById('save');
+    const cancelButton = document.getElementById('cancel');
+
+    // Menu open
+    menuButton.addEventListener('click', function() {
+        console.log("Menu button clicked");
+        toggleMenu();
+    });
+
+    // Save settings
+    saveButton.addEventListener('click', function() {
+        console.log("Save button clicked");
+        // Save settings to db when setup
+        toggleMenu();
+    });
+
+    // cancel button
+    cancelButton.addEventListener('click', function() {
+        toggleMenu();
+    });
+}
+
+
+
+attachMenuEventListeners();
 
 animate()
 
