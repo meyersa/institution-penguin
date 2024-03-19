@@ -11,6 +11,7 @@ export default function Header() {
         <Link className={styles.inside} href="/about">About</Link>
         <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
         <Link className={styles.inside} href="/login">Login</Link>
+        <a className={styles.inside}>Images provided by Dalle 3 and Freepik</a>
       </div>
     </div>
   );
