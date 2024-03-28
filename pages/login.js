@@ -46,7 +46,7 @@ export default function Login() {
                 <div id='boxDisplay'>
                     <div id='boxInside' style={{ justifyContent: 'center', alignItems: 'center', height: '60vh', backgroundSize: 'cover', backgroundPosition: 'center', backgroundImage: 'url(\'/images/login_failed.png\')' }}>
                         <h1>Please sign in below</h1>
-                        <button onClick={() => signIn()}>Sign in/Sign up</button>
+                        <button onClick={() => redirectToGame()}>Sign in/Sign up</button>
                     </div>
                 </div>
             </CenterContent>
