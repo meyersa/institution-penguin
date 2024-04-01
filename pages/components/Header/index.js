@@ -60,7 +60,7 @@ export default function Header() {
               <Link id="about" className={styles.menuitem} href="/about">About</Link>
               <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">Leaderboard</Link>
               <Link id="login" className={styles.menuitem} href="/login">Login</Link>
-              <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com 2023</a>
+              <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
             </Menu>
           </div>
           <Link className={styles.inside} href="/about">About</Link>
