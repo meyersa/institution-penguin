@@ -33,7 +33,7 @@ export default function Home() {
       return () => {}
 
     }
-  }, [isCompatible])
+  }, [isCompatible, router, status])
 
   useEffect(() => {
     socketInitializer()
