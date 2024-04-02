@@ -9,7 +9,7 @@ db.createCollection("scores")
 if (process.env.ENVIRONMENT == "DEV") {
     db.players.insertMany([
         {
-            "id": 1,
+            "playerID": 1,
             "totalScore": 100,
             "email": "example@email.com",
             "displayName": "Lorem Ipsum",
@@ -17,7 +17,7 @@ if (process.env.ENVIRONMENT == "DEV") {
             "lastActivityDate": new Date()
         },
         {
-            "id": 2,
+            "playerID": 2,
             "totalScore": 200,
             "email": "example2@email.com",
             "displayName": "Dolor Sit",
@@ -25,7 +25,7 @@ if (process.env.ENVIRONMENT == "DEV") {
             "lastActivityDate": new Date()
         },
         {
-            "id": 3,
+            "playerID": 3,
             "totalScore": 150,
             "email": "example3@email.com",
             "displayName": "Amet Consectetur",
@@ -50,6 +50,12 @@ if (process.env.ENVIRONMENT == "DEV") {
             "value": 150,
             "playerID": 3,
             "gameName": "flappypenguin",
+            "timestamp": new Date()
+        },
+        {
+            "value": 250,
+            "playerID": 2,
+            "gameName": "triviapenguin",
             "timestamp": new Date()
         },
     ]);
