@@ -10,7 +10,6 @@ if (process.env.ENVIRONMENT == "DEV") {
     db.players.insertMany([
         {
             "playerID": 1,
-            "totalScore": 100,
             "email": "example@email.com",
             "displayName": "Lorem Ipsum",
             "creationDate": new Date(),
@@ -18,7 +17,6 @@ if (process.env.ENVIRONMENT == "DEV") {
         },
         {
             "playerID": 2,
-            "totalScore": 200,
             "email": "example2@email.com",
             "displayName": "Dolor Sit",
             "creationDate": new Date(),
@@ -26,7 +24,6 @@ if (process.env.ENVIRONMENT == "DEV") {
         },
         {
             "playerID": 3,
-            "totalScore": 150,
             "email": "example3@email.com",
             "displayName": "Amet Consectetur",
             "creationDate": new Date(),
