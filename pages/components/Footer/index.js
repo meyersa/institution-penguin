@@ -7,11 +7,12 @@ export default function Header() {
   return (
     <div className={styles.footer}>
       <div className={styles.footertext}>
-        <a className={styles.inside}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
-        <Link className={styles.inside} href="/about">About</Link>
-        <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
-        <Link className={styles.inside} href="/login">Login</Link>
-        <a className={styles.inside}>Images provided by Dalle 3</a>
+        <a>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
+        <a className={styles.mobile} style={{display: 'none'}}>|</a>
+        <Link className={styles.link} href="/about">About</Link>
+        <Link className={styles.link} href="/leaderboard">Leaderboard</Link>
+        <Link className={styles.link} href="/login">Login</Link>
+        <a>Images provided by Dalle 3</a>
       </div>
     </div>
   );
