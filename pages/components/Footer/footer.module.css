@@ -1,28 +1,45 @@
 .footer {
-  height: 4em; 
+  height: 4em;
   bottom: 0;
   width: 100%;
 
 }
 
-.footertext { 
+.footertext {
   text-align: center;
-  display: flex; 
+  display: flex;
   align-items: center;
-  justify-content: center ;
-  
+  justify-content: center;
+
 }
 
-.inside { 
+.footertext>a {
   padding: 1em;
   font-size: .75em;
   color: #FEF9F3;
 
 }
 
-@media (min-width: 320px) and (max-width: 480px) { 
-  .footer { 
-    display: none;
-    
+@media (min-width: 320px) and (max-width: 480px) {
+  .footer {
+    margin: 2rem;
+    width: auto;
+
+  }
+
+  .footertext {
+    display: flex;
+    font-size: 0.8rem;
+
+  }
+
+  .footertext>.link {
+    display: none
+
+  }
+
+  .mobile {
+    display: block !important
+
   }
 }
