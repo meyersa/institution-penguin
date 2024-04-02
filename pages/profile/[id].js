@@ -1,0 +1,138 @@
+// TODO: Change to slug instead of generic page
+// TODO: Integrate with MongoDB and get data to fill
+
+import Head from 'next/head'
+import Header from '../components/Header/index.js'
+import Footer from '../components/Footer/index.js'
+import CenterContent from '../components/CenterContent/index.js'
+import Image from 'next/image.js'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router';
+
+const pageCSS = {
+    profileTop: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+    },
+    profileLeft: {
+        display: "flex",
+        flexDirection: "column",
+
+    },
+    paddedBox: {
+        marginTop: "0.25rem",
+        marginBottom: "0.25rem",
+        minWidth: "10rem",
+        display: "block"
+    },
+    profileImage: {
+        height: "100%",
+        maxHeight: "10rem",
+        maxWidth: "10rem",
+        objectFit: "contain"
+
+    },
+    recentScore: {
+        display: "flex",
+        width: "100%", 
+        alignItems: "center", 
+        justifyContent: "space-between",
+
+    },
+}
+
+export default function Profile({ playerProfile }) {
+    const router = useRouter();
+
+    // If profile isn't found
+    useEffect(() => {
+        if ("error" in playerProfile) {
+            router.push('/404');
+            return () => { }
+
+        }
+    }, []);
+
+    // Last active calculations
+    function formatRelativeDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+    
+        const diffMs = now - date;
+        const diffSeconds = Math.round(diffMs / 1000);
+        const diffMinutes = Math.round(diffSeconds / 60);
+        const diffHours = Math.round(diffMinutes / 60);
+        const diffDays = Math.round(diffHours / 24);
+    
+        if (diffSeconds < 60) {
+            return 'Just now';
+        } else if (diffMinutes < 60) {
+            return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
+        } else if (diffHours < 24) {
+            return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        } else if (diffDays === 1) {
+            return 'Yesterday';
+        } else {
+            return `${diffDays} days ago`;
+        }
+    }
+
+    // If profile is found
+    return (
+        <div>
+            <Head>
+                <title>Institution Penguin</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <Header />
+            <CenterContent>
+                <div id='boxDisplay'>
+                    <div id='boxInside'>
+                        <div style={pageCSS.profileTop}>
+                            <div style={pageCSS.profileLeft}>
+                                <h1>{playerProfile.playerInfo.displayName}</h1>
+                                <a style={pageCSS.paddedBox}>Total points: {playerProfile.globalScore}</a>
+                                <a style={pageCSS.paddedBox}>Global rank: {playerProfile.globalRank}</a>
+                                <a style={pageCSS.paddedBox}>Last active: {formatRelativeDate(playerProfile.playerInfo.lastActivityDate)}</a>
+                                <a style={pageCSS.paddedBox}>Member since: {formatRelativeDate(playerProfile.playerInfo.creationDate)}</a>
+                            </div>
+                            <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.profileImage} />
+                        </div>
+                    </div>
+                    <div id='boxInside'>
+                        <h1>Recent Activity</h1>
+                        {playerProfile.recentScores.slice(0,3).map((res, index) => (
+                            <div style={pageCSS.recentScore} key={index}>
+                                <div>
+                                    <a style={pageCSS.paddedBox}>{res.gameName}</a>
+                                    <a style={pageCSS.paddedBox}>{formatRelativeDate(res.timestamp)}</a>
+                                </div>
+                                <h1>{res.value}pts</h1>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </CenterContent>
+            <Footer />
+        </div>
+    )
+}
+
+export async function getServerSideProps({ params }) {
+    const { id } = params;
+
+    // Fetch profile information from MongoDB
+    const res = await fetch(process.env.IP_URL + `/api/database/profile/${id}`);
+    const playerProfile = await res.json();
+
+    // Pass fetched playerProfile as props
+    return {
+        props: {
+            playerProfile,
+
+        },
+    };
+}
