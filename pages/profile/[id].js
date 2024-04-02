@@ -37,8 +37,8 @@ const pageCSS = {
     },
     recentScore: {
         display: "flex",
-        width: "100%", 
-        alignItems: "center", 
+        width: "100%",
+        alignItems: "center",
         justifyContent: "space-between",
 
     },
@@ -60,13 +60,13 @@ export default function Profile({ playerProfile }) {
     function formatRelativeDate(dateString) {
         const date = new Date(dateString);
         const now = new Date();
-    
+
         const diffMs = now - date;
         const diffSeconds = Math.round(diffMs / 1000);
         const diffMinutes = Math.round(diffSeconds / 60);
         const diffHours = Math.round(diffMinutes / 60);
         const diffDays = Math.round(diffHours / 24);
-    
+
         if (diffSeconds < 60) {
             return 'Just now';
         } else if (diffMinutes < 60) {
@@ -104,15 +104,23 @@ export default function Profile({ playerProfile }) {
                     </div>
                     <div id='boxInside'>
                         <h1>Recent Activity</h1>
-                        {playerProfile.recentScores.slice(0,3).map((res, index) => (
-                            <div style={pageCSS.recentScore} key={index}>
-                                <div>
-                                    <a style={pageCSS.paddedBox}>{res.gameName}</a>
-                                    <a style={pageCSS.paddedBox}>{formatRelativeDate(res.timestamp)}</a>
+                        {/* Conditional rendering of recent scores */}
+                        {playerProfile.recentScores && playerProfile.recentScores.length > 0 ? (
+                            playerProfile.recentScores.slice(0, 3).map((res, index) => (
+                                <div style={pageCSS.recentScore} key={index}>
+                                    {/* Score information */}
+                                    <div>
+                                        <a style={pageCSS.paddedBox}>{res.gameName}</a>
+                                        <a style={pageCSS.paddedBox}>{formatRelativeDate(res.timestamp)}</a>
+                                    </div>
+                                    {/* Score value */}
+                                    <h1>{res.value}pts</h1>
                                 </div>
-                                <h1>{res.value}pts</h1>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            // Display a message if no recent scores exist
+                            <a>No recent activity</a>
+                        )}
                     </div>
                 </div>
             </CenterContent>
