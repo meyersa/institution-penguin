@@ -2,7 +2,7 @@
 import { Server } from 'socket.io'
 let activePlayers = []
 
-export default async (req, res) => {
+const socketSetup = async (req, res) => {
     if (res.socket.server.io) {
         console.log('Already set up')
         res.end()
@@ -38,3 +38,5 @@ export default async (req, res) => {
     console.log('Setting up socket')
     res.end()
 }
+
+export default socketSetup;
