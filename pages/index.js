@@ -39,7 +39,6 @@ export default function Home() {
 
   // Conditions to be viewing page
   useEffect(() => {
-
     // Set initial compatibility for window size
     if (window.innerWidth <= 1000) {
       router.push('/incompatible');
@@ -63,13 +62,13 @@ export default function Home() {
 
   // Workaround for script loading errors
   useEffect(() => {
-
+    console.log(pixiLoaded + " " + socketLoaded + " " + canLoad )
     // Only load socket when both libraries are ready
     if (pixiLoaded && socketLoaded) {
       socketInitializer()
 
     }
-  }, [pixiLoaded, socketLoaded]);
+  }, [canLoad, pixiLoaded, socketLoaded]);
 
   // Should only be authenticated left
   if (canLoad) {
@@ -80,15 +79,15 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onLoad={() => { setPixiLoaded(true) }}/>
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js" onLoad={() => { setSocketLoaded(true) }} />
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onReady={() => { setPixiLoaded(true) }}/>
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js" onReady={() => { setSocketLoaded(true) }} />
         <div id="game"></div>
         <Footer />
       </div>
     )
   } else {
     return (
-      <div></div>
+      <div />
     )
   }
 };
