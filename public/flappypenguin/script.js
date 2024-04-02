@@ -10,8 +10,8 @@ elapsedTime = 0;
 score = 0;
 speedIncreaseInterval = 5000; // Increase speed every 5 seconds
 
-snowmanTexture = PIXI.Texture.from("snowman.png");
-backgroundTexture = PIXI.Texture.from("background.png");
+snowmanTexture = PIXI.Texture.from("/flappypenguin/images/snowman.png");
+backgroundTexture = PIXI.Texture.from("/flappypenguin/images/background.png");
 
 function startScript() {
     createStartButton();
@@ -24,13 +24,16 @@ function createStartButton() {
     startButton = document.createElement("button");
     startButton.textContent = "Start Game";
     startButton.addEventListener("click", startGame);
-    document.body.appendChild(startButton);
+    document.getElementById("boxInside").appendChild(startButton);
+
 }
 
 function startGame() {
-    const startButton = document.querySelector("button");
-    if (startButton) {
-        startButton.remove();
+    const prompt = document.getElementById("boxDisplay")
+
+    if (prompt) {
+        prompt.style.display = 'none'; 
+
     }
 
     app = new PIXI.Application({
@@ -38,11 +41,12 @@ function startGame() {
         transparent: true,
         autoDensity: true,
         resolution: devicePixelRatio,
+
     });
 
     document.getElementById("game").appendChild(app.view);
 
-    app.loader.add("penguin", "penguin-sheet2.png");
+    app.loader.add("penguin", "/flappypenguin/images/penguin-sheet2.png");
 
     createBackground();
     createPlayerSheet();
@@ -56,10 +60,12 @@ function startGame() {
 
 function keysDown(e) {
     keys[e.keyCode] = true;
+
 }
 
 function keysUp(e) {
     keys[e.keyCode] = false;
+
 }
 
 function createBackground() {
@@ -72,6 +78,7 @@ function createBackground() {
         background.height = app.view.height;
         background.x = i * app.view.width;
         backgroundContainer.addChild(background);
+
     }
 }
 
@@ -80,16 +87,16 @@ function createPlayerSheet() {
         "24": { "frame": { "x": 383, "y": 5, "w": 49, "h": 94 } },
         "25": { "frame": { "x": 441, "y": 5, "w": 49, "h": 94 } },
         "26": { "frame": { "x": 499, "y": 5, "w": 49, "h": 94 } },
+
     };
 
     let ssheet = new PIXI.BaseTexture.from(app.loader.resources["penguin"].url);
-
     playerSheet["walkEast"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["24"].frame.x, frames["24"].frame.y, frames["24"].frame.w, frames["24"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["26"].frame.x, frames["26"].frame.y, frames["26"].frame.w, frames["26"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h)),
+   
     ];
-
 }
 
 function createPlayer() {
@@ -103,6 +110,7 @@ function createPlayer() {
     player.height = 75;
     app.stage.addChild(player);
     player.play();
+
 }
 
 function createScoreCounter() {
@@ -123,6 +131,7 @@ function updateScoreCounter() {
     const scoreCounter = document.getElementById("score-counter");
     if (scoreCounter) {
         scoreCounter.textContent = `Score: ${score}`;
+
     }
 }
 
@@ -130,6 +139,7 @@ function handlePlayerMovement() {
     if (keys[87] && !isJumping) {
         isJumping = true;
         jumpHeight = 13;
+
     }
 
     // Gravity
@@ -140,6 +150,7 @@ function handlePlayerMovement() {
         if (player.y >= app.view.height / 1.3) {
             player.y = app.view.height / 1.3;
             isJumping = false;
+
         }
     }
 }
@@ -157,6 +168,7 @@ function generateObstacle() {
         obstacle.height = 100;
         app.stage.addChild(obstacle);
         obstacles.push(obstacle);
+
     }
 }
 
@@ -166,18 +178,21 @@ function updateObstacles() {
 
         if (collision(player, obstacles[i])) {
             endGame();
+
         }
 
         if (obstacles[i].x + obstacles[i].width < 0) {
             app.stage.removeChild(obstacles[i]);
             obstacles.splice(i, 1);
             i--;
+
         }
     }
 
     //obstacle generation probability based on the speed
     if (Math.random() < speed / 200) {
         generateObstacle();
+
     }
 }
 
@@ -187,6 +202,7 @@ function collision(player, obstacle) {
         player.x + player.width > obstacle.x &&
         player.y < obstacle.y + obstacle.height &&
         player.y + player.height > obstacle.y
+
     );
 }
 
@@ -197,12 +213,14 @@ function increaseDifficulty() {
     if (elapsedTime >= speedIncreaseInterval) {
         speed += 0.5;
         elapsedTime = 0; // Reset the timer
+
     }
 }
 
 function updateScore() {
     // Increase the score every frame
     score++;
+
 }
 
 function endGame() {
@@ -214,15 +232,16 @@ function endGame() {
     document.body.appendChild(gameOverPopup);
 
     app.destroy();
+
 }
 
 function restartGame() {
     // Reload the entire page for now this is method used to create new game.
     location.reload();
+
 }
 
 function gameLoop() {
-
     handlePlayerMovement();
     updateObstacles();
     increaseDifficulty();
@@ -245,13 +264,16 @@ function gameLoop() {
                     if (background.x + background.width <= 0) {
                         // Find the rightmost background and reposition it after the last one
                         let rightmostX = 0;
+                        
                         for (let j = 0; j < backgroundContainer.children.length; j++) {
                             const bg = backgroundContainer.children[j];
                             if (bg.x > rightmostX) {
                                 rightmostX = bg.x;
+
                             }
                         }
                         background.x = rightmostX + background.width;
+
                     }
                 }
             }
