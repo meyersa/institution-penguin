@@ -61,10 +61,15 @@ function startGame() {
 
     keysDiv = document.querySelector("#game");
 
+    // Start game loop
     app.ticker.add(gameLoop);
-    app.ticker.start()
-    app.loader.onError.add((error) => console.error("Error loading resources:", error));
 
+    // Start countdown
+    app.ticker.start()
+
+    // Register canvas mouse click event
+    app.view.addEventListener("click", mouseClick);
+    
 }
 
 function keysDown(e) {
@@ -74,6 +79,11 @@ function keysDown(e) {
 
 function keysUp(e) {
     keys[e.keyCode] = false;
+
+}
+
+function mouseClick() {
+    keys["mouse"] = 1 
 
 }
 
@@ -145,12 +155,6 @@ function updateScoreCounter() {
 }
 
 function handlePlayerMovement() {
-    if (keys[87] && !isJumping) {
-        isJumping = true;
-        jumpHeight = 13;
-
-    }
-
     // Gravity
     if (isJumping) {
         player.y -= jumpHeight;
@@ -161,7 +165,29 @@ function handlePlayerMovement() {
             isJumping = false;
 
         }
+        // Exit since jumping already
+        return 
+
     }
+
+    // W click jump
+    if (keys[87]) {
+        isJumping = true;
+        jumpHeight = 13;
+        return 
+
+    } 
+
+    // Mouse click jump
+    if (keys["mouse"] == 1) {
+        keys["mouse"] = 0; 
+        isJumping = true; 
+        jumpHeight = 13; 
+        return 
+
+    }
+
+
 }
 
 function generateObstacle() {
@@ -246,7 +272,6 @@ function endGame() {
     gameOverPopup.className = "game-over-popup";
     gameOverPopup.innerHTML = `<p>Game Over! Your score: ${finalScore}</p><button onclick="restartGame()">Restart</button>`;
     document.body.appendChild(gameOverPopup);
-    console.log("Destroyed")
     app.destroy();
 
 }
