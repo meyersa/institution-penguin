@@ -45,8 +45,8 @@ function createStartButton() {
 
         document.getElementById("boxInside").appendChild(startButton);
 
-    }
-}
+    };
+};
 
 function startGame() {
     const prompt = document.getElementById("boxInside");
@@ -78,22 +78,22 @@ function startGame() {
     window.addEventListener("keydown", keysDown);
     window.addEventListener("keyup", keysUp);
 
-}
+};
 
 function keysDown(e) {
     keys[e.keyCode] = true;
 
-}
+};
 
 function keysUp(e) {
     keys[e.keyCode] = false;
 
-}
+};
 
 function mouseClick() {
     keys["mouse"] = 1
 
-}
+};
 
 function createBackground() {
     const backgroundContainer = new PIXI.Container();
@@ -189,8 +189,6 @@ function handlePlayerMovement() {
         return
 
     }
-
-
 }
 
 function generateObstacle() {
