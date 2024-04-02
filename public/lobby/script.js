@@ -218,7 +218,7 @@ function createBackground() {
     app.stage.addChild(Background)
 
     //transparent image to stop player from overlapping buildings in background image
-    imageblnk = PIXI.Sprite.from("/lobby/images/");
+    imageblnk = PIXI.Sprite.from("/lobby/images/trans-back.png");
     imageblnk.anchor.set(0.5);
     imageblnk.x = 700;
     imageblnk.y = 200;
