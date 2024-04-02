@@ -3,7 +3,6 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import Head from 'next/head'
 import Header from './components/Header/index.js'
 import CenterContent from './components/CenterContent/index.js'
-import Image from 'next/image';
 
 export default function Login() {
     const { data: session, status: status } = useSession();

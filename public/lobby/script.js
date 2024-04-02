@@ -1,35 +1,41 @@
-let keys = {};
-let speed = 2;
-let playerSheet = {};
-let playerId = Math.floor(Math.random() * 100);
-let activePlayers = new Map();
+keys = {};
+speed = 2;
+playerSheet = {};
+playerId = Math.floor(Math.random() * 100);
+activePlayers = new Map();
 
-const socket = io(undefined, {
+socket = io(undefined, {
     path: '/api/socket_io',
+    
 })
 
 socket.on("addPlayer", (arg) => {
     for (i = 0; i < arg.length; i++) {
         addPlayer(arg[i]);
+
     }
 
     if (player.textures == playerSheet.walkNorth) {
         socket.emit("updatePos", [playerId, player.x, player.y, "n"]);
+
     }
     else if (player.textures == playerSheet.walkSouth) {
         socket.emit("updatePos", [playerId, player.x, player.y, "s"]);
+
     }
     else if (player.textures == playerSheet.walkEast) {
         socket.emit("updatePos", [playerId, player.x, player.y, "e"]);
+
     }
     else if (player.textures == playerSheet.walkWest) {
         socket.emit("updatePos", [playerId, player.x, player.y, "w"]);
+
     }
 });
 
 socket.on("updatePositions", (arg) => {
     updatePositions(arg);
-    // console.log(arg);
+
 });
 
 
@@ -55,6 +61,7 @@ function updatePositions(pos) {
             currPlayer.textures = playerSheet.walkWest;
             // currPlayer.walkWest;
             break;
+
     }
 }
 
@@ -62,12 +69,13 @@ function updatePositions(pos) {
 function addPlayer(id) {
     if (!activePlayers.has(id)) {
         activePlayers.set(id, createPlayer(id));
+
     }
 }
 
 //On Page Startup
 function startScript() {
-    console.log("Pixi game started")
+
     //Initializing application
     app = new PIXI.Application(
         {
@@ -75,6 +83,7 @@ function startScript() {
             backgroundColor: 0xAAAAAA,
             padding: 0,
             margin: 0
+
         }
     );
 
@@ -90,6 +99,7 @@ function startScript() {
     window.addEventListener("keyup", keysUp);
 
     keysDiv = document.querySelector("#game")
+
 }
 
 /*doneLoading
@@ -100,9 +110,9 @@ function doneLoading(e) {
     createPlayerSheet();
     addPlayer(playerId);
     player = activePlayers.get(playerId);
-    console.log(playerId);
     socket.emit("joined", playerId);
     app.ticker.add(gameLoop);
+
 }
 
 
@@ -134,15 +144,19 @@ function createPlayerSheet() {
     //Defines Animations
     playerSheet["standSouth"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["1"].frame.x, frames["1"].frame.y, frames["1"].frame.w, frames["1"].frame.h))
+    
     ];
     playerSheet["standWest"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["13"].frame.x, frames["13"].frame.y, frames["13"].frame.w, frames["13"].frame.h))
+    
     ];
     playerSheet["standEast"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h))
+    
     ];
     playerSheet["standNorth"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["37"].frame.x, frames["12"].frame.y, frames["12"].frame.w, frames["12"].frame.h))
+    
     ];
 
     playerSheet["walkSouth"] = [
@@ -150,30 +164,33 @@ function createPlayerSheet() {
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["2"].frame.x, frames["2"].frame.y, frames["2"].frame.w, frames["2"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["1"].frame.x, frames["1"].frame.y, frames["1"].frame.w, frames["1"].frame.h)),
         // Add other textures for walking south
+
     ];
 
     playerSheet["walkWest"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["12"].frame.x, frames["12"].frame.y, frames["12"].frame.w, frames["12"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["14"].frame.x, frames["14"].frame.y, frames["14"].frame.w, frames["14"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["13"].frame.x, frames["13"].frame.y, frames["13"].frame.w, frames["13"].frame.h)),        // Add other textures for walking west
+
     ];
 
     playerSheet["walkEast"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["24"].frame.x, frames["24"].frame.y, frames["24"].frame.w, frames["24"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["26"].frame.x, frames["26"].frame.y, frames["26"].frame.w, frames["26"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h)),
+
     ];
 
     playerSheet["walkNorth"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["36"].frame.x, frames["36"].frame.y, frames["36"].frame.w, frames["36"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["38"].frame.x, frames["38"].frame.y, frames["38"].frame.w, frames["38"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["37"].frame.x, frames["37"].frame.y, frames["37"].frame.w, frames["37"].frame.h)),         // Add other textures for walking north
+
     ];
 }
 
 //Function to load player sprite
 function createPlayer(id) {
-    console.log(playerSheet)
     let newPlayer = new PIXI.AnimatedSprite(playerSheet.standSouth);
     newPlayer.anchor.set(0.5);
     newPlayer.animationSpeed = .2;
@@ -186,6 +203,7 @@ function createPlayer(id) {
     newPlayer.play();
     // newPlayer = { ...newPlayer, id: id }
     return newPlayer;
+
 }
 
 //function to load background image
@@ -200,13 +218,14 @@ function createBackground() {
     app.stage.addChild(Background)
 
     //transparent image to stop player from overlapping buildings in background image
-    imageblnk = PIXI.Sprite.from("/lobby/images/");
+    imageblnk = PIXI.Sprite.from("/lobby/images/trans-back.png");
     imageblnk.anchor.set(0.5);
     imageblnk.x = 700;
     imageblnk.y = 200;
     imageblnk.width = 1300;
     imageblnk.height = 160;
     app.stage.addChild(imageblnk)
+
 }
 
 //Function to detect and handle collision events
@@ -228,18 +247,21 @@ function handleCollision(object1, object2) {
         if (overlapX < overlapY) {
             if (obj1.x < obj2.x) {
                 object1.x -= overlapX;
+
             } else {
                 object1.x += overlapX;
+
             }
         } else {
             if (obj1.y < obj2.y) {
                 object1.y -= overlapY;
+
             } else {
                 object1.y += overlapY;
+
             }
         }
     }
-
 }
 
 
@@ -248,7 +270,8 @@ function switchScenes() {
     if (player.y < 350 && player.y > 300 && player.x < 30) {
         speed = 0;
         //ADD REDIRECT LOCATION HERE
-        window.location.href = "/minigame/minigame.html";
+        window.location.href = "/flappypenguin";
+
     }
 }
 
@@ -256,14 +279,18 @@ function switchScenes() {
 function checkBounds(object) {
     if (object.x > app.view.width) {
         object.x = app.view.width;
+
     } else if (object.x < 0) {
         object.x = 0;
+
     }
 
     if (object.y > app.view.height) {
         object.y = app.view.height;
+
     } else if (object.y < 0) {
         object.y = 0;
+
     }
 
 }
@@ -271,54 +298,60 @@ function checkBounds(object) {
 //functions attached to event listener to detect key presses
 function keysDown(e) {
     keys[e.keyCode] = true;
+
 }
 function keysUp(e) {
     keys[e.keyCode] = false;
+
 }
 
 
 //Function that loops every frame
 function gameLoop() {
+
     //"W" key
-    // console.log(player)
     if (keys["87"]) {
         if (!player.playing) {
             player.textures = playerSheet.walkNorth;
             player.play();
+
         }
         player.y -= speed;
-        console.log("X: " + player.x + "\nY:" + player.y);
         socket.emit("updatePos", [playerId, player.x, player.y, "n"]);
+
     }
     //"A" key
     if (keys["65"]) {
         if (!player.playing) {
             player.textures = playerSheet.walkWest;
             player.play();
+
         }
         player.x -= speed;
-        console.log("X: " + player.x + "\nY:" + player.y);
         socket.emit("updatePos", [playerId, player.x, player.y, "w"]);
+
     }
     //"S" key
     if (keys["83"]) {
         if (!player.playing) {
             player.textures = playerSheet.walkSouth;
             player.play();
+
         }
         player.y += speed;
-        console.log("X: " + player.x + "\nY:" + player.y);
         socket.emit("updatePos", [playerId, player.x, player.y, "s"]);
+
     }
     //"D" key
     if (keys["68"]) {
         if (!player.playing) {
             player.textures = playerSheet.walkEast;
             player.play();
+
         }
         player.x += speed;
-        console.log("X: " + player.x + "\nY:" + player.y);
         socket.emit("updatePos", [playerId, player.x, player.y, "e"]);
+
     }
 
     checkBounds(player);
@@ -328,6 +361,7 @@ function gameLoop() {
 
     //check for collision
     // handleCollision(player, imageblnk)
+
 }
 
 

@@ -1,15 +1,13 @@
 import Head from 'next/head'
 import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
+import CenterContent from './components/CenterContent/index.js'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
 import Script from 'next/script'
 
-import io from 'socket.io-client'
-let socket
-
-export default function Home() {
+export default function FlappyPenguin() {
   const router = useRouter();
   const { data: session, status: status } = useSession();
 
@@ -17,18 +15,9 @@ export default function Home() {
   const [pixiLoaded, setPixiLoaded] = useState(false);
   const [socketLoaded, setSocketLoaded] = useState(false);
 
-  async function socketInitializer() {
-    await fetch('/api/socket').then(() => {
-      socket = io(undefined, {
-        path: '/api/socket_io',
-      });
-    }).catch(e => {
-      console.error("Could not create socket")
-
-    })
-
+  async function gameInit() {
     const gameScript = document.createElement('script');
-    gameScript.src = '/lobby/script.js';
+    gameScript.src = '/flappypenguin/script.js';
     gameScript.onload = () => {
       startScript()
 
@@ -65,7 +54,7 @@ export default function Home() {
 
     // Only load socket when both libraries are ready
     if (pixiLoaded && socketLoaded) {
-      socketInitializer()
+      gameInit()
 
     }
   }, [canLoad, pixiLoaded, socketLoaded]);
@@ -79,8 +68,12 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onReady={() => { setPixiLoaded(true) }}/>
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onReady={() => { setPixiLoaded(true) }} />
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js" onReady={() => { setSocketLoaded(true) }} />
+        <div id='boxInside' style={{ margin: '0', position: 'absolute', top: '40%', left: '50%', zIndex: '1', transform: 'translate(-50%, -50%)', backgroundColor: "inherit", width: '80dvh' }}>
+            <h1>Welcome to FlappyPenguin!</h1>
+            <a style={{ color: 'var(--black)' }}>Are you ready to take on this challenge to avoid as many obstacles as possible?</a>
+        </div>
         <div id="game"></div>
         <Footer />
       </div>

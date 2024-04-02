@@ -1,69 +1,99 @@
-let app;
-let player;
-let playerSheet = {};
-let obstacles = [];
-let keys = {};
-let keysDiv;
-let speed = 2;
-let gravity = .2;
-let jumpHeight = 0;
-let isJumping = false;
-let numBackgrounds = 50;
-let elapsedTime = 0;
-let score = 0;
-const speedIncreaseInterval = 5000; // Increase speed every 5 seconds
+playerSheet = {};
+obstacles = [];
+keys = {};
+speed = 2;
+gravity = .2;
+jumpHeight = 0;
+isJumping = false;
+numBackgrounds = 50;
+elapsedTime = 0;
+score = 0;
+speedIncreaseInterval = 5000; // Increase speed every 5 seconds
 
-const snowmanTexture = PIXI.Texture.from("snowman.png");
-const backgroundTexture = PIXI.Texture.from("background.png");
+snowmanTexture = PIXI.Texture.from("/flappypenguin/images/snowman.png");
+backgroundTexture = PIXI.Texture.from("/flappypenguin/images/background.png");
 
-window.onload = function () {
+function startScript() {
+    game = document.getElementById("game")
+    game.style.filter = "blur(5px)"
+
+    app = new PIXI.Application({
+        resizeTo: window,
+        padding: 0,
+        margin: 0,
+
+    });
+    document.getElementById("game").appendChild(app.view);
+
     createStartButton();
+    createBackground();
+
+};
+
+function createStartButton() {
+    const prompt = document.getElementById("boxInside")
+    if ("button" in prompt.childNodes) {
+        document.getElementById("boxInside").style.display = 'flex'
+
+    } else {
+        startButton = document.createElement("button");
+        startButton.textContent = "Start Game";
+        startButton.addEventListener("click", startGame);
+
+        // Workaround to set !important 
+        startButton.setAttribute('style', 'width:100% !important');
+
+        document.getElementById("boxInside").appendChild(startButton);
+
+    };
+};
+
+function startGame() {
+    const prompt = document.getElementById("boxInside");
+    const game = document.getElementById("game");
+
+    game.style.filter = "blur(0)";
+
+    if (prompt) {
+        prompt.style.display = 'none';
+
+    }
+
+    app.loader.add("penguin", "/flappypenguin/images/penguin-sheet2.png");
+
+    createPlayerSheet();
+    createPlayer();
+    createScoreCounter(); // Create the live score counter
+
+    keysDiv = document.querySelector("#game");
+
+    // Start game loop
+    app.ticker.add(gameLoop);
+
+    // Start countdown
+    app.ticker.start()
+
+    // Register canvas mouse click event and keyboard events
+    app.view.addEventListener("click", mouseClick);
     window.addEventListener("keydown", keysDown);
     window.addEventListener("keyup", keysUp);
 
 };
 
-function createStartButton() {
-    const startButton = document.createElement("button");
-    startButton.textContent = "Start Game";
-    startButton.addEventListener("click", startGame);
-    document.body.appendChild(startButton);
-}
-
-function startGame() {
-    const startButton = document.querySelector("button");
-    if (startButton) {
-        startButton.remove();
-    }
-
-    app = new PIXI.Application({
-        resizeTo: window,
-        transparent: true,
-        autoDensity: true,
-        resolution: devicePixelRatio,
-    });
-
-    document.body.appendChild(app.view);
-
-    app.loader.add("penguin", "penguin-sheet2.png");
-
-    createBackground();
-    createPlayerSheet();
-    createPlayer();
-    createScoreCounter(); // Create the live score counter
-
-    keysDiv = document.querySelector("#keys");
-
-    app.ticker.add(gameLoop);
-}
-
 function keysDown(e) {
     keys[e.keyCode] = true;
-}
+
+};
 
 function keysUp(e) {
     keys[e.keyCode] = false;
-}
+
+};
+
+function mouseClick() {
+    keys["mouse"] = 1
+
+};
 
 function createBackground() {
     const backgroundContainer = new PIXI.Container();
@@ -75,6 +105,7 @@ function createBackground() {
         background.height = app.view.height;
         background.x = i * app.view.width;
         backgroundContainer.addChild(background);
+
     }
 }
 
@@ -83,16 +114,16 @@ function createPlayerSheet() {
         "24": { "frame": { "x": 383, "y": 5, "w": 49, "h": 94 } },
         "25": { "frame": { "x": 441, "y": 5, "w": 49, "h": 94 } },
         "26": { "frame": { "x": 499, "y": 5, "w": 49, "h": 94 } },
+
     };
 
     let ssheet = new PIXI.BaseTexture.from(app.loader.resources["penguin"].url);
-
     playerSheet["walkEast"] = [
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["24"].frame.x, frames["24"].frame.y, frames["24"].frame.w, frames["24"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["26"].frame.x, frames["26"].frame.y, frames["26"].frame.w, frames["26"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h)),
-    ];
 
+    ];
 }
 
 function createPlayer() {
@@ -106,35 +137,27 @@ function createPlayer() {
     player.height = 75;
     app.stage.addChild(player);
     player.play();
+
 }
 
 function createScoreCounter() {
-    // Create a div element for the live score counter
-    const scoreCounter = document.createElement("div");
-    scoreCounter.id = "score-counter";
-    document.body.appendChild(scoreCounter);
+    // Create PIXI text
+    scoreCounter = new PIXI.Text('Score: 0', { fontFamily: 'ABeeZee', fontSize: 24, fill: 0x51504f });
 
-    // Score position
-    scoreCounter.style.position = "absolute";
-    scoreCounter.style.top = "20px";
-    scoreCounter.style.left = "50%";
-    scoreCounter.style.transform = "translateX(-50%)";
+    // Anchor in top right corner
+    scoreCounter.anchor.set(1, 0);
+    scoreCounter.position.set(app.view.width - 20, 20);
+    app.stage.addChild(scoreCounter);
+
 }
 
 function updateScoreCounter() {
-    // Update the live score counter
-    const scoreCounter = document.getElementById("score-counter");
-    if (scoreCounter) {
-        scoreCounter.textContent = `Score: ${score}`;
-    }
+    // Update PIXI text
+    scoreCounter.text = `Score: ${score}`;
+
 }
 
 function handlePlayerMovement() {
-    if (keys[87] && !isJumping) {
-        isJumping = true;
-        jumpHeight = 13;
-    }
-
     // Gravity
     if (isJumping) {
         player.y -= jumpHeight;
@@ -143,7 +166,28 @@ function handlePlayerMovement() {
         if (player.y >= app.view.height / 1.3) {
             player.y = app.view.height / 1.3;
             isJumping = false;
+
         }
+        // Exit since jumping already
+        return
+
+    }
+
+    // W click jump
+    if (keys[87]) {
+        isJumping = true;
+        jumpHeight = 13;
+        return
+
+    }
+
+    // Mouse click jump
+    if (keys["mouse"] == 1) {
+        keys["mouse"] = 0;
+        isJumping = true;
+        jumpHeight = 13;
+        return
+
     }
 }
 
@@ -160,6 +204,7 @@ function generateObstacle() {
         obstacle.height = 100;
         app.stage.addChild(obstacle);
         obstacles.push(obstacle);
+
     }
 }
 
@@ -169,18 +214,21 @@ function updateObstacles() {
 
         if (collision(player, obstacles[i])) {
             endGame();
+
         }
 
         if (obstacles[i].x + obstacles[i].width < 0) {
             app.stage.removeChild(obstacles[i]);
             obstacles.splice(i, 1);
             i--;
+
         }
     }
 
     //obstacle generation probability based on the speed
     if (Math.random() < speed / 200) {
         generateObstacle();
+
     }
 }
 
@@ -190,48 +238,93 @@ function collision(player, obstacle) {
         player.x + player.width > obstacle.x &&
         player.y < obstacle.y + obstacle.height &&
         player.y + player.height > obstacle.y
+
     );
 }
 
 function increaseDifficulty() {
-    elapsedTime += app.ticker.elapsedMS; // Increase elapsed time
+    if (app.ticker != null) {
+        elapsedTime += app.ticker.elapsedMS; // Increase elapsed time
+
+    } else {
+        // Return since game is destroyed
+        return
+
+    }
 
     // Increase speed every 5 seconds
     if (elapsedTime >= speedIncreaseInterval) {
         speed += 0.5;
         elapsedTime = 0; // Reset the timer
+
     }
 }
 
 function updateScore() {
     // Increase the score every frame
     score++;
+
 }
 
 function endGame() {
-    const finalScore = score;
+    // Blur game
+    game = document.getElementById("game");
+    game.style.filter = "blur(5px)";
 
-    const gameOverPopup = document.createElement("div");
-    gameOverPopup.className = "game-over-popup";
-    gameOverPopup.innerHTML = `<p>Game Over! Your score: ${finalScore}</p><button onclick="restartGame()">Restart</button>`;
+    // Display popup
+    gameOverPopup = document.createElement("div");
+    gameOverPopup.id = "boxInside";
+    gameOverPopup.margin = 0;
+    gameOverPopup.style.position = "absolute";
+    gameOverPopup.style.top = "40%";
+    gameOverPopup.style.left = "50%";
+    gameOverPopup.style.transform = "translate(-50%, -50%)";
+    gameOverPopup.style.zIndex = "1";
+    gameOverPopup.style.backgroundColor = "unset";
+    gameOverPopup.style.width = "80dvh";
+
+
+    // Display contents
+    gameOverH1 = document.createElement("h1");
+    gameOverH1.textContent = "Game Over!";
+
+    gameOverA = document.createElement("a");
+    gameOverA.textContent = `Your score ${score}`;
+    gameOverA.style.color = 'var(--dark-grey)';
+
+    gameOverDiv = document.createElement("div"); 
+    gameOverDiv.style.display = "flex"; 
+    gameOverDiv.style.alignItems = "center"; 
+    gameOverDiv.style.justifyContent = "space-between";
+    gameOverDiv.style.width = "100%";
+
+    gameOverButton = document.createElement("button");
+    gameOverButton.setAttribute('style', 'width:100% !important');
+    gameOverButton.textContent = "Restart Game";
+    gameOverButton.addEventListener("click", restartGame);
+
+    gameOverDiv.appendChild(gameOverH1);
+    gameOverDiv.appendChild(gameOverA);
+    gameOverPopup.appendChild(gameOverDiv);
+    gameOverPopup.appendChild(gameOverButton);
+
     document.body.appendChild(gameOverPopup);
-
     app.destroy();
+
 }
 
 function restartGame() {
     // Reload the entire page for now this is method used to create new game.
     location.reload();
+
 }
 
 function gameLoop() {
-
     handlePlayerMovement();
     updateObstacles();
     increaseDifficulty();
     updateScore();
     updateScoreCounter(); // Update the live score counter
-    keysDiv.innerHTML = "";
 
     if (app.stage && app.stage.children) {
         const backgroundContainer = app.stage.children[0];
@@ -248,13 +341,16 @@ function gameLoop() {
                     if (background.x + background.width <= 0) {
                         // Find the rightmost background and reposition it after the last one
                         let rightmostX = 0;
+
                         for (let j = 0; j < backgroundContainer.children.length; j++) {
                             const bg = backgroundContainer.children[j];
                             if (bg.x > rightmostX) {
                                 rightmostX = bg.x;
+
                             }
                         }
                         background.x = rightmostX + background.width;
+
                     }
                 }
             }
