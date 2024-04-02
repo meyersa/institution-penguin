@@ -270,7 +270,7 @@ function switchScenes() {
     if (player.y < 350 && player.y > 300 && player.x < 30) {
         speed = 0;
         //ADD REDIRECT LOCATION HERE
-        window.location.href = "/minigame/minigame.html";
+        window.location.href = "/flappypenguin";
 
     }
 }
