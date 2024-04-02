@@ -58,7 +58,7 @@ export default function Home() {
       setCanLoad(true)
 
     }
-  }, [status]);
+  }, [router, status]);
 
   // Workaround for script loading errors
   useEffect(() => {
