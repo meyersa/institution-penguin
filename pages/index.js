@@ -62,7 +62,7 @@ export default function Home() {
 
   // Workaround for script loading errors
   useEffect(() => {
-    console.log(pixiLoaded + " " + socketLoaded + " " + canLoad )
+
     // Only load socket when both libraries are ready
     if (pixiLoaded && socketLoaded) {
       socketInitializer()
