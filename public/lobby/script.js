@@ -1,8 +1,4 @@
-let app;
-let player;
-let Background;
 let keys = {};
-let keysDiv;
 let speed = 2;
 let playerSheet = {};
 let playerId = Math.floor(Math.random() * 100);
@@ -70,7 +66,8 @@ function addPlayer(id) {
 }
 
 //On Page Startup
-window.onload = function () {
+function startScript() {
+    console.log("Pixi game started")
     //Initializing application
     app = new PIXI.Application(
         {
@@ -81,7 +78,7 @@ window.onload = function () {
         }
     );
 
-    document.body.appendChild(app.view);
+    document.getElementById("game").appendChild(app.view);
 
     //Load Background and Player Sprite
     app.loader.add("background", "/lobby/images/CPBackground.webp");
@@ -92,7 +89,7 @@ window.onload = function () {
     window.addEventListener("keydown", keysDown);
     window.addEventListener("keyup", keysUp);
 
-    keysDiv = document.querySelector("#keys")
+    keysDiv = document.querySelector("#game")
 }
 
 /*doneLoading

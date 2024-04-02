@@ -111,3 +111,11 @@ ol {
   color: var(--white);
 
 }
+
+#game > canvas {
+  aspect-ratio: 16/9;
+  margin: 1rem; 
+  width: calc(100% - 2rem); 
+  box-shadow: .4em .4em .4em .4em var(--dark-grey);
+
+}
