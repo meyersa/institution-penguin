@@ -1,0 +1,26 @@
+# Autocreate PR when a new branch is created
+name: Auto PR
+on: 
+  push: 
+    branches: 
+      - '*'
+
+jobs: 
+  create-pull-request: 
+    runs-on: self-hosted
+
+    # Not for dependabot automerges
+    if: ${{ github.event.pusher.username != 'dependabot[bot]' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: Automatic Pull Request
+          commit-message: Automated pull request created
+          body: |
+            This pull request was automatically created when a new branch was created.
