@@ -1,22 +1,19 @@
-let app;
-let player;
-let playerSheet = {};
-let obstacles = [];
-let keys = {};
-let keysDiv;
-let speed = 2;
-let gravity = .2;
-let jumpHeight = 0;
-let isJumping = false;
-let numBackgrounds = 50;
-let elapsedTime = 0;
-let score = 0;
-const speedIncreaseInterval = 5000; // Increase speed every 5 seconds
+playerSheet = {};
+obstacles = [];
+keys = {};
+speed = 2;
+gravity = .2;
+jumpHeight = 0;
+isJumping = false;
+numBackgrounds = 50;
+elapsedTime = 0;
+score = 0;
+speedIncreaseInterval = 5000; // Increase speed every 5 seconds
 
-const snowmanTexture = PIXI.Texture.from("snowman.png");
-const backgroundTexture = PIXI.Texture.from("background.png");
+snowmanTexture = PIXI.Texture.from("snowman.png");
+backgroundTexture = PIXI.Texture.from("background.png");
 
-window.onload = function () {
+function startScript() {
     createStartButton();
     window.addEventListener("keydown", keysDown);
     window.addEventListener("keyup", keysUp);
@@ -24,7 +21,7 @@ window.onload = function () {
 };
 
 function createStartButton() {
-    const startButton = document.createElement("button");
+    startButton = document.createElement("button");
     startButton.textContent = "Start Game";
     startButton.addEventListener("click", startGame);
     document.body.appendChild(startButton);
@@ -43,7 +40,7 @@ function startGame() {
         resolution: devicePixelRatio,
     });
 
-    document.body.appendChild(app.view);
+    document.getElementById("game").appendChild(app.view);
 
     app.loader.add("penguin", "penguin-sheet2.png");
 
@@ -52,7 +49,7 @@ function startGame() {
     createPlayer();
     createScoreCounter(); // Create the live score counter
 
-    keysDiv = document.querySelector("#keys");
+    keysDiv = document.querySelector("#game");
 
     app.ticker.add(gameLoop);
 }
