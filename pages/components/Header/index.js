@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { slide as Menu } from 'react-burger-menu'
 import Link from 'next/link'
-
+import { useSession } from "next-auth/react"
 import styles from './header.module.css'
 
 export default function Header() {
@@ -48,24 +48,59 @@ export default function Header() {
     }
   }
 
-  return (
-    <div className={styles.headerbar}>
-      <div className={styles.leftheader}>
-        <Link className={styles.inside} href="/">institution penguin</Link>
-      </div> 
-      <div className={styles.rightheader}>
-          <div className={styles.burgerWrapper}>
-            <Menu styles={burgerStyles} right>
-              <Link id="about" className={styles.menuitem} href="/about">About</Link>
-              <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">Leaderboard</Link>
-              <Link id="login" className={styles.menuitem} href="/login">Login</Link>
-              <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
-            </Menu>
-          </div>
-          <Link className={styles.inside} href="/about">About</Link>
-          <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
-          <Link className={styles.inside} href="/login">Login</Link>
-      </div> 
-    </div>
-  );
+  const { data: session, status: status } = useSession();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  // Swap "Login" to "Logout" depending on session status
+  useEffect(() => {
+    if (status == "authenticated") {
+      setLoggedIn(true);
+
+    } 
+  }, [status]);
+
+  if (loggedIn) {
+    return (
+      <div className={styles.headerbar}>
+        <div className={styles.leftheader}>
+          <Link className={styles.inside} href="/">institution penguin</Link>
+        </div> 
+        <div className={styles.rightheader}>
+            <div className={styles.burgerWrapper}>
+              <Menu styles={burgerStyles} right>
+                <Link id="about" className={styles.menuitem} href="/about">About</Link>
+                <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">Leaderboard</Link>
+                <Link id="login" className={styles.menuitem} href="/login">Logout</Link>
+                <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
+              </Menu>
+            </div>
+            <Link className={styles.inside} href="/about">About</Link>
+            <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
+            <Link className={styles.inside} href="/login">Logout</Link>
+        </div> 
+      </div>
+    );
+  } else {
+    return (
+      <div className={styles.headerbar}>
+        <div className={styles.leftheader}>
+          <Link className={styles.inside} href="/">institution penguin</Link>
+        </div> 
+        <div className={styles.rightheader}>
+            <div className={styles.burgerWrapper}>
+              <Menu styles={burgerStyles} right>
+                <Link id="about" className={styles.menuitem} href="/about">About</Link>
+                <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">Leaderboard</Link>
+                <Link id="login" className={styles.menuitem} href="/login">Login</Link>
+                <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
+              </Menu>
+            </div>
+            <Link className={styles.inside} href="/about">About</Link>
+            <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
+            <Link className={styles.inside} href="/login">Login</Link>
+        </div> 
+      </div>
+    );
+  }
+
 };
