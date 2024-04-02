@@ -1,4 +1,4 @@
-// TODO: Score counter, end game message
+// TODO: end game message
 playerSheet = {};
 obstacles = [];
 keys = {};
@@ -133,25 +133,20 @@ function createPlayer() {
 }
 
 function createScoreCounter() {
-    // Create a div element for the live score counter
-    const scoreCounter = document.createElement("div");
-    scoreCounter.id = "score-counter";
-    document.body.appendChild(scoreCounter);
+    // Create PIXI text
+    scoreCounter = new PIXI.Text('Score: 0', { fontFamily: 'ABeeZee', fontSize: 24, fill: 0x51504f });
 
-    // Score position
-    scoreCounter.style.position = "absolute";
-    scoreCounter.style.top = "20px";
-    scoreCounter.style.left = "50%";
-    scoreCounter.style.transform = "translateX(-50%)";
+    // Anchor in top right corner
+    scoreCounter.anchor.set(1, 0);
+    scoreCounter.position.set(app.view.width - 20, 20); 
+    app.stage.addChild(scoreCounter);
+
 }
 
 function updateScoreCounter() {
-    // Update the live score counter
-    const scoreCounter = document.getElementById("score-counter");
-    if (scoreCounter) {
-        scoreCounter.textContent = `Score: ${score}`;
+    // Update PIXI text
+    scoreCounter.text = `Score: ${score}`;
 
-    }
 }
 
 function handlePlayerMovement() {
