@@ -1,3 +1,4 @@
+// TODO: Score counter, end game message
 playerSheet = {};
 obstacles = [];
 keys = {};
@@ -21,7 +22,7 @@ function startScript() {
 };
 
 function createStartButton() {
-    const prompt = document.getElementById("boxInside") 
+    const prompt = document.getElementById("boxInside")
     if ("button" in prompt.childNodes) {
         document.getElementById("CenterContent").parentElement.style.display = 'flex'
 
@@ -30,7 +31,7 @@ function createStartButton() {
         startButton.textContent = "Start Game";
         startButton.addEventListener("click", startGame);
         document.getElementById("boxInside").appendChild(startButton);
-    
+
     }
 }
 
@@ -38,15 +39,14 @@ function startGame() {
     const prompt = document.getElementById("boxDisplay").parentElement
 
     if (prompt) {
-        prompt.style.display = 'none'; 
+        prompt.style.display = 'none';
 
     }
 
     app = new PIXI.Application({
         resizeTo: window,
-        transparent: true,
-        autoDensity: true,
-        // resolution: devicePixelRatio,
+        padding: 0,
+        margin: 0,
 
     });
 
@@ -69,7 +69,7 @@ function startGame() {
 
     // Register canvas mouse click event
     app.view.addEventListener("click", mouseClick);
-    
+
 }
 
 function keysDown(e) {
@@ -83,7 +83,7 @@ function keysUp(e) {
 }
 
 function mouseClick() {
-    keys["mouse"] = 1 
+    keys["mouse"] = 1
 
 }
 
@@ -114,7 +114,7 @@ function createPlayerSheet() {
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["24"].frame.x, frames["24"].frame.y, frames["24"].frame.w, frames["24"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["26"].frame.x, frames["26"].frame.y, frames["26"].frame.w, frames["26"].frame.h)),
         new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h)),
-   
+
     ];
 }
 
@@ -166,7 +166,7 @@ function handlePlayerMovement() {
 
         }
         // Exit since jumping already
-        return 
+        return
 
     }
 
@@ -174,16 +174,16 @@ function handlePlayerMovement() {
     if (keys[87]) {
         isJumping = true;
         jumpHeight = 13;
-        return 
+        return
 
-    } 
+    }
 
     // Mouse click jump
     if (keys["mouse"] == 1) {
-        keys["mouse"] = 0; 
-        isJumping = true; 
-        jumpHeight = 13; 
-        return 
+        keys["mouse"] = 0;
+        isJumping = true;
+        jumpHeight = 13;
+        return
 
     }
 
@@ -247,8 +247,8 @@ function increaseDifficulty() {
 
     } else {
         // Return since game is destroyed
-        return 
-        
+        return
+
     }
 
     // Increase speed every 5 seconds
@@ -304,7 +304,7 @@ function gameLoop() {
                     if (background.x + background.width <= 0) {
                         // Find the rightmost background and reposition it after the last one
                         let rightmostX = 0;
-                        
+
                         for (let j = 0; j < backgroundContainer.children.length; j++) {
                             const bg = backgroundContainer.children[j];
                             if (bg.x > rightmostX) {
