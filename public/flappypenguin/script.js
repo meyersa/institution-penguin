@@ -21,15 +21,21 @@ function startScript() {
 };
 
 function createStartButton() {
-    startButton = document.createElement("button");
-    startButton.textContent = "Start Game";
-    startButton.addEventListener("click", startGame);
-    document.getElementById("boxInside").appendChild(startButton);
+    const prompt = document.getElementById("boxInside") 
+    if ("button" in prompt.childNodes) {
+        document.getElementById("CenterContent").parentElement.style.display = 'flex'
 
+    } else {
+        startButton = document.createElement("button");
+        startButton.textContent = "Start Game";
+        startButton.addEventListener("click", startGame);
+        document.getElementById("boxInside").appendChild(startButton);
+    
+    }
 }
 
 function startGame() {
-    const prompt = document.getElementById("boxDisplay")
+    const prompt = document.getElementById("boxDisplay").parentElement
 
     if (prompt) {
         prompt.style.display = 'none'; 
@@ -40,7 +46,7 @@ function startGame() {
         resizeTo: window,
         transparent: true,
         autoDensity: true,
-        resolution: devicePixelRatio,
+        // resolution: devicePixelRatio,
 
     });
 
@@ -56,6 +62,9 @@ function startGame() {
     keysDiv = document.querySelector("#game");
 
     app.ticker.add(gameLoop);
+    app.ticker.start()
+    app.loader.onError.add((error) => console.error("Error loading resources:", error));
+
 }
 
 function keysDown(e) {
@@ -207,7 +216,14 @@ function collision(player, obstacle) {
 }
 
 function increaseDifficulty() {
-    elapsedTime += app.ticker.elapsedMS; // Increase elapsed time
+    if (app.ticker != null) {
+        elapsedTime += app.ticker.elapsedMS; // Increase elapsed time
+
+    } else {
+        // Return since game is destroyed
+        return 
+        
+    }
 
     // Increase speed every 5 seconds
     if (elapsedTime >= speedIncreaseInterval) {
@@ -230,7 +246,7 @@ function endGame() {
     gameOverPopup.className = "game-over-popup";
     gameOverPopup.innerHTML = `<p>Game Over! Your score: ${finalScore}</p><button onclick="restartGame()">Restart</button>`;
     document.body.appendChild(gameOverPopup);
-
+    console.log("Destroyed")
     app.destroy();
 
 }
@@ -247,7 +263,6 @@ function gameLoop() {
     increaseDifficulty();
     updateScore();
     updateScoreCounter(); // Update the live score counter
-    keysDiv.innerHTML = "";
 
     if (app.stage && app.stage.children) {
         const backgroundContainer = app.stage.children[0];

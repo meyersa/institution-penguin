@@ -51,7 +51,7 @@ export default function FlappyPenguin() {
 
   // Workaround for script loading errors
   useEffect(() => {
-
+    
     // Only load socket when both libraries are ready
     if (pixiLoaded && socketLoaded) {
       gameInit()
