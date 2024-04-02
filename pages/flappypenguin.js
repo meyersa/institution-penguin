@@ -51,7 +51,7 @@ export default function FlappyPenguin() {
 
   // Workaround for script loading errors
   useEffect(() => {
-    
+
     // Only load socket when both libraries are ready
     if (pixiLoaded && socketLoaded) {
       gameInit()
@@ -68,17 +68,12 @@ export default function FlappyPenguin() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onReady={() => { setPixiLoaded(true) }}/>
+        <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onReady={() => { setPixiLoaded(true) }} />
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js" onReady={() => { setSocketLoaded(true) }} />
-        <CenterContent>
-            <div id='boxDisplay'>
-                <div id='boxInside' style={{backgroundImage: 'url(/flappypenguin/images/blur-background.png)', backgroundSize: 'contain'}}>
-                    <h1>Welcome to FlappyPenguin!</h1>
-                    <a style={{color: 'var(--black)'}}>Are you ready to take on this challenge to avoid as many obstacles as possible?</a>
-                    <h2 style={{color: 'var(--dark-grey)'}}>Click start when you are!!</h2>
-                </div>
-            </div>
-        </CenterContent>
+        <div id='boxInside' style={{ margin: '0', position: 'absolute', top: '40%', left: '50%', zIndex: '1', transform: 'translate(-50%, -50%)', backgroundColor: "inherit", width: '80dvh' }}>
+            <h1>Welcome to FlappyPenguin!</h1>
+            <a style={{ color: 'var(--black)' }}>Are you ready to take on this challenge to avoid as many obstacles as possible?</a>
+        </div>
         <div id="game"></div>
         <Footer />
       </div>

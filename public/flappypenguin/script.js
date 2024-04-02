@@ -1,4 +1,3 @@
-// TODO: end game message
 playerSheet = {};
 obstacles = [];
 keys = {};
@@ -15,33 +14,8 @@ snowmanTexture = PIXI.Texture.from("/flappypenguin/images/snowman.png");
 backgroundTexture = PIXI.Texture.from("/flappypenguin/images/background.png");
 
 function startScript() {
-    createStartButton();
-    window.addEventListener("keydown", keysDown);
-    window.addEventListener("keyup", keysUp);
-
-};
-
-function createStartButton() {
-    const prompt = document.getElementById("boxInside")
-    if ("button" in prompt.childNodes) {
-        document.getElementById("CenterContent").parentElement.style.display = 'flex'
-
-    } else {
-        startButton = document.createElement("button");
-        startButton.textContent = "Start Game";
-        startButton.addEventListener("click", startGame);
-        document.getElementById("boxInside").appendChild(startButton);
-
-    }
-}
-
-function startGame() {
-    const prompt = document.getElementById("boxDisplay").parentElement
-
-    if (prompt) {
-        prompt.style.display = 'none';
-
-    }
+    game = document.getElementById("game")
+    game.style.filter = "blur(5px)"
 
     app = new PIXI.Application({
         resizeTo: window,
@@ -49,12 +23,44 @@ function startGame() {
         margin: 0,
 
     });
-
     document.getElementById("game").appendChild(app.view);
+
+    createStartButton();
+    createBackground();
+
+};
+
+function createStartButton() {
+    const prompt = document.getElementById("boxInside")
+    if ("button" in prompt.childNodes) {
+        document.getElementById("boxInside").style.display = 'flex'
+
+    } else {
+        startButton = document.createElement("button");
+        startButton.textContent = "Start Game";
+        startButton.addEventListener("click", startGame);
+
+        // Workaround to set !important 
+        startButton.setAttribute('style', 'width:100% !important');
+
+        document.getElementById("boxInside").appendChild(startButton);
+
+    }
+}
+
+function startGame() {
+    const prompt = document.getElementById("boxInside");
+    const game = document.getElementById("game");
+
+    game.style.filter = "blur(0)";
+
+    if (prompt) {
+        prompt.style.display = 'none';
+
+    }
 
     app.loader.add("penguin", "/flappypenguin/images/penguin-sheet2.png");
 
-    createBackground();
     createPlayerSheet();
     createPlayer();
     createScoreCounter(); // Create the live score counter
@@ -67,8 +73,10 @@ function startGame() {
     // Start countdown
     app.ticker.start()
 
-    // Register canvas mouse click event
+    // Register canvas mouse click event and keyboard events
     app.view.addEventListener("click", mouseClick);
+    window.addEventListener("keydown", keysDown);
+    window.addEventListener("keyup", keysUp);
 
 }
 
@@ -138,7 +146,7 @@ function createScoreCounter() {
 
     // Anchor in top right corner
     scoreCounter.anchor.set(1, 0);
-    scoreCounter.position.set(app.view.width - 20, 20); 
+    scoreCounter.position.set(app.view.width - 20, 20);
     app.stage.addChild(scoreCounter);
 
 }
@@ -261,11 +269,47 @@ function updateScore() {
 }
 
 function endGame() {
-    const finalScore = score;
+    // Blur game
+    game = document.getElementById("game");
+    game.style.filter = "blur(5px)";
 
-    const gameOverPopup = document.createElement("div");
-    gameOverPopup.className = "game-over-popup";
-    gameOverPopup.innerHTML = `<p>Game Over! Your score: ${finalScore}</p><button onclick="restartGame()">Restart</button>`;
+    // Display popup
+    gameOverPopup = document.createElement("div");
+    gameOverPopup.id = "boxInside";
+    gameOverPopup.margin = 0;
+    gameOverPopup.style.position = "absolute";
+    gameOverPopup.style.top = "40%";
+    gameOverPopup.style.left = "50%";
+    gameOverPopup.style.transform = "translate(-50%, -50%)";
+    gameOverPopup.style.zIndex = "1";
+    gameOverPopup.style.backgroundColor = "unset";
+    gameOverPopup.style.width = "80dvh";
+
+
+    // Display contents
+    gameOverH1 = document.createElement("h1");
+    gameOverH1.textContent = "Game Over!";
+
+    gameOverA = document.createElement("a");
+    gameOverA.textContent = `Your score ${score}`;
+    gameOverA.style.color = 'var(--dark-grey)';
+
+    gameOverDiv = document.createElement("div"); 
+    gameOverDiv.style.display = "flex"; 
+    gameOverDiv.style.alignItems = "center"; 
+    gameOverDiv.style.justifyContent = "space-between";
+    gameOverDiv.style.width = "100%";
+
+    gameOverButton = document.createElement("button");
+    gameOverButton.setAttribute('style', 'width:100% !important');
+    gameOverButton.textContent = "Restart Game";
+    gameOverButton.addEventListener("click", restartGame);
+
+    gameOverDiv.appendChild(gameOverH1);
+    gameOverDiv.appendChild(gameOverA);
+    gameOverPopup.appendChild(gameOverDiv);
+    gameOverPopup.appendChild(gameOverButton);
+
     document.body.appendChild(gameOverPopup);
     app.destroy();
 
