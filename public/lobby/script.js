@@ -40,6 +40,10 @@ socket.on("updatePositions", (arg) => {
 
 
 function updatePositions(pos) {
+    if (playerId == pos[0]) {
+        return
+    }
+    
     currPlayer = activePlayers.get(pos[0]);
     currPlayer.x = pos[1];
     currPlayer.y = pos[2];
