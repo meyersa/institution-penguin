@@ -59,7 +59,7 @@ export default function Profile({ playerProfile }) {
             return () => { }
 
         }
-    }, []);
+    }, [playerProfile.error, router]);
 
     // Last active calculations
     function formatRelativeDate(dateString) {

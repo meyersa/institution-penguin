@@ -97,9 +97,9 @@ export default function Leaderboard({ playerScores, highScores, recentScores }) 
                     <div id='boxInside'>
                         <h1>Top 3 Players</h1>
                         {playerScores.slice(0, 3).map((res, index) => (
-                            <div style={pageCSS.leaderboardNested}>
+                            <div style={pageCSS.leaderboardNested} key={index}>
                                 <h2 style={pageCSS.leaderboardPlace}>{index + 1}.</h2>
-                                <div style={pageCSS.leaderboardOutside} key={index}>
+                                <div style={pageCSS.leaderboardOutside}>
                                     <div style={pageCSS.leaderboardInside}>
                                         <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
                                         <div style={pageCSS.leaderboardNested}>
