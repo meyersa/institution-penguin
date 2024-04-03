@@ -24,18 +24,40 @@ export default async function handler(req, res) {
       let queryRes = {}
       switch (query) {
         case 'topplayers':
-          queryRes = await db.collection('players').aggregate([
-            { $sort: { totalScore: -1 } },
-            { $limit: 3 },
+          queryRes = await db.collection('scores').aggregate([
+            {
+              $group: {
+                _id: "$playerID",
+                totalScore: { $sum: "$value" } // Calculate total score for each player
+              }
+            },
+            {
+              $lookup: {
+                from: "players",
+                localField: "_id",
+                foreignField: "playerID",
+                as: "playerInfo"
+              }
+            },
+            {
+              $unwind: "$playerInfo"
+            },
+            {
+              $sort: { totalScore: -1 }
+            },
+            {
+              $limit: 3
+            },
             {
               $project: {
                 _id: 0,
-                playerID: "$playerID",
-                displayName: "$displayName",
-                totalScore: "$totalScore",
+                playerID: "$_id",
+                displayName: "$playerInfo.displayName",
+                totalScore: 1
               }
-            },
-          ]).toArray();
+            }
+          ]).toArray(); 
+
           break;
 
         case 'highscores':
