@@ -4,6 +4,8 @@ services:
     build: .
     container_name: ip 
     restart: always 
+    env_file:
+      - .env
     networks:
       - default 
       - proxy
@@ -12,14 +14,11 @@ services:
     image: mongo:latest 
     container_name: ip-db 
     restart: always
-    # Need to move init variables into ENV, also update pipeline to account for this
     env_file:
       - .env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root-user
-      MONGO_INITDB_ROOT_PASSWORD: root-password
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
+    # Open for testing
     ports: 
       - "127.0.0.1:27017:27017"
 networks: 
