@@ -131,6 +131,7 @@ export default async function handler(req, res) {
                 gameName: "$gameName", // Prefix with $ to reference field from input document
                 score: "$value", // Prefix with $ to reference field from input document
                 displayName: "$playerInfo.displayName", // Prefix with $ to reference field from embedded document
+                timestamp: "$timestamp",
               }
             },
           ]).toArray();
