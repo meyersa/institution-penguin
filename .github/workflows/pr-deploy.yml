@@ -36,6 +36,12 @@ jobs:
 
       - name: Build docker
         run: docker compose --profile all build
+
+      # Reset Mongo
+      - name: Stop MongoDB 
+        run: docker compose --profile db down 
+
+      # Pull back up
       - name: Deploy docker
         run: docker compose --profile all up -d
 
