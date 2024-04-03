@@ -49,7 +49,8 @@ export default function Profile({ playerProfile }) {
 
     // If profile isn't found
     useEffect(() => {
-        if ("error" in playerProfile) {
+        if (Boolean(playerProfile.error)) {
+            console.log("reac")
             router.push('/404');
             return () => { }
 
@@ -81,52 +82,57 @@ export default function Profile({ playerProfile }) {
     }
 
     // If profile is found
-    return (
-        <div>
-            <Head>
-                <title>Institution Penguin</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <Header />
-            <CenterContent>
-                <div id='boxDisplay'>
-                    <div id='boxInside'>
-                        <div style={pageCSS.profileTop}>
-                            <div style={pageCSS.profileLeft}>
-                                <h1>{playerProfile.playerInfo.displayName}</h1>
-                                <a style={pageCSS.paddedBox}>Total points: {playerProfile.globalScore}</a>
-                                <a style={pageCSS.paddedBox}>Global rank: {playerProfile.globalRank}</a>
-                                <a style={pageCSS.paddedBox}>Last active: {formatRelativeDate(playerProfile.playerInfo.lastActivityDate)}</a>
-                                <a style={pageCSS.paddedBox}>Member since: {formatRelativeDate(playerProfile.playerInfo.creationDate)}</a>
+    if (!playerProfile.error) {
+        return (
+            <div>
+                <Head>
+                    <title>Institution Penguin</title>
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <Header />
+                <CenterContent>
+                    <div id='boxDisplay'>
+                        <div id='boxInside'>
+                            <div style={pageCSS.profileTop}>
+                                <div style={pageCSS.profileLeft}>
+                                    <h1>{playerProfile.playerInfo.displayName}</h1>
+                                    <a style={pageCSS.paddedBox}>Total points: {playerProfile.globalScore}</a>
+                                    <a style={pageCSS.paddedBox}>Global rank: {playerProfile.globalRank}</a>
+                                    <a style={pageCSS.paddedBox}>Last active: {formatRelativeDate(playerProfile.playerInfo.lastActivityDate)}</a>
+                                    <a style={pageCSS.paddedBox}>Member since: {formatRelativeDate(playerProfile.playerInfo.creationDate)}</a>
+                                </div>
+                                <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.profileImage} />
                             </div>
-                            <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.profileImage} />
+                        </div>
+                        <div id='boxInside'>
+                            <h1>Recent Activity</h1>
+                            {/* Conditional rendering of recent scores */}
+                            {playerProfile.recentScores && playerProfile.recentScores.length > 0 ? (
+                                playerProfile.recentScores.slice(0, 3).map((res, index) => (
+                                    <div style={pageCSS.recentScore} key={index}>
+                                        {/* Score information */}
+                                        <div>
+                                            <a style={pageCSS.paddedBox}>{res.gameName}</a>
+                                            <a style={pageCSS.paddedBox}>{formatRelativeDate(res.timestamp)}</a>
+                                        </div>
+                                        {/* Score value */}
+                                        <h1>{res.value}pts</h1>
+                                    </div>
+                                ))
+                            ) : (
+                                // Display a message if no recent scores exist
+                                <a>No recent activity</a>
+                            )}
                         </div>
                     </div>
-                    <div id='boxInside'>
-                        <h1>Recent Activity</h1>
-                        {/* Conditional rendering of recent scores */}
-                        {playerProfile.recentScores && playerProfile.recentScores.length > 0 ? (
-                            playerProfile.recentScores.slice(0, 3).map((res, index) => (
-                                <div style={pageCSS.recentScore} key={index}>
-                                    {/* Score information */}
-                                    <div>
-                                        <a style={pageCSS.paddedBox}>{res.gameName}</a>
-                                        <a style={pageCSS.paddedBox}>{formatRelativeDate(res.timestamp)}</a>
-                                    </div>
-                                    {/* Score value */}
-                                    <h1>{res.value}pts</h1>
-                                </div>
-                            ))
-                        ) : (
-                            // Display a message if no recent scores exist
-                            <a>No recent activity</a>
-                        )}
-                    </div>
-                </div>
-            </CenterContent>
-            <Footer />
-        </div>
-    )
+                </CenterContent>
+                <Footer />
+            </div>
+        )
+    }
+    // If not found
+    return <div />
+    
 }
 
 export async function getServerSideProps({ params }) {

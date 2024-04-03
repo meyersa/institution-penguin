@@ -27,6 +27,13 @@ export default async function handler(req, res) {
                     }
                 }
             );
+            
+            // If there is no player
+            if (!playerInfo) {
+                res.status(404).json({ error: "Profile not found" });
+                return 
+
+            }
 
             // Calculate global rank
             const globalRank = await db.collection('players').countDocuments({
