@@ -48,6 +48,13 @@ if (process.env.ENVIRONMENT == "DEV") {
             "creationDate": new Date(),
             "lastActivityDate": new Date()
         },
+        {
+            "playerID": 5,
+            "email": "example4@email.com",
+            "displayName": "I have 20 characters",
+            "creationDate": new Date(),
+            "lastActivityDate": new Date()
+        },
     ]);
     db.scores.insertMany([
         {
@@ -71,6 +78,12 @@ if (process.env.ENVIRONMENT == "DEV") {
         {
             "value": 250,
             "playerID": 3,
+            "gameName": "triviapenguin",
+            "timestamp": new Date()
+        },
+        {
+            "value": 600,
+            "playerID": 5,
             "gameName": "triviapenguin",
             "timestamp": new Date()
         },
