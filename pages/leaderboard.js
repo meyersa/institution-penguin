@@ -26,7 +26,7 @@ const pageCSS = {
     },
     leaderboardLink: {
         minWidth: "7rem",
-        maxWidth: "30dvw",
+        fontSize: "1.1rem",
         textDecoration: "underline",
         textDecorationColor: "rgb(10, 186, 250)",
         textDecorationThickness: "0.2rem",
@@ -40,7 +40,7 @@ const pageCSS = {
         alignSelf: "center"
     },
     leaderboardSmallText: {
-        fontSize: "0.6rem",
+        fontSize: "0.7rem",
         whiteSpace: "nowrap",
         textOverflow: "ellipsis",
         marginTop: "0.1rem",
@@ -50,6 +50,12 @@ const pageCSS = {
     leaderboardNested: {
         display: "flex",
         flexDirection: "column",
+        width: "100%",
+    }, 
+    leaderboardPlace: {
+        margin: "0 0.6rem", 
+        borderBottom: "solid",
+        borderColor: "var(--light-white)"
     }
 }
 
@@ -69,9 +75,9 @@ export default function Leaderboard({ playerScores, highScores, recentScores }) 
         if (diffSeconds < 60) {
             return 'Just now';
         } else if (diffMinutes < 60) {
-            return `${diffMinutes} min${diffMinutes > 1 ? 's' : ''} ago`;
+            return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
         } else if (diffHours < 24) {
-            return `${diffHours} hr${diffHours > 1 ? 's' : ''} ago`;
+            return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
         } else if (diffDays === 1) {
             return 'Yesterday';
         } else {
@@ -91,16 +97,18 @@ export default function Leaderboard({ playerScores, highScores, recentScores }) 
                     <div id='boxInside'>
                         <h1>Top 3 Players</h1>
                         {playerScores.slice(0, 3).map((res, index) => (
-                            <div style={pageCSS.leaderboardOutside} key={index}>
-                                <div style={pageCSS.leaderboardInside}>
-                                    <h2 style={pageCSS.leaderboardPlace}>{index + 1}</h2>
-                                    <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
-                                    <div style={pageCSS.leaderboardNested}>
-                                        <Link href={`/profile/${res.playerID}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
-                                        <a style={pageCSS.leaderboardSmallText}>Last seen {formatRelativeDate(res.lastActivityDate)}</a>
+                            <div style={pageCSS.leaderboardNested}>
+                                <h2 style={pageCSS.leaderboardPlace}>{index + 1}.</h2>
+                                <div style={pageCSS.leaderboardOutside} key={index}>
+                                    <div style={pageCSS.leaderboardInside}>
+                                        <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
+                                        <div style={pageCSS.leaderboardNested}>
+                                            <Link href={`/profile/${res.playerID}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                            <a style={pageCSS.leaderboardSmallText}>Last seen {formatRelativeDate(res.lastActivityDate)}</a>
+                                        </div>
                                     </div>
+                                    <h1 style={pageCSS.leaderboardPoints}>{res.totalScore}pts</h1>
                                 </div>
-                                <h1 style={pageCSS.leaderboardPoints}>{res.totalScore}pts</h1>
                             </div>
                         ))}
                     </div>
