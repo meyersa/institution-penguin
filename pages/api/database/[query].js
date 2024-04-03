@@ -53,6 +53,7 @@ export default async function handler(req, res) {
                 _id: 0,
                 playerID: "$_id",
                 displayName: "$playerInfo.displayName",
+                lastActivityDate: "$playerInfo.lastActivityDate",
                 totalScore: 1,
               }
             }

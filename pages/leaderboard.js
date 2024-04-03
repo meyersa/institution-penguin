@@ -95,7 +95,10 @@ export default function Leaderboard({ playerScores, highScores, recentScores }) 
                                 <div style={pageCSS.leaderboardInside}>
                                     <h2 style={pageCSS.leaderboardPlace}>{index + 1}</h2>
                                     <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
-                                    <Link href={`/profile/${res.playerID}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                    <div style={pageCSS.leaderboardNested}>
+                                        <Link href={`/profile/${res.playerID}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                        <a style={pageCSS.leaderboardSmallText}>Last seen {formatRelativeDate(res.lastActivityDate)}</a>
+                                    </div>
                                 </div>
                                 <h1 style={pageCSS.leaderboardPoints}>{res.totalScore}pts</h1>
                             </div>
