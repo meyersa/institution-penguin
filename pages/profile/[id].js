@@ -42,6 +42,10 @@ const pageCSS = {
         justifyContent: "space-between",
 
     },
+    points: {
+        fontSize: "1.3rem",
+
+    },
 }
 
 export default function Profile({ playerProfile }) {
@@ -111,12 +115,9 @@ export default function Profile({ playerProfile }) {
                                 playerProfile.recentScores.slice(0, 3).map((res, index) => (
                                     <div style={pageCSS.recentScore} key={index}>
                                         {/* Score information */}
-                                        <div>
-                                            <a style={pageCSS.paddedBox}>{res.gameName}</a>
-                                            <a style={pageCSS.paddedBox}>{formatRelativeDate(res.timestamp)}</a>
-                                        </div>
+                                        <a style={pageCSS.paddedBox}>{res.gameName} {formatRelativeDate(res.timestamp)}</a>
                                         {/* Score value */}
-                                        <h1>{res.value}pts</h1>
+                                        <h1 style={pageCSS.points}>{res.value}pts</h1>
                                     </div>
                                 ))
                             ) : (
@@ -132,7 +133,7 @@ export default function Profile({ playerProfile }) {
     }
     // If not found
     return <div />
-    
+
 }
 
 export async function getServerSideProps({ params }) {
