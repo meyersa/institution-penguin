@@ -28,7 +28,7 @@ export default async function handler(req, res) {
             {
               $group: {
                 _id: "$playerID",
-                totalScore: { $sum: "$value" } // Calculate total score for each player
+                totalScore: { $sum: "$value" }, // Calculate total score for each player
               }
             },
             {
@@ -53,10 +53,10 @@ export default async function handler(req, res) {
                 _id: 0,
                 playerID: "$_id",
                 displayName: "$playerInfo.displayName",
-                totalScore: 1
+                totalScore: 1,
               }
             }
-          ]).toArray(); 
+          ]).toArray();
 
           break;
 
@@ -65,7 +65,8 @@ export default async function handler(req, res) {
             {
               $group: {
                 _id: { playerID: "$playerID", gameName: "$gameName" },
-                maxScore: { $max: "$value" }
+                maxScore: { $max: "$value" },
+                timestamp: { $first: "$timestamp" } // Include timestamp field
               }
             },
             { $sort: { maxScore: -1 } },
@@ -74,13 +75,14 @@ export default async function handler(req, res) {
                 _id: 0,
                 playerID: "$_id.playerID",
                 gameName: "$_id.gameName",
-                maxScore: 1
+                maxScore: 1,
+                timestamp: 1 // Project timestamp field
               }
             },
             {
               $group: {
                 _id: null,
-                topScores: { $push: { playerID: "$playerID", gameName: "$gameName", maxScore: "$maxScore" } }
+                topScores: { $push: { playerID: "$playerID", gameName: "$gameName", maxScore: "$maxScore", timestamp: "$timestamp" } }
               }
             },
             { $unwind: "$topScores" },
@@ -101,9 +103,11 @@ export default async function handler(req, res) {
                 gameName: "$topScores.gameName",
                 maxScore: "$topScores.maxScore",
                 displayName: "$playerInfo.displayName",
+                timestamp: "$topScores.timestamp"
               }
             }
           ]).toArray();
+
           break;
 
         case 'recentscores':
@@ -131,10 +135,10 @@ export default async function handler(req, res) {
           ]).toArray();
           break;
 
-        default: 
+        default:
           // Return 404
-          res.status(404).json({ error: 'Route not found'})
-          return 
+          res.status(404).json({ error: 'Route not found' })
+          return
 
       }
 
