@@ -19,16 +19,25 @@ jobs:
           args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
       - name: Check out code
         uses: actions/checkout@v4
+
+      # Set ENV in .env
       - name: Set environmental variables
         run: |
           echo "AUTH_ID=${{ secrets.AUTH_ID }}" >> .env
           echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
+          echo "IP_URL=${{ secrets.IP_URL }}" >> .env
+          echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
+          echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
+          echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> .env
+          echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> .env
+          echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
+
       - name: Build docker
-        run: docker compose build
+        run: docker compose --profile all build
       - name: Deploy docker
-        run: docker compose up -d
+        run: docker compose --profile all up -d
 
       # Second storage cleanup workaround
       - name: Clean-up docker
