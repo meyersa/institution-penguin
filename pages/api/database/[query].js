@@ -109,6 +109,11 @@ export default async function handler(req, res) {
           ]).toArray();
           break;
 
+        default: 
+          // Return 404
+          res.status(404).json({ error: 'Route not found'})
+          return 
+
       }
 
       // Return scores with 200
