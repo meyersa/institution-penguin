@@ -18,3 +18,11 @@ updates:
     # Check for updates once a week
     schedule:
       interval: "weekly"
+
+  # Update github actions
+  - package-ecosystem: "github-actions"
+    # Looks for updates in .github from root
+    directory: "/"
+    schedule:
+      # Check for updates to GitHub Actions every week
+      interval: "weekly"
