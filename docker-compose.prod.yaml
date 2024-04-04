@@ -1,27 +1,24 @@
+name: prod
 services: 
-  ip: 
+  prod-ip: 
     profiles: [ip, all]
-    container_name: ip
     build: .
+    container_name: prod-ip 
     restart: always 
     env_file:
       - .env
     networks:
       - default 
       - proxy
-    ports: 
-      - "127.0.0.1:3000:3000"
-  ip-db: 
+  prod-ip-db: 
     profiles: [db, all]
-    container_name: ip-db
     image: mongo:latest 
+    container_name: prod-ip-db 
     restart: always
     env_file:
       - .env
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
-    ports: 
-      - "127.0.0.1:27017:27017"
       
 networks: 
   default:

@@ -51,8 +51,8 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-color: var(--grey);
-  margin: 2em;
+  background-color: var(--transparent-grey);
+  margin: 1em;
   padding: 1em;
   border-radius: .5em;
   box-shadow: .4em .4em .4em .4em var(--dark-grey);

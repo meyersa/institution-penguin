@@ -1,0 +1,32 @@
+name: dev-${GITHUB_PR}
+services: 
+  dev-ip: 
+    profiles: [ip, all]
+    container_name: dev-${GITHUB_PR}-ip
+    build: .
+    restart: always 
+    env_file:
+      - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ip.rule=Host(`dev-${GITHUB_PR}.institutionpenguin.com`, `dev-${GITHUB_PR}.localhost`)"
+      - "traefik.http.routers.ip.entrypoints=web"
+      - "traefik.http.services.ip.loadbalancer.server.port=3000"
+    networks: 
+      - traefik 
+      - default
+  dev-ip-db: 
+    profiles: [db, all]
+    container_name: dev-${GITHUB_PR}-ip-db
+    image: mongo:latest 
+    restart: always
+    env_file:
+      - .env
+    volumes: 
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
+      
+networks: 
+  default: 
+  traefik: 
+    external: true 
+    name: traefik

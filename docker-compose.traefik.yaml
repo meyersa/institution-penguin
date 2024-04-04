@@ -1,0 +1,28 @@
+services:
+  traefik:
+    image: traefik:latest
+    container_name: "ip-dev-traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--providers.docker.network=traefik"
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks: 
+      - traefik
+      - proxy
+      
+networks: 
+  traefik: 
+    name: traefik
+    
+  # CF Proxy 
+  proxy: 
+    name: proxy
+    external: true

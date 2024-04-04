@@ -1,0 +1,98 @@
+# Builds the container and runs cypress tests 
+name: Build docker container
+on:
+  pull_request:
+jobs:
+  check-traefik:
+    runs-on: self-hosted
+    environment: Dev
+    steps:
+
+      # CLI to check running container
+    - name: Check Traefik
+      id: check_container
+      run: |
+        if docker ps --format '{{.Names}}' | grep -q '^ip-dev-traefik$'; then
+          echo "Traefik container is already running."
+          echo "::set-output name=running::true"
+        else
+          echo "Traefik container is not running."
+          echo "::set-output name=running::false"
+        fi
+
+    # Only if Traefik isn't running, clean code 
+    - name: Clean up GitHub workspace
+      if: steps.check_container.outputs.running == 'false'
+      uses: docker://ubuntu:latest
+      with:
+        args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
+  
+    # Only if Traefik isn't running, pull code
+    - name: Checkout code
+      if: steps.check_container.outputs.running == 'false'
+      uses: actions/checkout@v4
+    
+    # Only if Traefik isn't running, start Traefik
+    - name: Start Traefik
+      if: steps.check_container.outputs.running == 'false'
+      run: |
+        docker compose --file docker-compose.traefik.yaml up -d
+
+  deploy-app: 
+    needs: check-traefik
+    runs-on: self-hosted 
+    environment: Dev
+    steps: 
+        
+      # Storage cleanup workaround
+      - name: Clean up GitHub workspace
+        uses: docker://ubuntu:latest
+        with:
+          args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
+
+      - name: Check out code 
+        uses: actions/checkout@v4
+
+      # Or else values do not get updated
+      - name: Clean Env 
+        run: |
+          echo "test" >> .env
+          rm .env 
+
+      - name: Set environmental variables
+        run: |
+          echo "AUTH_ID=${{ secrets.AUTH_ID }}" >> .env
+          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
+          echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
+          echo "NEXTAUTH_URL=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}" >> .env
+          echo "MONGODB_URL=mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@dev-${{ github.event.number }}-ip-db/" >> .env
+          echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
+          echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> .env
+          echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> .env
+          echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
+          echo "GITHUB_PR=${{ github.event.number }}" >> .env
+          
+      - name: Confirm no running containers
+        run: docker compose --profile all --file docker-compose.dev.yaml down 
+
+      # Add back --build when done testing
+      - name: Build docker containers
+        run: |
+          docker compose --profile db --file docker-compose.dev.yaml up -d 
+          docker compose --profile ip --file docker-compose.dev.yaml up -d --build
+
+  cypress-test:
+    needs: deploy-app
+    runs-on: self-hosted
+    environment: Dev
+    container: 
+      image: cypress/browsers:latest
+    steps: 
+      - name: Sleep for leaderboard to populate
+        run: sleep 60s
+        
+      - name: Run cypress tests 
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          config: baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
