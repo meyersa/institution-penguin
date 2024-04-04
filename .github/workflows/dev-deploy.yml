@@ -64,7 +64,7 @@ jobs:
           echo "AUTH_ID=${{ secrets.AUTH_ID }}" >> .env
           echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
-          echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
+          echo "NEXTAUTH_URL=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}" >> .env
           echo "MONGODB_URL=mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@dev-${{ github.event.number }}-ip-db/" >> .env
           echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
           echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> .env
