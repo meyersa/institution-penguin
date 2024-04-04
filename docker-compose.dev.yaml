@@ -1,0 +1,28 @@
+name: ${GITHUB_BRANCH}
+services: 
+  ip: 
+    profiles: [ip, all]
+    build: .
+    restart: always 
+    env_file:
+      - .env
+    networks:
+      - default 
+      - proxy
+    ports: 
+      - "127.0.0.1:3000:3000"
+  ip-db: 
+    profiles: [db, all]
+    image: mongo:latest 
+    restart: always
+    env_file:
+      - .env
+    volumes: 
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
+    ports: 
+      - "127.0.0.1:27017:27017"
+networks: 
+  default:
+  proxy: 
+    name: proxy
+    external: true
