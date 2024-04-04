@@ -9,10 +9,6 @@ services:
     networks:
       - default 
       - proxy
-    depends_on:
-      - ip-db
-    ports: 
-      - "127.0.0.1:3000:3000"
   ip-db: 
     profiles: [db, all]
     image: mongo:latest 
@@ -22,8 +18,6 @@ services:
       - .env
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
-    ports: 
-      - "127.0.0.1:27017:27017"
 networks: 
   default:
   proxy: 
