@@ -35,6 +35,7 @@ jobs:
     runs-on: self-hosted
     container: 
       image: cypress/browsers:latest
+      options: --user 1000
 
     steps: 
       - name: Run cypress tests 
