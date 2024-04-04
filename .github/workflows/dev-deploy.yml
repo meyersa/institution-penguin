@@ -11,7 +11,7 @@ jobs:
     - name: Check Traefik
       id: check_container
       run: |
-        if docker ps -q -f name=ip-dev-traefik; then
+        if docker ps --format '{{.Names}}' | grep -q '^ip-dev-traefik$'; then
           echo "Traefik container is already running."
           echo "::set-output name=running::true"
         else
