@@ -1,15 +1,15 @@
-name: dev-${GITHUB_BRANCH}
+name: dev-${GITHUB_PR}
 services: 
   ip: 
     profiles: [ip, all]
-    container_name: dev-${GITHUB_BRANCH}-ip
+    container_name: dev-${GITHUB_PR}-ip
     build: .
     restart: always 
     env_file:
       - .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`dev-${GITHUB_BRANCH}.localhost`)"
+      - "traefik.http.routers.whoami.rule=Host(`dev-${GITHUB_PR}.localhost`)"
       - "traefik.http.routers.whoami.entrypoints=web"
     networks: 
       - traefik 
@@ -17,7 +17,7 @@ services:
 
   ip-db: 
     profiles: [db, all]
-    container_name: dev-${GITHUB_BRANCH}-ip-db
+    container_name: dev-${GITHUB_PR}-ip-db
     image: mongo:latest 
     restart: always
     env_file:
