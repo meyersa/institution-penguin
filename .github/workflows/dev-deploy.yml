@@ -54,7 +54,9 @@ jobs:
 
       # Or else values do not get updated
       - name: Clean Env 
-        run: rm .env 
+        run: |
+          echo "test" >> .env
+          rm .env 
 
       - name: Set environmental variables
         run: |
