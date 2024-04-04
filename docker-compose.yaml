@@ -1,6 +1,7 @@
 services: 
   ip: 
     profiles: [ip, all]
+    container_name: dev-${GITHUB_BRANCH}-ip
     build: .
     restart: always 
     env_file:
@@ -12,6 +13,7 @@ services:
       - "127.0.0.1:3000:3000"
   ip-db: 
     profiles: [db, all]
+    container_name: dev-${GITHUB_BRANCH}-ip-db
     image: mongo:latest 
     restart: always
     env_file:
