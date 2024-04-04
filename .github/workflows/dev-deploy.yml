@@ -88,6 +88,9 @@ jobs:
     container: 
       image: cypress/browsers:latest
     steps: 
+      - name: Sleep for leaderboard to populate
+        run: sleep 60s
+        
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:
