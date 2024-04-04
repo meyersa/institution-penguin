@@ -1,7 +1,7 @@
 services: 
   ip: 
     profiles: [ip, all]
-    container_name: ip
+    container_name: dev-${GITHUB_BRANCH}-ip
     build: .
     restart: always 
     env_file:
@@ -9,19 +9,15 @@ services:
     networks:
       - default 
       - proxy
-    ports: 
-      - "127.0.0.1:3000:3000"
   ip-db: 
     profiles: [db, all]
-    container_name: ip-db
+    container_name: dev-${GITHUB_BRANCH}-ip-db
     image: mongo:latest 
     restart: always
     env_file:
       - .env
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
-    ports: 
-      - "127.0.0.1:27017:27017"
       
 networks: 
   default:

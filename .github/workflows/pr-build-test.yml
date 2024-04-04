@@ -29,8 +29,8 @@ jobs:
           
       - name: Build docker containers
         run: |
-          docker compose --profile db up -d
-          docker compose --profile ip up -d
+          docker compose --profile db --file docker-compose.dev.yaml up -d
+          docker compose --profile ip --file docker-compose.dev.yaml up -d
 
       # Execute cypress tests
       - name: Run cypress tests 
