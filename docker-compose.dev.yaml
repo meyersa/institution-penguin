@@ -9,8 +9,10 @@ services:
       - .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`dev-${GITHUB_PR}.localhost`)"
-      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.http.routers.ip.rule=Host(`dev-${GITHUB_PR}.localhost`)"
+      - "traefik.http.routers.ip.entrypoints=web"
+      - traefik.http.services.ip.loadbalancer.server.port=3000
+
     networks: 
       - traefik 
       - default
