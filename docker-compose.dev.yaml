@@ -1,6 +1,6 @@
 name: dev-${GITHUB_PR}
 services: 
-  ip: 
+  dev-ip: 
     profiles: [ip, all]
     container_name: dev-${GITHUB_PR}-ip
     build: .
@@ -15,7 +15,7 @@ services:
     networks: 
       - traefik 
       - default
-  ip-db: 
+  dev-ip-db: 
     profiles: [db, all]
     container_name: dev-${GITHUB_PR}-ip-db
     image: mongo:latest 
