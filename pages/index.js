@@ -18,7 +18,7 @@ export default function Home() {
   const [socketLoaded, setSocketLoaded] = useState(false);
 
   async function socketInitializer() {
-    await fetch('/api/socket').then(() => {
+    await fetch(process.env.NEXTAUTH_URL + '/api/socket').then(() => {
       socket = io(undefined, {
         path: '/api/socket_io',
       });

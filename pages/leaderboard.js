@@ -169,15 +169,15 @@ export async function getStaticProps() {
 
     try {
         // Fetch Top Player stats from MongoDB
-        resTop = await fetch('/api/database/topplayers');
+        resTop = await fetch(process.env.NEXTAUTH_URL + '/api/database/topplayers');
         playerScores = await resTop.json();
 
         // Fetch Game Highscore stats from MongoDB
-        resGHS = await fetch('/api/database/highscores');
+        resGHS = await fetch(process.env.NEXTAUTH_URL + '/api/database/highscores');
         highScores = await resGHS.json();
 
         // Fetch Recent Score stats from MongoDB
-        resRec = await fetch('/api/database/recentscores');
+        resRec = await fetch(process.env.NEXTAUTH_URL + '/api/database/recentscores');
         recentScores = await resRec.json();
 
     } catch (error) {
