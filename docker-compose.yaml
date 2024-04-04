@@ -9,8 +9,6 @@ services:
     networks:
       - default 
       - proxy
-    depends_on:
-      - ip-db
     ports: 
       - "127.0.0.1:3000:3000"
   ip-db: 
