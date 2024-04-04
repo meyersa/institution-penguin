@@ -39,21 +39,21 @@ if (process.env.ENVIRONMENT == "DEV") {
             "email": "example2@email.com",
             "displayName": "Dolor Sit",
             "creationDate": new Date(),
-            "lastActivityDate": new Date()
+            "lastActivityDate": new Date('2024-04-04T05:36:39.370Z')
         },
         {
             "playerID": 4,
             "email": "example3@email.com",
             "displayName": "Amet Consectetur",
             "creationDate": new Date(),
-            "lastActivityDate": new Date()
+            "lastActivityDate": new Date('2024-04-04T05:36:39.370Z')
         },
         {
             "playerID": 5,
             "email": "example4@email.com",
             "displayName": "I have 20 characters",
             "creationDate": new Date(),
-            "lastActivityDate": new Date()
+            "lastActivityDate": new Date('2024-04-04T05:36:39.370Z')
         },
     ]);
     db.scores.insertMany([
@@ -61,31 +61,31 @@ if (process.env.ENVIRONMENT == "DEV") {
             "value": 100,
             "playerID": 2,
             "gameName": "flappypenguin",
-            "timestamp": new Date()
+            "timestamp": new Date('2024-04-04T05:36:39.371Z')
         },
         {
             "value": 200,
             "playerID": 3,
             "gameName": "flappypenguin",
-            "timestamp": new Date()
+            "timestamp": new Date('2024-04-04T05:36:39.371Z')
         },
         {
             "value": 150,
             "playerID": 4,
             "gameName": "flappypenguin",
-            "timestamp": new Date()
+            "timestamp": new Date('2024-04-04T05:36:39.371Z')
         },
         {
             "value": 250,
             "playerID": 3,
             "gameName": "triviapenguin",
-            "timestamp": new Date()
+            "timestamp": new Date('2024-03-04T05:36:39.371Z')
         },
         {
             "value": 600,
             "playerID": 5,
             "gameName": "triviapenguin",
-            "timestamp": new Date()
+            "timestamp": new Date('2024-02-04T05:36:39.371Z')
         },
     ]);
 }

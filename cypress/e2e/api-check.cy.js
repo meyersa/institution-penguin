@@ -25,8 +25,8 @@ describe('API Endpoints', () => {
     cy.request('/api/database/highscores')
       .its('body')
       .should('deep.equal', [
-        { playerID: 5, gameName: 'triviapenguin', maxScore: 600, displayName: 'I have 20 characters', timestamp: '2024-04-04T05:36:39.371Z' },
-        { playerID: 3, gameName: 'triviapenguin', maxScore: 250, displayName: 'Dolor Sit', timestamp: '2024-04-04T05:36:39.371Z' },
+        { playerID: 5, gameName: 'triviapenguin', maxScore: 600, displayName: 'I have 20 characters', timestamp: '2024-02-04T05:36:39.371Z' },
+        { playerID: 3, gameName: 'triviapenguin', maxScore: 250, displayName: 'Dolor Sit', timestamp: '2024-03-04T05:36:39.371Z' },
         { playerID: 3, gameName: 'flappypenguin', maxScore: 200, displayName: 'Dolor Sit', timestamp: '2024-04-04T05:36:39.371Z' }
       ])
   })

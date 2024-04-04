@@ -5,6 +5,6 @@ module.exports = defineConfig({
     // Since there are weird script artifacts
     testIsolation: false,
     supportFile: false,
-    // baseUrl: "http://localhost:3000"
+    baseUrl: "http://localhost:3000"
   },
 })
