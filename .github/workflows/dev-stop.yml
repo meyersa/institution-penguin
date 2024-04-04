@@ -1,0 +1,20 @@
+# Takes down the dev PR stack when the PR is closed
+name: Remove PR Stack
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  stop-app:
+    runs-on: self-hosted
+    environment: Dev
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set ENV 
+        run: echo "GITHUB_BRANCH=${{ github.run_number }}" >> .env
+
+      - name: Stop Docker Compose services
+        run: docker compose --profile all --file docker-compose.dev.yaml down
