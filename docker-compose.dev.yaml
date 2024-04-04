@@ -12,11 +12,12 @@ services:
       - "traefik.http.routers.ip.rule=Host(`dev-${GITHUB_PR}.localhost`)"
       - "traefik.http.routers.ip.entrypoints=web"
       - "traefik.http.services.ip.loadbalancer.server.port=3000"
-
     networks: 
       - traefik 
       - default
-
+    # TEMP FOR TROUBLESHOOTING
+    ports: 
+      - "127.0.0.1:2000:3000"
   ip-db: 
     profiles: [db, all]
     container_name: dev-${GITHUB_PR}-ip-db
@@ -26,7 +27,9 @@ services:
       - .env
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
-
+    # TEMP FOR TROUBLESHOOTING
+    ports: 
+      - "127.0.0.1:2001:27017"
 networks: 
   default: 
   traefik: 
