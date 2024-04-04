@@ -2,7 +2,7 @@ services:
   ip: 
     profiles: [ip, all]
     build: .
-    container_name: ip-${{ github.ref_slug }}
+    container_name: ip-${GITHUB_BRANCH}
     restart: always 
     env_file:
       - .env
@@ -16,7 +16,7 @@ services:
   ip-db: 
     profiles: [db, all]
     image: mongo:latest 
-    container_name: ip-db-${{ github.ref_slug }}
+    container_name: ip-db-${GITHUB_BRANCH}
     restart: always
     env_file:
       - .env
