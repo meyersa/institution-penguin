@@ -27,7 +27,6 @@ jobs:
           echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
-          echo "IP_URL=${{ secrets.IP_URL }}" >> .env
           echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
           echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
           echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> .env
