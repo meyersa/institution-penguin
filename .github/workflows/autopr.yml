@@ -1,9 +1,10 @@
 # Autocreate PR when a new branch is created
-name: Auto PR
+name: Autocreate PR
 on: 
   push: 
     branches: 
       - '*'
+      - '!main'
 
 jobs: 
   create-pull-request: 
@@ -13,6 +14,13 @@ jobs:
     if: ${{ github.event.pusher.username != 'dependabot[bot]' }}
 
     steps:
+      
+        # Workaround
+      - name: Clean up GitHub workspace
+        uses: docker://ubuntu:latest
+        with:
+          args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
+  
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Create Pull Request
