@@ -27,15 +27,14 @@ jobs:
           
       - name: Build docker containers
         run: |
-          docker compose --profile db --file docker-compose.dev.yaml up -d
-          docker compose --profile ip --file docker-compose.dev.yaml up -d
+          docker compose --profile db --file docker-compose.dev.yaml up -d --build
+          docker compose --profile ip --file docker-compose.dev.yaml up -d --build
 
   dev-cypress-test:
     needs: dev-deploy
     runs-on: self-hosted
     container: 
       image: cypress/browsers:latest
-      options: --user 1001
 
     steps: 
       - name: Run cypress tests 
