@@ -72,14 +72,16 @@ jobs:
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
           echo "GITHUB_PR=${{ github.event.number }}" >> .env
           
+      - name: Prebuild IP
+        run: docker compose --profile ip --file docker-compose.dev.yaml build 
+
       - name: Confirm no running containers
         run: docker compose --profile all --file docker-compose.dev.yaml down 
 
-      # Add back --build when done testing
       - name: Build docker containers
         run: |
           docker compose --profile db --file docker-compose.dev.yaml up -d 
-          docker compose --profile ip --file docker-compose.dev.yaml up -d --build
+          docker compose --profile ip --file docker-compose.dev.yaml up -d
 
   cypress-test:
     needs: deploy-app
