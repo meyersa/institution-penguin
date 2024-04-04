@@ -28,7 +28,7 @@ jobs:
     - name: Start Traefik
       if: steps.check_container.outputs.running == 'false'
       run: |
-        docker compose --file docker-compose.traefik.yml up -d
+        docker compose --file docker-compose.traefik.yaml up -d
 
   deploy-app: 
     needs: check-traefik
