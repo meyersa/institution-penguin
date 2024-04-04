@@ -80,10 +80,6 @@ jobs:
         run: |
           docker compose --profile db --file docker-compose.dev.yaml up -d 
           docker compose --profile ip --file docker-compose.dev.yaml up -d
-      
-      # Since I am superstitious
-      - name: Remove Env
-        run: rm .env
 
   cypress-test:
     needs: deploy-app
