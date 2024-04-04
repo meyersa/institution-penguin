@@ -8,6 +8,13 @@ jobs:
     environment: Dev
 
     steps: 
+        
+      # Storage cleanup workaround
+      - name: Clean up GitHub workspace
+        uses: docker://ubuntu:latest
+        with:
+          args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
+
       - name: Check out code 
         uses: actions/checkout@v4
         
