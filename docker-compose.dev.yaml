@@ -1,3 +1,4 @@
+name: dev-${GITHUB_BRANCH}
 services: 
   ip: 
     profiles: [ip, all]
@@ -6,6 +7,14 @@ services:
     restart: always 
     env_file:
       - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`dev-${GITHUB_BRANCH}.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+    networks: 
+      - traefik 
+      - default
+
   ip-db: 
     profiles: [db, all]
     container_name: dev-${GITHUB_BRANCH}-ip-db
@@ -15,3 +24,9 @@ services:
       - .env
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
+
+networks: 
+  default: 
+  traefik: 
+    external: true 
+    name: traefik

@@ -25,22 +25,25 @@ jobs:
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
           echo "GITHUB_BRANCH=${{ github.run_number }}" >> .env
           
+      # Add back --build when done testing
       - name: Build docker containers
         run: |
-          docker compose --profile db --file docker-compose.dev.yaml up -d --build
-          docker compose --profile ip --file docker-compose.dev.yaml up -d --build
+          docker compose --profile db --file docker-compose.dev.yaml up -d 
+          docker compose --profile ip --file docker-compose.dev.yaml up -d
 
-  dev-cypress-test:
+  dev-cypress-create:
     needs: dev-deploy
     runs-on: self-hosted
     container: 
       image: cypress/browsers:latest
 
     steps: 
+      - name: Connect to Dev network 
+        run: 
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           start: yarn start
-          wait-on: "http://localhost:3000"
+          wait-on: "http://dev-${GITHUB_BRANCH}.localhost:80"
         
