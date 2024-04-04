@@ -94,7 +94,6 @@ jobs:
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         env: 
-          CYPRESS_host: http://dev-${{ github.event.number }}.localhost
-          CYPRESS_port: 80
+          CYPRESS_BASEURL: http://dev-${{ github.event.number }}.localhost:80
         with:
           browser: chrome
