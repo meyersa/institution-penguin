@@ -3,9 +3,7 @@ name: Build docker container
 on:
   pull_request:
 jobs:
-  deploy-dev: 
-
-    # Runs on d3 runner
+  dev-deploy: 
     runs-on: self-hosted 
     environment: Dev
 
@@ -32,14 +30,13 @@ jobs:
           docker compose --profile db --file docker-compose.dev.yaml up -d
           docker compose --profile ip --file docker-compose.dev.yaml up -d
 
-  cypress-test:
-    needs: deploy-dev
+  dev-cypress-test:
+    needs: dev-deploy
     runs-on: self-hosted
     container: 
       image: cypress/browsers:latest
 
     steps: 
-      # Execute cypress tests
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:
