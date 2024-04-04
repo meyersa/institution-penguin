@@ -13,7 +13,7 @@ const socketSetup = async (req, res) => {
 
     const httpServer = res.socket.server
     const io = new Server(httpServer, {
-        path: '/api/socket_io',
+        path: '/api/socket',
         addTrailingSlash: false,
 
     })

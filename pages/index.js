@@ -18,9 +18,9 @@ export default function Home() {
   const [socketLoaded, setSocketLoaded] = useState(false);
 
   async function socketInitializer() {
-    await fetch(process.env.NEXTAUTH_URL + '/api/socket').then(() => {
+    await fetch('/api/socket').then(() => {
       socket = io(undefined, {
-        path: '/api/socket_io',
+        path: '/api/socket',
       });
     }).catch(e => {
       console.error("Could not create socket")

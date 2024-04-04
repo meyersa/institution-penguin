@@ -5,7 +5,7 @@ playerId = Math.floor(Math.random() * 100);
 activePlayers = new Map();
 
 socket = io(undefined, {
-    path: '/api/socket_io',
+    path: '/api/socket',
     
 })
 
