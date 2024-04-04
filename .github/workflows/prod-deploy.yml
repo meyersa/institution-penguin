@@ -17,6 +17,7 @@ jobs:
         uses: docker://ubuntu:latest
         with:
           args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
+
       - name: Check out code
         uses: actions/checkout@v4
 
@@ -27,22 +28,24 @@ jobs:
           echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}" >> .env
-          echo "MONGODB_URL=${{ secrets.MONGODB_URL }}" >> .env
+          echo "MONGODB_URL=mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@prod-ip-db/" >> .env
           echo "MONGODB_DB=${{ secrets.MONGODB_DB }}" >> .env
           echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> .env
           echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> .env
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
 
       - name: Build docker
-        run: docker compose --profile all build
+        run: docker compose --profile all --file docker-compose.prod.yaml build
 
       # Reset Mongo
       - name: Stop MongoDB 
-        run: docker compose --profile db down 
+        run: docker compose --profile db --file docker-compose.prod.yaml down 
 
       # Pull back up
       - name: Deploy docker
-        run: docker compose --profile all up -d
+        run: |
+          docker compose --profile db --file docker-compose.prod.yaml up -d
+          docker compose --profile ip --file docker-compose.prod.yaml up -d
 
       # Second storage cleanup workaround
       - name: Clean-up docker

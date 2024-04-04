@@ -8,6 +8,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
+      - "--providers.docker.network=traefik"
     ports:
       - "127.0.0.1:80:80"
       - "127.0.0.1:8080:8080"

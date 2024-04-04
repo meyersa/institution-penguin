@@ -24,6 +24,7 @@ services:
       - .env
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
+      
 networks: 
   default: 
   traefik: 
