@@ -3,7 +3,7 @@ name: Build docker container
 on:
   pull_request:
 jobs:
-  run-tests: 
+  deploy-dev: 
 
     # Runs on d3 runner
     runs-on: self-hosted 
@@ -32,6 +32,19 @@ jobs:
           docker compose --profile db --file docker-compose.dev.yaml up -d
           docker compose --profile ip --file docker-compose.dev.yaml up -d
 
+      - name: Stop docker containers 
+        run: docker compose --profile all down 
+
+      - name: Remove .env 
+        run: rm .env
+
+  cypress-test:
+    needs: deploy-dev
+    runs-on: self-hosted
+    container: 
+      image: cypress/browsers:latest
+      
+    steps: 
       # Execute cypress tests
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
@@ -40,8 +53,3 @@ jobs:
           start: yarn start
           wait-on: "http://localhost:3000"
         
-      - name: Stop docker containers 
-        run: docker compose --profile all down 
-
-      - name: Remove .env 
-        run: rm .env

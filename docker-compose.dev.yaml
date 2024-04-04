@@ -6,9 +6,6 @@ services:
     restart: always 
     env_file:
       - .env
-    networks:
-      - default 
-      - proxy
   ip-db: 
     profiles: [db, all]
     container_name: dev-${GITHUB_BRANCH}-ip-db
@@ -18,9 +15,3 @@ services:
       - .env
     volumes: 
       - ./mongo-init.js:/docker-entrypoint-initdb.d/init-mongo.js 
-      
-networks: 
-  default:
-  proxy: 
-    name: proxy
-    external: true
