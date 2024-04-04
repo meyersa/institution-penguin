@@ -38,8 +38,6 @@ jobs:
       image: cypress/browsers:latest
 
     steps: 
-      - name: Connect to Dev network 
-        run: 
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:
