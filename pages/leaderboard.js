@@ -51,15 +51,15 @@ const pageCSS = {
         display: "flex",
         flexDirection: "column",
         width: "100%",
-    }, 
+    },
     leaderboardPlace: {
-        margin: "0 0.6rem", 
+        margin: "0 0.6rem",
         borderBottom: "solid",
         borderColor: "var(--light-white)"
     }
 }
 
-export default function Leaderboard({ playerScores, highScores, recentScores }) {
+export default function Leaderboard({ playerScores, highScores, recentScores }, ) {
 
     // Last active calculations
     function formatRelativeDate(dateString) {
@@ -83,6 +83,16 @@ export default function Leaderboard({ playerScores, highScores, recentScores }) 
         } else {
             return `${diffDays} days ago`;
         }
+    }
+
+    // Not fetched
+    if (!Boolean(playerScores) && !Boolean(highScores) && !Boolean(recentScores)) {
+        
+        return (
+            <div>
+                <a>Loading...</a>
+            </div>
+        )
     }
 
     return (
@@ -150,17 +160,31 @@ export default function Leaderboard({ playerScores, highScores, recentScores }) 
 }
 
 export async function getStaticProps() {
-    // Fetch Top Player stats from MongoDB
-    const resTop = await fetch(process.env.IP_URL + '/api/database/topplayers');
-    const playerScores = await resTop.json();
+    let playerScores = null;
+    let highScores = null;
+    let recentScores = null;
+    let resTop = null; 
+    let resGHS = null; 
+    let resRec = null;
 
-    // Fetch Game Highscore stats from MongoDB
-    const resGHS = await fetch(process.env.IP_URL + '/api/database/highscores');
-    const highScores = await resGHS.json();
+    try {
+        // Fetch Top Player stats from MongoDB
+        resTop = await fetch(process.env.IP_URL + '/api/database/topplayers');
+        playerScores = await resTop.json();
 
-    // Fetch Recent Score stats from MongoDB
-    const resRec = await fetch(process.env.IP_URL + '/api/database/recentscores');
-    const recentScores = await resRec.json();
+        // Fetch Game Highscore stats from MongoDB
+        resGHS = await fetch(process.env.IP_URL + '/api/database/highscores');
+        highScores = await resGHS.json();
+
+        // Fetch Recent Score stats from MongoDB
+        resRec = await fetch(process.env.IP_URL + '/api/database/recentscores');
+        recentScores = await resRec.json();
+
+    } catch (error) {
+        console.error("Failed to fetch leaderboard API queries", error)
+
+    }
+
 
     // Pass player scores data to the component
     return {
@@ -170,8 +194,8 @@ export async function getStaticProps() {
             recentScores,
 
         },
-        // Re-generate the page at most once every 5 minutes (300 seconds)
-        revalidate: 300,
+        // Re-generate the page at most once every minute
+        revalidate: 60,
 
     }
 }
