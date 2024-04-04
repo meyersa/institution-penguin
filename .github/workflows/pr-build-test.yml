@@ -25,7 +25,7 @@ jobs:
           echo "MONGO_INITDB_ROOT_USERNAME=${{ secrets.MONGO_INITDB_ROOT_USERNAME }}" >> .env
           echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> .env
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
-          echo "GITHUB_BRANCH"=${{ github.ref_slug }}
+          echo "GITHUB_BRANCH"=${{ github.head_ref }}
           
       - name: Build docker containers
         run: |
