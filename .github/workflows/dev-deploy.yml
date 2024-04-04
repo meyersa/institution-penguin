@@ -1,5 +1,5 @@
 # Builds the container and runs cypress tests 
-name: Build docker container
+name: Deploy to Dev and run Cypress
 on:
   pull_request:
 jobs:

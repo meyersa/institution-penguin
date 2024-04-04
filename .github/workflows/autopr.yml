@@ -1,5 +1,5 @@
 # Autocreate PR when a new branch is created
-name: Auto PR
+name: Autocreate PR
 on: 
   push: 
     branches: 
