@@ -79,7 +79,7 @@ jobs:
       - name: Build docker containers
         run: |
           docker compose --profile db --file docker-compose.dev.yaml up -d 
-          docker compose --profile ip --file docker-compose.dev.yaml up -d
+          docker compose --profile ip --file docker-compose.dev.yaml up -d --build
 
   cypress-test:
     needs: deploy-app
