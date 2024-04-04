@@ -32,18 +32,12 @@ jobs:
           docker compose --profile db --file docker-compose.dev.yaml up -d
           docker compose --profile ip --file docker-compose.dev.yaml up -d
 
-      - name: Stop docker containers 
-        run: docker compose --profile all down 
-
-      - name: Remove .env 
-        run: rm .env
-
   cypress-test:
     needs: deploy-dev
     runs-on: self-hosted
     container: 
       image: cypress/browsers:latest
-      
+
     steps: 
       # Execute cypress tests
       - name: Run cypress tests 
