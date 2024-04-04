@@ -8,23 +8,11 @@ jobs:
     # Runs on d3 runner
     runs-on: self-hosted 
     environment: Dev
-    container:
-        image: cypress/browsers
-    steps:        
-      - name: Check out code 
-        uses: actions/checkout@v4 
 
-      # Caching system, doesn't really speed things up tbh
-      - name: Cache Next Build
-        uses: actions/cache@v3
-        with:
-          path: |
-            ./.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-${{ hashFiles('*.js', '*.jsx', '*.ts', '*.tsx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('package-lock.json') }}-
-      
-      # Set ENV in .env
+    steps: 
+      - name: Check out code 
+        uses: actions/checkout@v4
+        
       - name: Set environmental variables
         run: |
           echo "AUTH_ID=${{ secrets.AUTH_ID }}" >> .env
@@ -38,11 +26,21 @@ jobs:
           echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> .env
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
 
-      # Executes cypress tests
+      - name: Build docker containers
+        run: |
+          docker compose --profile db up
+          docker compose --profile ip up 
+
+      # Execute cypress tests
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          build: yarn build
           start: yarn start
           wait-on: "http://localhost:3000"
+        
+      - name: Stop docker containers 
+        run: docker compose --profile all down 
+
+      - name: Remove .env 
+        run: rm .env
