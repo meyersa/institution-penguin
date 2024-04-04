@@ -29,8 +29,8 @@ jobs:
           
       - name: Build docker containers
         run: |
-          docker compose --profile db --project-name "dev-${GITHUB_BRANCH}" up -d
-          docker compose --profile ip --project-name "dev-${GITHUB_BRANCH}" up -d
+          docker compose --profile db up -d
+          docker compose --profile ip up -d
 
       # Execute cypress tests
       - name: Run cypress tests 
