@@ -3,10 +3,37 @@ name: Build docker container
 on:
   pull_request:
 jobs:
-  dev-deploy: 
+  check-traefik:
+    runs-on: self-hosted
+    steps:
+
+      # CLI to check running container
+    - name: Check Traefik
+      id: check_container
+      run: |
+        if docker ps -q -f name=ip-dev-traefik; then
+          echo "Traefik container is already running."
+          echo "::set-output name=running::true"
+        else
+          echo "Traefik container is not running."
+          echo "::set-output name=running::false"
+        fi
+
+    # Only if Traefik isn't running, pull code
+    - name: Checkout code
+      if: steps.check_container.outputs.running == 'false'
+      uses: actions/checkout@v4
+    
+    # Only if Traefik isn't running, start Traefik
+    - name: Start Traefik
+      if: steps.check_container.outputs.running == 'false'
+      run: |
+        docker-compose --file docker-compose.traefik.yml up -d
+
+  deploy-app: 
+    needs: check-traefik
     runs-on: self-hosted 
     environment: Dev
-
     steps: 
         
       # Storage cleanup workaround
@@ -38,8 +65,8 @@ jobs:
           docker compose --profile db --file docker-compose.dev.yaml up -d 
           docker compose --profile ip --file docker-compose.dev.yaml up -d
 
-  dev-cypress-create:
-    needs: dev-deploy
+  cypress-test:
+    needs: deploy-app
     runs-on: self-hosted
     container: 
       image: cypress/browsers:latest
