@@ -5,7 +5,10 @@ let activePlayers = []
 
 const socketSetup = async (req, res) => {
     if (res.socket.server.io) {
-        console.log('Already set up socket')
+        if (process.env.ENVIRONMENT == "DEV") {
+            console.log('Already set up socket')
+
+        }
         res.end()
         return
 
