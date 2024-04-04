@@ -283,7 +283,6 @@ function endGame() {
     gameOverPopup.style.backgroundColor = "unset";
     gameOverPopup.style.width = "80dvh";
 
-
     // Display contents
     gameOverH1 = document.createElement("h1");
     gameOverH1.textContent = "Game Over!";
@@ -303,10 +302,27 @@ function endGame() {
     gameOverButton.textContent = "Restart Game";
     gameOverButton.addEventListener("click", restartGame);
 
+    goHomeButton = document.createElement("button");
+    goHomeButton.setAttribute('style', 'width:100% !important');
+    goHomeButton.textContent = "Go to Lobby";
+    goHomeButton.addEventListener("click", goHome);
+
+    gameButtonRow = document.createElement("div"); 
+    gameButtonRow.style.display = "flex"; 
+    gameButtonRow.style.alignItems = "center"; 
+    gameButtonRow.style.justifyContent = "space-between";
+    gameButtonRow.style.gap = "1rem"; 
+    gameButtonRow.style.width = "100%";
+
     gameOverDiv.appendChild(gameOverH1);
     gameOverDiv.appendChild(gameOverA);
+
+    gameButtonRow.appendChild(gameOverButton);
+    gameButtonRow.appendChild(goHomeButton);
+
     gameOverPopup.appendChild(gameOverDiv);
-    gameOverPopup.appendChild(gameOverButton);
+    gameOverPopup.appendChild(gameButtonRow);
+
 
     document.body.appendChild(gameOverPopup);
     app.destroy();
@@ -316,6 +332,11 @@ function endGame() {
 function restartGame() {
     // Reload the entire page for now this is method used to create new game.
     location.reload();
+
+}
+
+function goHome() { 
+    location.replace('/');
 
 }
 
