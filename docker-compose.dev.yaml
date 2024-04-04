@@ -9,7 +9,7 @@ services:
       - .env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ip.rule=Host(`dev-${GITHUB_PR}.institutionpenguin.com`, 'dev-${GITHUB_PR}.localhost')"
+      - "traefik.http.routers.ip.rule=Host(`dev-${GITHUB_PR}.institutionpenguin.com`, `dev-${GITHUB_PR}.localhost`)"
       - "traefik.http.routers.ip.entrypoints=web"
       - "traefik.http.services.ip.loadbalancer.server.port=3000"
     networks: 
