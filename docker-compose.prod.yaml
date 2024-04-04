@@ -1,3 +1,4 @@
+name: prod
 services: 
   prod-ip: 
     profiles: [ip, all]
