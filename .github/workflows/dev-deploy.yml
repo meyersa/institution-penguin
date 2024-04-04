@@ -94,7 +94,6 @@ jobs:
     steps: 
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
-        env: 
-          CYPRESS_BASE_URL: http://dev-${{ github.event.number }}.localhost:80
         with:
           browser: chrome
+          config: baseUrl=http://dev-${{ github.event.number }}.localhost:80
