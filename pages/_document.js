@@ -9,7 +9,7 @@ export default function Document() {
 
                 {/* Adsense hook */}
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9341120677101032"
-                    crossorigin="anonymous"></script>
+                    crossOrigin="anonymous"></script>
 
                 {/* Global font sheets */}
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=ABeeZee&display=swap"></link>
