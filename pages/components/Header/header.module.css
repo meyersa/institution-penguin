@@ -22,6 +22,8 @@
 
 .rightheader {
   font-size: 1em;
+  display: flex; 
+  align-items: center;
 
 }
 
@@ -38,6 +40,20 @@
 
 .burgerWrapper {
   display: none;
+
+}
+
+.profileDiv {
+  display: flex; 
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--transparent-blue);
+  padding: 0.5rem; 
+  border-radius: 0.5rem;
+  
+}
+.headerImage {
+  border-radius: 50%;
 
 }
 
@@ -70,3 +86,4 @@
 
   }
 }
+

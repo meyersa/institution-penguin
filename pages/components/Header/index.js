@@ -52,6 +52,13 @@ export default function Header() {
   const { data: session, status: status } = useSession();
   const [loggedIn, setLoggedIn] = useState(false);
 
+  let sessionPic = session?.user.image; 
+
+  if (!sessionPic) {
+    sessionPic = '/images/default-avatar.png'
+
+  }
+
   // Swap "Login" to "Logout" depending on session status
   useEffect(() => {
     if (status == "authenticated") {
@@ -88,9 +95,10 @@ export default function Header() {
           <Link className={styles.inside} href="/leaderboard">
             Leaderboard
           </Link>
-          <Link className={styles.inside} href="/login">
-            Logout
-          </Link>
+          <div className={styles.profileDiv}>
+            <Image className={styles.headerImage} src={`${sessionPic}`} height={"50"} width={"50"} alt="Profile picture" />
+            <Link className={styles.headerLink} href='/login'>{session.displayName}</Link>
+          </div>
         </div>
       </div>
     );
