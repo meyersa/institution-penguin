@@ -21,8 +21,6 @@ export default NextAuth({
                 const authEmail = user.user.email 
                 const authPic = user.user.image
 
-                console.log(authUsername + " " + authEmail + " " + authPic)
-
                 // Get credentials from ENV
                 const { MONGODB_URL, MONGODB_DB } = process.env;
 
