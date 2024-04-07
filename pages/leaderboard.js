@@ -89,8 +89,8 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
     if (!Boolean(playerScores) && !Boolean(highScores) && !Boolean(recentScores)) {
         
         return (
-            <div>
-                <a>Loading...</a>
+            <div id="loading">
+                <a >Loading...</a>
             </div>
         )
     }
