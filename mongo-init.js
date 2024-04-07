@@ -8,9 +8,8 @@ db.createCollection("scores")
 // Insert test data
 db.players.insertOne(
     {
-        "playerID": 1,
         "email": "admin@institutionpenguin.com",
-        "displayName": "OG Penguin",
+        "displayName": "OG_Penguin",
         "creationDate": new Date('Wed Apr 03 2024 09:37:10 GMT-0400 (Eastern Daylight Time)'),
         "lastActivityDate": new Date('Wed Apr 03 2024 09:37:10 GMT-0400 (Eastern Daylight Time)')
     },
@@ -18,7 +17,7 @@ db.players.insertOne(
 db.scores.insertMany([
     {
         "value": 100,
-        "playerID": 1,
+        "displayName": "OG_Penguin",
         "gameName": "flappypenguin",
         "timestamp": new Date('Wed Apr 03 2024 09:37:10 GMT-0400 (Eastern Daylight Time)')
     }
@@ -28,30 +27,26 @@ db.scores.insertMany([
 if (process.env.ENVIRONMENT == "DEV") {
     db.players.insertMany([
         {
-            "playerID": 2,
             "email": "example@email.com",
-            "displayName": "Lorem Ipsum",
+            "displayName": "Lorem_Ipsum",
             "creationDate": new Date(),
             "lastActivityDate": new Date()
         },
         {
-            "playerID": 3,
             "email": "example2@email.com",
-            "displayName": "Dolor Sit",
+            "displayName": "Dolor_Sit",
             "creationDate": new Date(),
             "lastActivityDate": new Date('2024-04-04T05:36:39.370Z')
         },
         {
-            "playerID": 4,
             "email": "example3@email.com",
-            "displayName": "Amet Consectetur",
+            "displayName": "Amet_Consectetur",
             "creationDate": new Date(),
             "lastActivityDate": new Date('2024-04-04T05:36:39.370Z')
         },
         {
-            "playerID": 5,
             "email": "example4@email.com",
-            "displayName": "I have 20 characters",
+            "displayName": "I_have_20_characters",
             "creationDate": new Date(),
             "lastActivityDate": new Date('2024-04-04T05:36:39.370Z')
         },
@@ -59,31 +54,31 @@ if (process.env.ENVIRONMENT == "DEV") {
     db.scores.insertMany([
         {
             "value": 100,
-            "playerID": 2,
+            "displayName": "Lorem_Ipsum",
             "gameName": "flappypenguin",
             "timestamp": new Date('2024-04-04T05:36:39.371Z')
         },
         {
             "value": 200,
-            "playerID": 3,
+            "displayName": "Dolor_Sit",
             "gameName": "flappypenguin",
             "timestamp": new Date('2024-04-04T05:36:39.371Z')
         },
         {
             "value": 150,
-            "playerID": 4,
+            "displayName": "Amet_Consectetur",
             "gameName": "flappypenguin",
             "timestamp": new Date('2024-04-04T05:36:39.371Z')
         },
         {
             "value": 250,
-            "playerID": 3,
+            "displayName": "Dolor_Sit",
             "gameName": "triviapenguin",
             "timestamp": new Date('2024-03-04T05:36:39.371Z')
         },
         {
             "value": 600,
-            "playerID": 5,
+            "displayName": "I_have_20_characters",
             "gameName": "triviapenguin",
             "timestamp": new Date('2024-02-04T05:36:39.371Z')
         },

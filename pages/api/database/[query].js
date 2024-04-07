@@ -27,7 +27,7 @@ export default async function handler(req, res) {
           queryRes = await db.collection('scores').aggregate([
             {
               $group: {
-                _id: "$playerID",
+                _id: "$displayName",
                 totalScore: { $sum: "$value" }, // Calculate total score for each player
               }
             },
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
               $lookup: {
                 from: "players",
                 localField: "_id",
-                foreignField: "playerID",
+                foreignField: "displayName",
                 as: "playerInfo"
               }
             },
@@ -51,7 +51,6 @@ export default async function handler(req, res) {
             {
               $project: {
                 _id: 0,
-                playerID: "$_id",
                 displayName: "$playerInfo.displayName",
                 lastActivityDate: "$playerInfo.lastActivityDate",
                 totalScore: 1,
@@ -65,7 +64,7 @@ export default async function handler(req, res) {
           queryRes = await db.collection('scores').aggregate([
             {
               $group: {
-                _id: { playerID: "$playerID", gameName: "$gameName" },
+                _id: { displayName: "$displayName", gameName: "$gameName" },
                 maxScore: { $max: "$value" },
                 timestamp: { $first: "$timestamp" } // Include timestamp field
               }
@@ -74,7 +73,7 @@ export default async function handler(req, res) {
             {
               $project: {
                 _id: 0,
-                playerID: "$_id.playerID",
+                displayName: "$_id.displayName",
                 gameName: "$_id.gameName",
                 maxScore: 1,
                 timestamp: 1 // Project timestamp field
@@ -83,7 +82,7 @@ export default async function handler(req, res) {
             {
               $group: {
                 _id: null,
-                topScores: { $push: { playerID: "$playerID", gameName: "$gameName", maxScore: "$maxScore", timestamp: "$timestamp" } }
+                topScores: { $push: { displayName: "$displayName", gameName: "$gameName", maxScore: "$maxScore", timestamp: "$timestamp" } }
               }
             },
             { $unwind: "$topScores" },
@@ -91,8 +90,8 @@ export default async function handler(req, res) {
             {
               $lookup: {
                 from: "players",
-                localField: "topScores.playerID",
-                foreignField: "playerID",
+                localField: "topScores.displayName",
+                foreignField: "displayName",
                 as: "playerInfo"
               }
             },
@@ -100,7 +99,7 @@ export default async function handler(req, res) {
             {
               $project: {
                 _id: 0,
-                playerID: "$topScores.playerID",
+                displayName: "$topScores.displayName",
                 gameName: "$topScores.gameName",
                 maxScore: "$topScores.maxScore",
                 displayName: "$playerInfo.displayName",
@@ -118,8 +117,8 @@ export default async function handler(req, res) {
             {
               $lookup: {
                 from: "players",
-                localField: "playerID",
-                foreignField: "playerID",
+                localField: "displayName",
+                foreignField: "displayName",
                 as: "playerInfo"
               }
             },
@@ -127,7 +126,7 @@ export default async function handler(req, res) {
             {
               $project: {
                 _id: 0,
-                playerID: "$playerID", // Prefix with $ to reference field from input document
+                displayName: "$displayName", // Prefix with $ to reference field from input document
                 gameName: "$gameName", // Prefix with $ to reference field from input document
                 score: "$value", // Prefix with $ to reference field from input document
                 displayName: "$playerInfo.displayName", // Prefix with $ to reference field from embedded document

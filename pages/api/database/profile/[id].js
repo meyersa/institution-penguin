@@ -10,14 +10,14 @@ export default async function handler(req, res) {
             const client = await MongoClient.connect(MONGODB_URL);
 
             // Connect to specified DB
-            const db = await client.db(MONGODB_DB);
+            const db = client.db(MONGODB_DB);
 
             // Parse ID from query
-            const { id } = req.query;
+            const displayName = req.query.id;
 
             // Query MongoDB with findOne using the parsed ID
             const playerInfo = await db.collection('players').findOne(
-                { playerID: Number(id) },
+                { displayName: displayName },
                 {
                     projection: {
                         _id: 0, // Exclude the _id field
@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 
             // Calculate global score from all game scores
             const globalScoreAggregate = await db.collection('scores').aggregate([
-                { $match: { playerID: Number(id) } }, // Filter by playerID
+                { $match: { displayName: displayName } }, // Filter by displayName
                 { $group: { _id: null, totalScore: { $sum: "$value" } } } // Calculate total score
             ]).toArray();
             const globalScore = globalScoreAggregate.length ? globalScoreAggregate[0].totalScore : 0;
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
             // Find their recent scores
             const recentScores = await db.collection("scores").aggregate([
                 {
-                    $match: { playerID: Number(id) } // Filter by playerID
+                    $match: { displayName: displayName } // Filter by displayName
                 },
                 {
                     $sort: { timestamp: -1 } // Sort by timestamp in descending order
