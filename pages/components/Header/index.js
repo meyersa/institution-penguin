@@ -9,20 +9,16 @@ export default function Header() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [menuDisplayed, setDisplayed] = useState(false);
 
+  // Handle default values
   let profPicture = session?.user.image ? session.user.image : "/images/default-avatar.png";
-  // let menuPicture =
-  let displayText = session?.displayName ? session.displayName : "Logout";
+  let displayText = session?.displayName ? session.displayName : "Login";
 
   // Swap "Login" to "Logout" depending on session status
   useEffect(() => {
     if (status == "authenticated") {
       setLoggedIn(true);
     }
-
-    profPicture = session?.user.image ? session.user.image : "/images/default-avatar.png";
-    // menuPicture =
-    displayText = loggedIn ? session.displayName : "Login";
-  }, [session]);
+  }, [status]);
 
   // Push /login on desktop and open menu on mobile
   function handleButtonClick() {
