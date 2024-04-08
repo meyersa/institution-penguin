@@ -10,7 +10,7 @@
   width: 50%;
 }
 
-@media (min-width: 320px) and (max-width: 480px) { 
+@media (max-width: 740px) { 
     .CenterBox {
       padding: 0;
       
