@@ -136,7 +136,7 @@ export async function getServerSideProps({ params }) {
     const { id } = params;
 
     // Fetch profile information from MongoDB
-    const res = await fetch(process.env.NEXTAUTH_URL + `/api/database/profile/${id}`);
+    const res = await fetch(process.env.NEXTAUTH_URL + `/api/read/profile/${id}`);
     const playerProfile = await res.json();
 
     // Pass fetched playerProfile as props
