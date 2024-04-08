@@ -84,7 +84,7 @@ export default function Header() {
         </div>
       </div>
       <div id="mobileMenu" className={styles.mobileMenu}>
-        <img className={styles.mobilePenguin} src="/images/penguin-2.svg" alt="Penguin sliding in" />
+        <Image className={styles.mobilePenguin} src="/images/penguin-2.svg" alt="Penguin sliding in" width={"500"} height={"500"}/>
         <div className={styles.mobileTop}>
           <button className={styles.menuitem} onClick={() => handleMobileRedirect("/about")}>
             About
