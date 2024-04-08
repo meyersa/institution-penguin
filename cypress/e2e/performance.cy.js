@@ -12,7 +12,7 @@ describe('Performance Tests', () => {
         });
     });
 
-    const apiPages = ['/profile/1', '/api/database/profile/1'];
+    const apiPages = ['/profile/Lorem_Ipsum', '/api/database/profile/Lorem_Ipsum'];
     apiPages.forEach((page) => {
         it(`Should have fast load times for ${page}`, () => {
             cy.request(page);

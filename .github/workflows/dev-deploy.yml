@@ -61,8 +61,10 @@ jobs:
 
       - name: Set environmental variables
         run: |
-          echo "AUTH_ID=${{ secrets.AUTH_ID }}" >> .env
-          echo "AUTH_SECRET=${{ secrets.AUTH_SECRET }}" >> .env
+          echo "GH_CLIENT_ID=${{ secrets.GH_CLIENT_ID }}" >> .env
+          echo "GH_CLIENT_SECRET=${{ secrets.GH_CLIENT_SECRET }}" >> .env
+          echo "DISCORD_CLIENT_ID=${{ secrets.DISCORD_CLIENT_ID }}" >> .env
+          echo "DISCORD_CLIENT_SECRET=${{ secrets.DISCORD_CLIENT_SECRET }}" >> .env
           echo "NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}" >> .env
           echo "NEXTAUTH_URL=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}" >> .env
           echo "MONGODB_URL=mongodb://${{ secrets.MONGO_INITDB_ROOT_USERNAME }}:${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}@dev-${{ github.event.number }}-ip-db/" >> .env

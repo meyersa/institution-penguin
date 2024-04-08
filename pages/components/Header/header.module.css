@@ -22,11 +22,8 @@
 
 .rightheader {
   font-size: 1em;
-
-}
-
-.headerbar a {
-  filter: brightness(1.5);
+  display: flex; 
+  align-items: center;
 
 }
 
@@ -36,37 +33,89 @@
 
 }
 
-.burgerWrapper {
+.mobileMenu {
   display: none;
 
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+.profileButton {
+  display: flex; 
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--transparent-blue);
+  padding: 0.5rem; 
+  border-radius: 0.5rem;
+  border: none; 
+
+}
+.headerImage {
+  border-radius: 50%;
+
+}
+
+.mobileMenu {
+  display: flex;
+  padding: 1.5em;
+  position: fixed; 
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 6em);
+  transition: top 0.3s ease; /* Smooth transition when sliding in/out */
+  background:linear-gradient(var(--blue), var(--transparent-grey)); 
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.mobileTop {
+  display: flex; 
+  gap: 1rem;
+  flex-direction: column;
+
+}
+.FABars {
+  display: none; 
+  color: var(--white); 
+  font-size: 2.5rem;
+}
+
+.menuitem {
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.menuitemsmall {
+  padding: 1.5em;
+  width: calc(100vw - 3em);
+  text-align: center;
+  
+}
+
+.headerText {
+  font-size: 1rem;
+
+}
+
+@media (max-width: 480px) {
   .burgerWrapper {
     display: block;
 
   }
 
-  .menuitem {
-    font-size: 2em;
+  .inside {
+    padding: 0; 
 
   }
 
-  .menuitemsmall {
-    position: fixed;
-    font-size: .75em;
-    bottom: 3em;
-    left: 3em;
-
-  }
-
-  .headerbar {
-    padding: 1.5em 0 1.5em 0;
-
-  }
-
-  .rightheader .inside {
+  .rightheader .inside, .headerText {
     display: none;
 
   }
+  .FABars {
+    display: inline; 
+    
+  }
 }
+

@@ -3,10 +3,10 @@
 describe('Profile Page', () => {
   it('displays the correct profile information for player #1', () => {
     // Visit the player profile page
-    cy.visit('/profile/1')
+    cy.visit('/profile/OG_Penguin')
 
     // Check if the profile information is displayed correctly
-    cy.contains('h1', 'OG Penguin')
+    cy.contains('h1', 'OG_Penguin')
     cy.contains('a', 'Total points: 100')
     cy.contains('a', 'Global rank: 1')
     cy.contains('a', 'Last active')

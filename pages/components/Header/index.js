@@ -1,106 +1,82 @@
 import React, { useEffect, useState } from "react";
-import { slide as Menu } from 'react-burger-menu'
-import Link from 'next/link'
-import { useSession } from "next-auth/react"
-import styles from './header.module.css'
+import Link from "next/link";
+import Image from "next/image";
+import { useSession } from "next-auth/react";
+import styles from "./header.module.css";
 
 export default function Header() {
-  var burgerStyles = {
-    bmBurgerButton: {
-      position: 'relative',
-      width: '2.5em',
-      height: '2em',
-      right: '100%',
-    },
-    bmBurgerBars: {
-      background: '#FEF9F3'
-    },
-    bmBurgerBarsHover: {
-      background: '#a90000'
-    },
-    bmCrossButton: {
-      display: 'none'
-    },
-    bmMenuWrap: {
-      position: 'fixed',
-      height: '100%',
-      width: '100%',
-    },
-    bmMenu: {
-      padding: '0 1.5em 0',
-      fontSize: '1.15em',
-    },
-    bmMorphShape: {
-      fill: '#FEF9F3'
-    },
-    bmItemList: {
-      color: '#b8b7ad',
-      padding: '0.8em'
-    },
-    bmOverlay: {
-      backgroundColor: 'rgb(10, 186, 250)',
-      opacity: '0.95',
-      width: '100%', 
-      top: '0', 
-      bottom: '0', 
-      left: '0', 
-      right: '0',
-    }
-  }
-
   const { data: session, status: status } = useSession();
   const [loggedIn, setLoggedIn] = useState(false);
+  const [menuDisplayed, setDisplayed] = useState(false);
+
+  // Handle default values
+  let profPicture = session?.user.image ? session.user.image : "/images/default-avatar.png";
+  let displayText = session?.displayName ? session.displayName : "Login";
 
   // Swap "Login" to "Logout" depending on session status
   useEffect(() => {
     if (status == "authenticated") {
       setLoggedIn(true);
-
-    } 
+    }
   }, [status]);
 
-  if (loggedIn) {
-    return (
-      <div className={styles.headerbar}>
-        <div className={styles.leftheader}>
-          <Link className={styles.inside} href="/">institution penguin</Link>
-        </div> 
-        <div className={styles.rightheader}>
-            <div className={styles.burgerWrapper}>
-              <Menu styles={burgerStyles} right>
-                <Link id="about" className={styles.menuitem} href="/about">About</Link>
-                <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">Leaderboard</Link>
-                <Link id="login" className={styles.menuitem} href="/login">Logout</Link>
-                <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
-              </Menu>
-            </div>
-            <Link className={styles.inside} href="/about">About</Link>
-            <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
-            <Link className={styles.inside} href="/login">Logout</Link>
-        </div> 
-      </div>
-    );
-  } else {
-    return (
-      <div className={styles.headerbar}>
-        <div className={styles.leftheader}>
-          <Link className={styles.inside} href="/">institution penguin</Link>
-        </div> 
-        <div className={styles.rightheader}>
-            <div className={styles.burgerWrapper}>
-              <Menu styles={burgerStyles} right>
-                <Link id="about" className={styles.menuitem} href="/about">About</Link>
-                <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">Leaderboard</Link>
-                <Link id="login" className={styles.menuitem} href="/login">Login</Link>
-                <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com {(new Date()).getFullYear()}</a>
-              </Menu>
-            </div>
-            <Link className={styles.inside} href="/about">About</Link>
-            <Link className={styles.inside} href="/leaderboard">Leaderboard</Link>
-            <Link className={styles.inside} href="/login">Login</Link>
-        </div> 
-      </div>
-    );
+  // Push /login on desktop and open menu on mobile
+  function handleButtonClick() {
+    // Push to login on desktop
+    if (window.innerWidth > 480) {
+      window.location.href = "/login";
+      return;
+    }
+
+    // Display menu
+    if (!menuDisplayed) {
+      document.getElementById("mobileMenu").style.top = "6em";
+      setDisplayed(true);
+      return;
+    }
+
+    // Hide menu
+    document.getElementById("mobileMenu").style.top = "100%";
+    setDisplayed(false);
   }
 
-};
+  return (
+    <div className={styles.headerbar}>
+      <div className={styles.leftheader}>
+        <Link className={styles.inside} href="/">
+          institution penguin
+        </Link>
+      </div>
+      <div className={styles.rightheader}>
+        <Link className={styles.inside} href="/about">
+          About
+        </Link>
+        <Link className={styles.inside} href="/leaderboard">
+          Leaderboard
+        </Link>
+        <button id="profileButton" className={styles.profileButton} onClick={handleButtonClick}>
+          {loggedIn ? (
+            <Image className={styles.headerImage} src={profPicture} height={50} width={50} alt="Profile picture" />
+          ) : (
+            <i className={["fa", "fa-bars", styles.FABars].join(" ")} />
+          )}
+          <a className={styles.headerText}>{displayText}</a>
+        </button>
+      </div>
+      <div id="mobileMenu" className={styles.mobileMenu}>
+        <div className={styles.mobileTop}>
+          <Link id="about" className={styles.menuitem} href="/about">
+            About
+          </Link>
+          <Link id="leaderboard" className={styles.menuitem} href="/leaderboard">
+            Leaderboard
+          </Link>
+          <Link className={styles.menuitem} href="/login">
+            {loggedIn ? "Logout" : "Login"}
+          </Link>
+        </div>
+        <a className={styles.menuitemsmall}>&copy; InstitutionPenguin.com {new Date().getFullYear()}</a>
+      </div>
+    </div>
+  );
+}

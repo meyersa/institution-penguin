@@ -89,8 +89,8 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
     if (!Boolean(playerScores) && !Boolean(highScores) && !Boolean(recentScores)) {
         
         return (
-            <div>
-                <a>Loading...</a>
+            <div id="loading">
+                <a >Loading...</a>
             </div>
         )
     }
@@ -113,7 +113,7 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
                                     <div style={pageCSS.leaderboardInside}>
                                         <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
                                         <div style={pageCSS.leaderboardNested}>
-                                            <Link href={`/profile/${res.playerID}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                            <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
                                             <a style={pageCSS.leaderboardSmallText}>Last seen {formatRelativeDate(res.lastActivityDate)}</a>
                                         </div>
                                     </div>
@@ -129,7 +129,7 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
                                 <div style={pageCSS.leaderboardInside}>
                                     <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
                                     <div style={pageCSS.leaderboardNested}>
-                                        <Link href={`/profile/${res.playerID}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
                                         <a style={pageCSS.leaderboardSmallText}>{res.gameName} {formatRelativeDate(res.timestamp)}</a>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
                                 <div style={pageCSS.leaderboardInside}>
                                     <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
                                     <div style={pageCSS.leaderboardNested}>
-                                        <Link href={`/profile/${res.playerID}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
                                         <a style={pageCSS.leaderboardSmallText}>{res.gameName} {formatRelativeDate(res.timestamp)}</a>
                                     </div>
                                 </div>

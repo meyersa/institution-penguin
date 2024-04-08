@@ -51,7 +51,6 @@ export default function Profile({ playerProfile }) {
     // If profile isn't found
     useEffect(() => {
         if (Boolean(playerProfile.error)) {
-            console.log("reac")
             router.push('/404');
             return () => { }
 
