@@ -73,7 +73,7 @@ export default function PuffleRecycler() {
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js" onReady={() => { setSocketLoaded(true) }} />
         <div id='boxInside' style={{ margin: '0', position: 'absolute', top: '40%', left: '50%', zIndex: '1', transform: 'translate(-50%, -50%)', backgroundColor: "var(--transparent-grey)", width: '80dvh' }}>
             <h1>Welcome to the Puffle Recycler</h1>
-            <a>Remove as many pieces of trash as you can before you run out of lives, but don't touch the natural wildlife!</a>
+            <a>Remove as many pieces of trash as you can before you run out of lives, but don&apos;t touch the natural wildlife!</a>
         </div>
         <div id="game"></div>
         <Footer />
