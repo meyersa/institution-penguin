@@ -64,7 +64,23 @@ export default function Profile({ playerProfile }) {
                                 <a style={pageCSS.paddedBox}>Last active: {formatRelativeDate(playerProfile.playerInfo.lastActivityDate)}</a>
                                 <a style={pageCSS.paddedBox}>Member since: {formatRelativeDate(playerProfile.playerInfo.creationDate)}</a>
                             </div>
-                            <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.profileImage} />
+                            {playerProfile.playerInfo.profilePic == undefined ? 
+                                    <Image 
+                                        src="/images/default-avatar.png" 
+                                        width={100} 
+                                        height={100} 
+                                        alt="Default avatar" 
+                                        style={{borderRadius: '50%'}}
+                                    /> 
+                                    :
+                                    <Image 
+                                        src={playerProfile.playerInfo.profilePic} 
+                                        width={100} 
+                                        height={100} 
+                                        alt="Custom avatar" 
+                                        style={{borderRadius: '50%'}}
+                                    />
+                            }
                         </div>
                     </div>
                     <div id='boxInside'>

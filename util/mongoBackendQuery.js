@@ -143,6 +143,7 @@ export async function profileInfo(displayName) {
         displayName: 1,
         creationDate: 1,
         lastActivityDate: 1,
+        profilePic: 1,
       },
     }
   );
