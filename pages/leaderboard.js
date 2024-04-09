@@ -5,6 +5,7 @@ import CenterContent from './components/CenterContent/index.js'
 import Image from 'next/image.js'
 import Link from 'next/link.js'
 import { formatRelativeDate } from '../util/time.js'
+import { topPlayers, highScores, recentScores } from '../util/mongoBackendQuery.js'
 
 const pageCSS = {
     leaderboardOutside: {
@@ -60,9 +61,9 @@ const pageCSS = {
     }
 }
 
-export default function Leaderboard({ playerScores, highScores, recentScores },) {
+export default function Leaderboard({ topPlayersResult, highScoresResult, recentScoresResult },) {
     // Not fetched
-    if (!Boolean(playerScores) && !Boolean(highScores) && !Boolean(recentScores)) {
+    if (!Boolean(topPlayersResult) && !Boolean(highScoresResult) && !Boolean(recentScoresResult)) {
 
         return (
             <div id="loading">
@@ -82,7 +83,7 @@ export default function Leaderboard({ playerScores, highScores, recentScores },)
                 <div id='boxDisplay'>
                     <div id='boxInside'>
                         <h1>Top 3 Players</h1>
-                        {playerScores.slice(0, 3).map((res, index) => (
+                        {topPlayersResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardNested} key={index}>
                                 <h2 style={pageCSS.leaderboardPlace}>{index + 1}.</h2>
                                 <div style={pageCSS.leaderboardOutside}>
@@ -100,7 +101,7 @@ export default function Leaderboard({ playerScores, highScores, recentScores },)
                     </div>
                     <div id='boxInside'>
                         <h1>High Scores</h1>
-                        {highScores.slice(0, 3).map((res, index) => (
+                        {highScoresResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardOutside} key={index}>
                                 <div style={pageCSS.leaderboardInside}>
                                     <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
@@ -115,7 +116,7 @@ export default function Leaderboard({ playerScores, highScores, recentScores },)
                     </div>
                     <div id='boxInside'>
                         <h1>Recent Scores</h1>
-                        {recentScores.slice(0, 3).map((res, index) => (
+                        {recentScoresResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardOutside} key={index}>
                                 <div style={pageCSS.leaderboardInside}>
                                     <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
@@ -136,40 +137,31 @@ export default function Leaderboard({ playerScores, highScores, recentScores },)
 }
 
 export async function getStaticProps() {
-    // TODO: Just do the queries here and skip the fake DB 
-
-    let playerScores = null;
-    let highScores = null;
-    let recentScores = null;
-    let resTop = null;
-    let resGHS = null;
-    let resRec = null;
+    let topPlayersResult = null;
+    let highScoresResult = null;
+    let recentScoresResult = null;
 
     try {
         // Fetch Top Player stats from MongoDB
-        resTop = await fetch(process.env.NEXTAUTH_URL + '/api/read/topplayers');
-        playerScores = await resTop.json();
+        topPlayersResult = JSON.parse(JSON.stringify(await topPlayers()));
 
         // Fetch Game Highscore stats from MongoDB
-        resGHS = await fetch(process.env.NEXTAUTH_URL + '/api/read/highscores');
-        highScores = await resGHS.json();
+        highScoresResult = JSON.parse(JSON.stringify(await highScores()));
 
         // Fetch Recent Score stats from MongoDB
-        resRec = await fetch(process.env.NEXTAUTH_URL + '/api/read/recentscores');
-        recentScores = await resRec.json();
+        recentScoresResult = JSON.parse(JSON.stringify(await recentScores()));
 
     } catch (error) {
         console.error("Failed to fetch leaderboard API queries", error)
 
     }
 
-
     // Pass player scores data to the component
     return {
         props: {
-            playerScores,
-            highScores,
-            recentScores,
+            topPlayersResult,
+            highScoresResult,
+            recentScoresResult,
 
         },
         // Re-generate the page at most once every minute
