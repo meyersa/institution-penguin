@@ -11,6 +11,7 @@
   background-image: url('/images/snow.svg');
   background-position: center;
   background-size: contain;
+  z-index: 10;
 
 }
 
@@ -21,7 +22,7 @@
 }
 
 .rightheader {
-  font-size: 1em;
+  font-size: 1.2rem;
   display: flex; 
   align-items: center;
 
@@ -55,16 +56,30 @@
 
 .mobileMenu {
   display: flex;
-  padding: 1.5em;
-  position: fixed; 
-  top: 100%;
-  left: 0;
+  overflow: hidden;
   width: 100%;
-  height: calc(100vh - 6em);
-  transition: top 0.3s ease; /* Smooth transition when sliding in/out */
-  background:linear-gradient(var(--blue), var(--transparent-grey)); 
+  transition: transform 0.7s cubic-bezier(0.84, -0.01, 0.59, 0.3);
+  background: var(--dark-grey); 
   flex-direction: column;
+  transform: translateY(-100%);
+  height: calc(100dvh - 6em);
+  position: absolute;
   justify-content: space-between;
+
+}
+.headerOutside {
+  display: flex; 
+  flex-direction: column;
+  position: relative; /* Add relative positioning */
+  z-index: 1; /* Ensure it stays above the menu */
+
+}
+
+.mobilePenguin {
+  rotate: 145deg; 
+  transform: translate(5em, 7em);
+  max-height: 40%;
+  max-width: 450px;
 
 }
 
@@ -81,24 +96,43 @@
 }
 
 .menuitem {
-  font-size: 2rem;
-  font-weight: 500;
+  width: 60vw;
+  margin: auto;
+  font-size: 1.5rem;
   text-align: center;
+  color: var(--white);
+  border: none; 
+  background: var(--blue);
+  border-radius: 2em;
+  padding: 0.5rem;
+}
+
+.menuexit {
+  padding: 0.5rem;
+  background-color: var(--red);
+  color: var(--white);
+  width: 5em;
+  height: 5em;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: none;
+
 }
 
 .menuitemsmall {
   padding: 1.5em;
-  width: calc(100vw - 3em);
   text-align: center;
-  
+  margin: 0 auto;
+
 }
+
 
 .headerText {
-  font-size: 1rem;
+  font-size: 1.2rem;
 
 }
 
-@media (max-width: 480px) {
+@media (max-width: 740px) {
   .burgerWrapper {
     display: block;
 

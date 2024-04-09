@@ -7,9 +7,9 @@ body {
   font-family: ABeeZee;
   background-color: var(--grey);
   background-image: url('/background.png');
-  background-size: cover;
   height: 100%;
   width: 100%;
+  background-size: contain;
 
 }
 

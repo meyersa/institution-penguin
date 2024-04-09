@@ -133,10 +133,11 @@ export default function Profile({ playerProfile }) {
 }
 
 export async function getServerSideProps({ params }) {
+    // TODO: Just do the DB query here and skip the fake API
     const { id } = params;
 
     // Fetch profile information from MongoDB
-    const res = await fetch(process.env.NEXTAUTH_URL + `/api/database/profile/${id}`);
+    const res = await fetch(process.env.NEXTAUTH_URL + `/api/read/profile/${id}`);
     const playerProfile = await res.json();
 
     // Pass fetched playerProfile as props

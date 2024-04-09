@@ -266,7 +266,24 @@ function updateScore() {
 
 }
 
+async function submitScore() {
+    const response = await fetch("/api/write/score", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ score: score, gameName: "flappypenguin" })
+    });
+  
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error("Failed to upload score", errorData);
+    }
+}
+
 function endGame() {
+    submitScore(score)
+
     // Blur game
     game = document.getElementById("game");
     game.style.filter = "blur(5px)";

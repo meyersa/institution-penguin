@@ -20,7 +20,7 @@
 
 }
 
-@media (min-width: 320px) and (max-width: 480px) {
+@media (max-width: 740px) {
   .footer {
     margin: 2rem;
     width: auto;
