@@ -83,11 +83,14 @@ jobs:
       - name: Build docker containers
         run: |
           docker compose --profile db --file docker-compose.dev.yaml up -d 
+          sleep 30s
           docker compose --profile ip --file docker-compose.dev.yaml up -d
 
       - name: Start website live build
-        run: curl -o /dev/null ${{ secrets.NEXTAUTH_URL }}
-        
+        run: |
+          curl "${{ secrets.NEXTAUTH_URL }}"
+          curl "${{ secrets.NEXTAUTH_URL }}/leaderboard"
+          
       - name: Comment deployment on PR 
         uses: actions/github-script@v7
         with:
