@@ -125,3 +125,23 @@ ol {
   max-height: calc(100vh - 10em - 2rem);
   
 }
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+
+}
+
+::-webkit-scrollbar-track {
+  background: var(--white);
+
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--grey); 
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-grey); 
+
+}

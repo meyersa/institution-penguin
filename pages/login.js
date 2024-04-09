@@ -3,90 +3,18 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import Head from "next/head";
 import Header from "./components/Header/index.js";
 import CenterContent from "./components/CenterContent/index.js";
-import { useState } from "react";
-
-const pageCSS = {
-  topProfile: {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  profileHeader: {
-    margin: "auto",
-  },
-  profileImage: {
-    maxHeight: "10dvh",
-    margin: "0.3em",
-    borderRadius: "50%",
-  },
-  profileForm: {
-    display: "flex",
-    gap: "0.6rem",
-    width: "100%",
-    margin: "0.3em",
-    padding: "0.3em",
-    justifyContent: "space-between",
-    backgroundColor: "var(--transparent-blue)",
-    borderRadius: "0.5rem",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  formLabel: {
-    color: "var(--light-white)",
-    minWidth: "7rem",
-  },
-  formTextArea: {
-    minWidth: "60%",
-    minHeight: "5em",
-    borderRadius: "0.5rem",
-    fontSize: "1rem",
-    backgroundColor: "var(--blue)",
-    color: "var(--light-white)",
-    border: "none",
-    outline: "none",
-    margin: "auto",
-    padding: "0.5rem",
-  },
-  formReadOnly: {
-    minHeight: "5em",
-    minWidth: "60%",
-    borderRadius: "0.5rem",
-    fontSize: "1rem",
-    backgroundColor: "var(--blue)",
-    color: "var(--light-white)",
-    border: "none",
-    outline: "none",
-    margin: "auto",
-    padding: "0.5rem",
-    flex: "1",
-  },
-  editButton: {
-    color: "var(--light-white)",
-    border: "none",
-    cursor: "pointer",
-    fontSize: "1rem",
-    outline: "none",
-  },
-  leftDiv: {
-    display: "flex",
-    gap: "1rem",
-    alignItems: "center",
-    margin: "auto",
-    flex: "0 0 auto",
-  },
-};
+import EditableForm from "./components/EditableForm/index.js";
 
 export default function Login() {
-  /*
-   * Session handling
-   */
   const { data: session, status: status } = useSession();
   const router = useRouter();
 
+  // Redirect to game button
   const redirectToGame = () => {
     router.push("/");
   };
 
+  // Redirect to profile button
   const redirectToProfile = () => {
     router.push(`/profile/${session.user.name}`);
   };
@@ -99,21 +27,13 @@ export default function Login() {
   let profilePicture = "https://institutionpenguin.com/images/default-avatar.png";
   let displayName = "OG_Penguin";
 
-  const [description, setDescription] = useState(userDescription);
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
+  // Handle submit button
   const handleSubmit = (event) => {
-    event.preventDefault();
     console.log("Submitted description:", description);
-    setIsEditing(false);
-  };
+
+    };
 
   if (status === "authenticated") {
-    // add login/sign-up logic
     return (
       <div>
         <Head>
@@ -124,94 +44,22 @@ export default function Login() {
         <CenterContent>
           <div id="boxDisplay">
             <div id="boxInside" style={{ gap: "2rem" }}>
-              <h1 style={pageCSS.profileHeader}>Signed in as {session.user.name}</h1>
-              <form onSubmit={handleSubmit} style={pageCSS.profileForm}>
-                <div style={pageCSS.leftDiv}>
-                  <label htmlFor="description" style={pageCSS.formLabel}>
-                    Description
-                  </label>
-                  <button
-                    type="button"
-                    onClick={isEditing ? handleSubmit : handleEditClick}
-                    style={pageCSS.editButton}
-                  >
-                    {isEditing ? "Submit" : "Edit"}
-                  </button>
-                </div>
-                {isEditing ? (
-                  <textarea
-                    id="description"
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                    style={pageCSS.formTextArea}
-                  />
-                ) : (
-                  <textarea
-                    id="description"
-                    value={description}
-                    readOnly
-                    style={pageCSS.formReadOnly}
-                  />
-                )}
-              </form>
-              <form onSubmit={handleSubmit} style={pageCSS.profileForm}>
-                <div style={pageCSS.leftDiv}>
-                  <label htmlFor="description" style={pageCSS.formLabel}>
-                    Profile Picture
-                  </label>
-                  <button
-                    type="button"
-                    onClick={isEditing ? handleSubmit : handleEditClick}
-                    style={pageCSS.editButton}
-                  >
-                    {isEditing ? "Submit" : "Edit"}
-                  </button>
-                </div>
-                {isEditing ? (
-                  <textarea
-                    id="description"
-                    value={profilePicture}
-                    onChange={(event) => setDescription(event.target.value)}
-                    style={pageCSS.formTextArea}
-                  />
-                ) : (
-                  <textarea
-                    id="description"
-                    value={profilePicture}
-                    readOnly
-                    style={pageCSS.formReadOnly}
-                  />
-                )}
-              </form>
-              <form onSubmit={handleSubmit} style={pageCSS.profileForm}>
-                <div style={pageCSS.leftDiv}>
-                  <label htmlFor="description" style={pageCSS.formLabel}>
-                    Display Name
-                  </label>
-                  <button
-                    type="button"
-                    onClick={isEditing ? handleSubmit : handleEditClick}
-                    style={pageCSS.editButton}
-                  >
-                    {isEditing ? "Submit" : "Edit"}
-                  </button>
-                </div>
-                {isEditing ? (
-                  <textarea
-                    id="description"
-                    value={displayName}
-                    onChange={(event) => setDescription(event.target.value)}
-                    style={pageCSS.formTextArea}
-                  />
-                ) : (
-                  <textarea
-                    id="description"
-                    value={displayName}
-                    readOnly
-                    style={pageCSS.formReadOnly}
-                  />
-                )}
-              </form>
+              <h1 style={{margin: 'auto'}}>Signed in as {session.user.name}</h1>
+              <EditableForm
+                labelName="Description"
+                existingValue={userDescription}
+                handleSubmit={handleSubmit}
+              />
+              <EditableForm
+                labelName="Profile Picture"
+                existingValue={profilePicture}
+                handleSubmit={handleSubmit}
+              />
+              <EditableForm
+                labelName="Display Name"
+                existingValue={displayName}
+                handleSubmit={handleSubmit}
+              />
               <div
                 style={{
                   display: "flex",
