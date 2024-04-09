@@ -1,372 +1,337 @@
-keys = {};
-speed = 2;
-playerSheet = {};
-playerId = Math.floor(Math.random() * 100);
-activePlayers = new Map();
-
-socket = io(undefined, {
-    path: '/api/socket',
-    
-})
-
-socket.on("addPlayer", (arg) => {
-    for (i = 0; i < arg.length; i++) {
-        addPlayer(arg[i]);
-
-    }
-
-    if (player.textures == playerSheet.walkNorth) {
-        socket.emit("updatePos", [playerId, player.x, player.y, "n"]);
-
-    }
-    else if (player.textures == playerSheet.walkSouth) {
-        socket.emit("updatePos", [playerId, player.x, player.y, "s"]);
-
-    }
-    else if (player.textures == playerSheet.walkEast) {
-        socket.emit("updatePos", [playerId, player.x, player.y, "e"]);
-
-    }
-    else if (player.textures == playerSheet.walkWest) {
-        socket.emit("updatePos", [playerId, player.x, player.y, "w"]);
-
-    }
-});
-
-socket.on("updatePositions", (arg) => {
-    updatePositions(arg);
-
-});
+var canvas, c, bgImage, foreground, player, keys, playerImageWidth, playerImageHeight, collisions, playerImages
+var boundaries = []
+var collisionsMap = [];
 
 
-function updatePositions(pos) {
-    if (playerId == pos[0]) {
-        return
-    }
-    
-    currPlayer = activePlayers.get(pos[0]);
-    currPlayer.x = pos[1];
-    currPlayer.y = pos[2];
+function valInit() {
+    collisions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 1025, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1025, 0, 1025, 0, 1025, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 0, 0, 1025, 1025, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 1025, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 0, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 0, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 0, 0, 0,
+        0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 1025, 1025, 1025, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 1025, 1025, 1025, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0, 0, 0, 1025, 1025, 1025, 1025, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-    switch (pos[3]) {
-        case "n":
-            currPlayer.textures = playerSheet.walkNorth;
-            // currPlayer.walkNorth;
-            break;
-        case "s":
-            currPlayer.textures = playerSheet.walkSouth;
-            // currPlayer.walkSouth;
-            break;
-        case "e":
-            currPlayer.textures = playerSheet.walkEast;
-            // currPlayer.walkEast;
-            break;
-        case "w":
-            currPlayer.textures = playerSheet.walkWest;
-            // currPlayer.walkWest;
-            break;
-
-    }
-}
-
-
-function addPlayer(id) {
-    if (!activePlayers.has(id)) {
-        activePlayers.set(id, createPlayer(id));
-
-    }
-}
-
-//On Page Startup
-function startScript() {
-
-    //Initializing application
-    app = new PIXI.Application(
-        {
-            resizeTo: window,
-            backgroundColor: 0xAAAAAA,
-            padding: 0,
-            margin: 0
-
-        }
-    );
-
-    document.getElementById("game").appendChild(app.view);
-
-    //Load Background and Player Sprite
-    app.loader.add("background", "/lobby/images/CPBackground.webp");
-    app.loader.add("penguin", "/lobby/images/penguin-sheet2.png");
-    app.loader.load(doneLoading);
-
-    //Event Handlers
-    window.addEventListener("keydown", keysDown);
-    window.addEventListener("keyup", keysUp);
-
-    keysDiv = document.querySelector("#game")
-
-}
-
-/*doneLoading
-* Runs functions to load sprites after page has completed loading
-*/
-function doneLoading(e) {
-    createBackground();
-    createPlayerSheet();
-    addPlayer(playerId);
-    player = activePlayers.get(playerId);
-    socket.emit("joined", playerId);
-    app.ticker.add(gameLoop);
-
-}
-
-
-/*createPlayerSheet
-*   Creates animations for the player
-*/
-function createPlayerSheet() {
-
-    //Positioning of individual sprites on player sheet
-    const frames = {
-        "0": { "frame": { "x": 5, "y": 5, "w": 61, "h": 97 } },
-        "1": { "frame": { "x": 75, "y": 5, "w": 55, "h": 94 } },
-        "2": { "frame": { "x": 139, "y": 5, "w": 61, "h": 97 } },
-        "12": { "frame": { "x": 209, "y": 5, "w": 49, "h": 94 } },
-        "13": { "frame": { "x": 267, "y": 5, "w": 49, "h": 94 } },
-        "14": { "frame": { "x": 325, "y": 5, "w": 49, "h": 94 } },
-        "24": { "frame": { "x": 383, "y": 5, "w": 49, "h": 94 } },
-        "25": { "frame": { "x": 441, "y": 5, "w": 49, "h": 94 } },
-        "26": { "frame": { "x": 499, "y": 5, "w": 49, "h": 94 } },
-        "36": { "frame": { "x": 557, "y": 5, "w": 61, "h": 97 } },
-        "37": { "frame": { "x": 627, "y": 5, "w": 55, "h": 94 } },
-        "38": { "frame": { "x": 691, "y": 5, "w": 61, "h": 97 } },
-        // ... Add all other frame data from your JSON file here
-        // Remember to include frames for all directions and animations
+    playerImages = {
+        up: new Image(),
+        down: new Image(),
+        left: new Image(),
+        right: new Image()
     };
 
-    let ssheet = new PIXI.BaseTexture.from(app.loader.resources["penguin"].url);
-
-    //Defines Animations
-    playerSheet["standSouth"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["1"].frame.x, frames["1"].frame.y, frames["1"].frame.w, frames["1"].frame.h))
-    
-    ];
-    playerSheet["standWest"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["13"].frame.x, frames["13"].frame.y, frames["13"].frame.w, frames["13"].frame.h))
-    
-    ];
-    playerSheet["standEast"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h))
-    
-    ];
-    playerSheet["standNorth"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["37"].frame.x, frames["12"].frame.y, frames["12"].frame.w, frames["12"].frame.h))
-    
-    ];
-
-    playerSheet["walkSouth"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["0"].frame.x, frames["0"].frame.y, frames["0"].frame.w, frames["0"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["2"].frame.x, frames["2"].frame.y, frames["2"].frame.w, frames["2"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["1"].frame.x, frames["1"].frame.y, frames["1"].frame.w, frames["1"].frame.h)),
-        // Add other textures for walking south
-
-    ];
-
-    playerSheet["walkWest"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["12"].frame.x, frames["12"].frame.y, frames["12"].frame.w, frames["12"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["14"].frame.x, frames["14"].frame.y, frames["14"].frame.w, frames["14"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["13"].frame.x, frames["13"].frame.y, frames["13"].frame.w, frames["13"].frame.h)),        // Add other textures for walking west
-
-    ];
-
-    playerSheet["walkEast"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["24"].frame.x, frames["24"].frame.y, frames["24"].frame.w, frames["24"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["26"].frame.x, frames["26"].frame.y, frames["26"].frame.w, frames["26"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["25"].frame.x, frames["25"].frame.y, frames["25"].frame.w, frames["25"].frame.h)),
-
-    ];
-
-    playerSheet["walkNorth"] = [
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["36"].frame.x, frames["36"].frame.y, frames["36"].frame.w, frames["36"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["38"].frame.x, frames["38"].frame.y, frames["38"].frame.w, frames["38"].frame.h)),
-        new PIXI.Texture(ssheet, new PIXI.Rectangle(frames["37"].frame.x, frames["37"].frame.y, frames["37"].frame.w, frames["37"].frame.h)),         // Add other textures for walking north
-
-    ];
+    // Define collision map
+    for (let i = 0; i < collisions.length; i += 70) {
+        collisionsMap.push(collisions.slice(i, i + 70));
+    }
 }
 
-//Function to load player sprite
-function createPlayer(id) {
-    let newPlayer = new PIXI.AnimatedSprite(playerSheet.standSouth);
-    newPlayer.anchor.set(0.5);
-    newPlayer.animationSpeed = .2;
-    newPlayer.loop = false;
-    newPlayer.x = app.view.width / 2;
-    newPlayer.y = app.view.height / 2;
-    newPlayer.width = 50;
-    newPlayer.height = 50;
-    app.stage.addChild(newPlayer);
-    newPlayer.play();
-    // newPlayer = { ...newPlayer, id: id }
-    return newPlayer;
+function listenerInit() {
+    // Event listener for keydown
+    window.addEventListener('keydown', (e) => {
+        switch (e.key) {
+            case 'w':
+                keys.w.pressed = true;
+                break;
+            case 'a':
+                keys.a.pressed = true;
+                break;
+            case 's':
+                keys.s.pressed = true;
+                break;
+            case 'd':
+                keys.d.pressed = true;
+                break;
+        }
+    });
 
+    // Event listener for keyup
+    window.addEventListener('keyup', (e) => {
+        switch (e.key) {
+            case 'w':
+                keys.w.pressed = false;
+                break;
+            case 'a':
+                keys.a.pressed = false;
+                break;
+            case 's':
+                keys.s.pressed = false;
+                break;
+            case 'd':
+                keys.d.pressed = false;
+                break;
+        }
+    });
 }
+function startScript() {
+    valInit(); 
 
-//function to load background image
-function createBackground() {
-    //background image
-    Background = PIXI.Sprite.from("/lobby/images/CPBackground.webp");
-    Background.anchor.set(0.5);
-    Background.x = app.view.width / 2;
-    Background.y = app.view.height / 2;
-    Background.width = app.view.width;
-    Background.height = app.view.height;
-    app.stage.addChild(Background)
+    canvas = document.querySelector('canvas');
+    c = canvas.getContext('2d');
 
-    //transparent image to stop player from overlapping buildings in background image
-    imageblnk = PIXI.Sprite.from("/lobby/images/trans-back.png");
-    imageblnk.anchor.set(0.5);
-    imageblnk.x = 700;
-    imageblnk.y = 200;
-    imageblnk.width = 1300;
-    imageblnk.height = 160;
-    app.stage.addChild(imageblnk)
+    let playerName = sessionStorage.getItem('playerName') ? sessionStorage.getItem('playerName') : "OG_Penguin";
+    
+    canvas.width = window.innerWidth;
 
-}
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-//Function to detect and handle collision events
-function handleCollision(object1, object2) {
-    const obj1 = object1.getBounds();
-    const obj2 = object2.getBounds();
 
-    //if players touching
-    if (obj1.x < obj2.x + obj2.width &&
-        obj1.x + obj1.width > obj2.x &&
-        obj1.y < obj2.y + obj2.height &&
-        obj1.y + obj1.height > obj2.y) {
+    // Boundary class
+    class Boundary {
+        static width = canvas.width / 70.6206896552; //14.5 * 2
+        static height = canvas.height / 39.724137931; //14.5 * 2
+        constructor({ position }) {
+            this.position = position;
+            this.width = canvas.width / 70.6206896552;
+            this.height = canvas.height / 39.724137931;
+        }
 
-        // Calculate the overlap between the player and the tree
-        const overlapX = Math.min(obj1.x + obj1.width, obj2.x + obj2.width) - Math.max(obj1.x, obj2.x);
-        const overlapY = Math.min(obj1.y + obj1.height, obj2.y + obj2.height) - Math.max(obj1.y, obj2.y);
+        draw() {
+            c.fillStyle = 'rgba(255, 0, 0, 0)';
+            //c.fillStyle = 'red'
+            c.fillRect(this.position.x, this.position.y, this.width, this.height);
+        }
+    }
 
-        // Determine the direction of the collision
-        if (overlapX < overlapY) {
-            if (obj1.x < obj2.x) {
-                object1.x -= overlapX;
-
-            } else {
-                object1.x += overlapX;
-
+    // Place boundaries
+    collisionsMap.forEach((row, i) => {
+        row.forEach((symbol, j) => {
+            if (symbol == 1025) {
+                boundaries.push(
+                    new Boundary({
+                        position: {
+                            x: j * Boundary.width + 4,
+                            y: i * Boundary.height - 4
+                        }
+                    })
+                )
             }
-        } else {
-            if (obj1.y < obj2.y) {
-                object1.y -= overlapY;
+        })
+    })
 
+    // Load images
+    bgImage = new Image();
+    bgImage.src = '/lobby/images/SnowMap.png';
+    foreground = new Image();
+    foreground.src = '/lobby/images/SnowMapforeground.png';
+
+    // Add other listeners
+    listenerInit();
+
+    //Defining source images for playerimages object
+    playerImages.up.src = '/lobby/images/penguinUp.png';
+    playerImages.down.src = '/lobby/images/penguinDown.png';
+    playerImages.left.src = '/lobby/images/penguinLeft.png';
+    playerImages.right.src = '/lobby/images/penguinRight.png';
+
+    //set height and width of player image
+    playerImageWidth = (canvas.width) / 30
+    playerImageHeight = (canvas.height) / 20
+
+    // Create Sprite class
+    class Sprite {
+        constructor({ position, image, frames = { max: 3 } }) {
+            this.position = position;
+            this.image = image;
+            this.frames = { ...frames, val: 0, elapsed: 0 };
+
+            this.image.onload = () => {
+                this.width = this.image.width / this.frames.max;
+                this.height = this.image.height;
+            };
+
+            this.moving = false;
+        }
+
+        draw() {
+            c.drawImage(
+                this.image,
+                this.frames.val * this.width,
+                0,
+                this.image.width / 4,
+                this.image.height,
+                this.position.x,
+                this.position.y,
+                playerImageWidth,
+                playerImageHeight
+            );
+
+            this.drawName();
+        }
+
+        drawName() {
+            if (playerName) {
+                c.fillStyle = 'black';
+                c.font = '18px Arial';
+                c.textAlign = 'center';
+                c.textBaseline = 'bottom';
+
+                const textX = this.position.x + 20;
+                const textY = this.position.y;
+
+                c.fillText(playerName, textX, textY);
             } else {
-                object1.y += overlapY;
+                //playerName = prompt("Please enter a new username: ");
+                //will get replaced with the db stuff later
+            }
+        }
+    }
 
+    // Create player sprite
+    player = new Sprite({
+        position: {
+            x: canvas.width / 3 - playerImages.down.width / 2,
+            y: canvas.height / 2 - playerImages.down.height / 2
+        },
+        image: playerImages.down
+    });
+
+    // Key press detection
+    keys = {
+        w: { pressed: false },
+        a: { pressed: false },
+        s: { pressed: false },
+        d: { pressed: false }
+    };
+
+    animate();
+
+}
+
+
+
+// Collision detection function
+function collisionDetection({ object1, object2 }) {
+    return (
+        object1.position.x + playerImageWidth - 10 >= object2.position.x &&
+        object1.position.x <= object2.position.x + playerImageWidth - 50 &&
+        object1.position.y <= object2.position.y + playerImageHeight - 30 &&
+        object1.position.y + playerImageHeight - 5 >= object2.position.y
+    );
+}
+
+// Animation loop
+function animate() {
+    window.requestAnimationFrame(animate);
+
+    c.clearRect(0, 0, canvas.width, canvas.height);
+    c.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+    boundaries.forEach(boundary => boundary.draw());
+    player.draw();
+    c.drawImage(foreground, 0, 0, canvas.width, canvas.height);
+
+    let moving = true;
+
+    if (keys.w.pressed) {
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i];
+            if (collisionDetection({
+                object1: player,
+                object2: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y + 2 } }
+            })) {
+                moving = false;
+                break;
+            }
+        }
+        if (moving)
+            player.position.y -= 2;
+    } else if (keys.a.pressed) {
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i];
+            if (collisionDetection({
+                object1: player,
+                object2: { ...boundary, position: { x: boundary.position.x + 2, y: boundary.position.y } }
+            })) {
+                moving = false;
+                break;
+            }
+        }
+        if (moving)
+            player.position.x -= 2;
+    } else if (keys.s.pressed) {
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i];
+            if (collisionDetection({
+                object1: player,
+                object2: { ...boundary, position: { x: boundary.position.x, y: boundary.position.y - 2 } }
+            })) {
+                moving = false;
+                break;
+            }
+        }
+        if (moving)
+            player.position.y += 2;
+    } else if (keys.d.pressed) {
+        for (let i = 0; i < boundaries.length; i++) {
+            const boundary = boundaries[i];
+            if (collisionDetection({
+                object1: player,
+                object2: { ...boundary, position: { x: boundary.position.x - 2, y: boundary.position.y } }
+            })) {
+                moving = false;
+                break;
+            }
+        }
+        if (moving)
+            player.position.x += 2;
+    }
+    // Update player movement animation
+    player.moving = keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed;
+
+    // Update frame for animation
+    if (player.moving) {
+        if (keys.w.pressed) {
+            player.image = playerImages.up;
+        } else if (keys.a.pressed) {
+            player.image = playerImages.left;
+        } else if (keys.s.pressed) {
+            player.image = playerImages.down;
+        } else if (keys.d.pressed) {
+            player.image = playerImages.right;
+        }
+        if (player.frames.max > 1) {
+            player.frames.elapsed++;
+        }
+
+        if (player.frames.elapsed % 10 === 0) {
+            if (player.frames.val < player.frames.max - 1) {
+                player.frames.val++;
+            } else {
+                player.frames.val = 0;
             }
         }
     }
 }
-
-
-//Function to switch scenes when player follows path
-function switchScenes() {
-    if (player.y < 350 && player.y > 300 && player.x < 30) {
-        speed = 0;
-        //ADD REDIRECT LOCATION HERE
-        window.location.href = "/flappypenguin";
-
-    }
-}
-
-//Function to keep player within app view
-function checkBounds(object) {
-    if (object.x > app.view.width) {
-        object.x = app.view.width;
-
-    } else if (object.x < 0) {
-        object.x = 0;
-
-    }
-
-    if (object.y > app.view.height) {
-        object.y = app.view.height;
-
-    } else if (object.y < 0) {
-        object.y = 0;
-
-    }
-
-}
-
-//functions attached to event listener to detect key presses
-function keysDown(e) {
-    keys[e.keyCode] = true;
-
-}
-function keysUp(e) {
-    keys[e.keyCode] = false;
-
-}
-
-
-//Function that loops every frame
-function gameLoop() {
-
-    //"W" key
-    if (keys["87"]) {
-        if (!player.playing) {
-            player.textures = playerSheet.walkNorth;
-            player.play();
-
-        }
-        player.y -= speed;
-        socket.emit("updatePos", [playerId, player.x, player.y, "n"]);
-
-    }
-    //"A" key
-    if (keys["65"]) {
-        if (!player.playing) {
-            player.textures = playerSheet.walkWest;
-            player.play();
-
-        }
-        player.x -= speed;
-        socket.emit("updatePos", [playerId, player.x, player.y, "w"]);
-
-    }
-    //"S" key
-    if (keys["83"]) {
-        if (!player.playing) {
-            player.textures = playerSheet.walkSouth;
-            player.play();
-
-        }
-        player.y += speed;
-        socket.emit("updatePos", [playerId, player.x, player.y, "s"]);
-
-    }
-    //"D" key
-    if (keys["68"]) {
-        if (!player.playing) {
-            player.textures = playerSheet.walkEast;
-            player.play();
-
-        }
-        player.x += speed;
-        socket.emit("updatePos", [playerId, player.x, player.y, "e"]);
-
-    }
-
-    checkBounds(player);
-
-    //check if player is following trail to switch scenes
-    switchScenes();
-
-    //check for collision
-    // handleCollision(player, imageblnk)
-
-}
-
-
-

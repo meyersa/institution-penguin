@@ -81,7 +81,9 @@ export default function Home() {
         <Header />
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onReady={() => { setPixiLoaded(true) }}/>
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js" onReady={() => { setSocketLoaded(true) }} />
-        <div id="game"></div>
+        <div id="game">
+          <canvas />
+        </div>
         <Footer />
       </div>
     )
