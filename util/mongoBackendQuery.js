@@ -32,6 +32,7 @@ export async function topPlayers() {
           _id: 0,
           displayName: "$playerInfo.displayName",
           lastActivityDate: "$playerInfo.lastActivityDate",
+          profilePic: "$playerInfo.profilePic",
           totalScore: 1,
         },
       },
@@ -93,6 +94,7 @@ export async function highScores() {
           gameName: "$topScores.gameName",
           maxScore: "$topScores.maxScore",
           displayName: "$playerInfo.displayName",
+          profilePic: "$playerInfo.profilePic",
           timestamp: "$topScores.timestamp",
         },
       },
@@ -125,6 +127,7 @@ export async function recentScores() {
           score: "$value", // Prefix with $ to reference field from input document
           displayName: "$playerInfo.displayName", // Prefix with $ to reference field from embedded document
           timestamp: "$timestamp",
+          profilePic: "$playerInfo.profilePic",
         },
       },
     ])

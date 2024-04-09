@@ -117,13 +117,18 @@ ol {
 
 }
 
+#game {
+  display: flex; 
+  justify-content: center;
+
+}
 #game > canvas {
   aspect-ratio: 16/9;
   margin: 1rem; 
   width: calc(100% - 2rem); 
   box-shadow: .4em .4em .4em .4em var(--dark-grey);
-  max-height: calc(100vh - 10em - 2rem);
-  
+  max-height: max(calc(100vh - 10em - 2rem), 1000px);
+  max-width: calc(1000px * (16/9));
 }
 
 ::-webkit-scrollbar {

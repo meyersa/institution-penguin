@@ -1,5 +1,3 @@
-// TODO: Fix profile picture not showing up
-
 import Head from 'next/head'
 import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
@@ -24,9 +22,9 @@ const pageCSS = {
     },
     leaderboardImage: {
         width: "auto",
-        height: "100%",
         maxHeight: "3rem",
-        objectFit: "contain"
+        borderRadius: "50%",
+        aspectRatio: "1",
     },
     leaderboardLink: {
         minWidth: "7rem",
@@ -102,7 +100,23 @@ export default function Leaderboard({ topPlayersResult, highScoresResult, recent
                                 <h2 style={pageCSS.leaderboardPlace}>{index + 1}.</h2>
                                 <div style={pageCSS.leaderboardOutside}>
                                     <div style={pageCSS.leaderboardInside}>
-                                        <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
+                                        {res.profilePic == undefined ? 
+                                            <Image 
+                                                src="/images/default-avatar.png" 
+                                                width={50} 
+                                                height={50} 
+                                                alt="Default avatar" 
+                                                style={pageCSS.leaderboardImage}
+                                            /> 
+                                            :
+                                            <Image 
+                                                src={res.profilePic} 
+                                                width={50} 
+                                                height={50} 
+                                                alt="Custom avatar" 
+                                                style={pageCSS.leaderboardImage}
+                                            />
+                                        }
                                         <div style={pageCSS.leaderboardNested}>
                                             <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{String(res.displayName).replaceAll('_', ' ')}</Link>
                                             <a style={pageCSS.leaderboardSmallText}>Last seen {formatRelativeDate(res.lastActivityDate)}</a>
@@ -118,9 +132,25 @@ export default function Leaderboard({ topPlayersResult, highScoresResult, recent
                         {highScoresResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardOutside} key={index}>
                                 <div style={pageCSS.leaderboardInside}>
-                                    <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
+                                    {res.profilePic == undefined ? 
+                                        <Image 
+                                            src="/images/default-avatar.png" 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Default avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        /> 
+                                        :
+                                        <Image 
+                                            src={res.profilePic} 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Custom avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        />
+                                    }
                                     <div style={pageCSS.leaderboardNested}>
-                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{String(res.displayName).replaceAll('_', ' ')}</Link>
                                         <a style={pageCSS.leaderboardSmallText}>{res.gameName} {formatRelativeDate(res.timestamp)}</a>
                                     </div>
                                 </div>
@@ -133,9 +163,25 @@ export default function Leaderboard({ topPlayersResult, highScoresResult, recent
                         {recentScoresResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardOutside} key={index}>
                                 <div style={pageCSS.leaderboardInside}>
-                                    <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
+                                    {res.profilePic == undefined ? 
+                                        <Image 
+                                            src="/images/default-avatar.png" 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Default avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        /> 
+                                        :
+                                        <Image 
+                                            src={res.profilePic} 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Custom avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        />
+                                    }                                    
                                     <div style={pageCSS.leaderboardNested}>
-                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{String(res.displayName).replaceAll('_', ' ')}</Link>
                                         <a style={pageCSS.leaderboardSmallText}>{res.gameName} {formatRelativeDate(res.timestamp)}</a>
                                     </div>
                                 </div>

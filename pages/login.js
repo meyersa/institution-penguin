@@ -1,3 +1,6 @@
+// TODO: Switch to real info for settings - Mongo integration for setting/getting settings
+// TODO: Add better logging
+
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Head from "next/head";
