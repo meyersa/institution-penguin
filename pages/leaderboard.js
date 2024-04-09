@@ -1,3 +1,5 @@
+// TODO: Fix profile picture not showing up
+
 import Head from 'next/head'
 import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
@@ -64,10 +66,22 @@ const pageCSS = {
 export default function Leaderboard({ topPlayersResult, highScoresResult, recentScoresResult },) {
     // Not fetched
     if (!Boolean(topPlayersResult) && !Boolean(highScoresResult) && !Boolean(recentScoresResult)) {
-
         return (
             <div id="loading">
-                <a >Loading...</a>
+                <Head>
+                    <title>Institution Penguin</title>
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <Header />
+                <CenterContent>
+                    <div id='boxDisplay'>
+                        <div id='boxInside'>
+                            <h1>Leaderboard is still populating</h1>
+                            <a>Please check back soon to see if it has finished loading.</a>
+                        </div>
+                    </div>
+                </CenterContent>
+                <Footer />
             </div>
         )
     }
@@ -143,13 +157,29 @@ export async function getStaticProps() {
 
     try {
         // Fetch Top Player stats from MongoDB
-        topPlayersResult = JSON.parse(JSON.stringify(await topPlayers()));
+        let topRes = await topPlayers();
+
+        if (topRes == undefined) {
+            throw new Error('Could not query top players')
+
+        }
+        topPlayersResult = JSON.parse(JSON.stringify(topRes));
 
         // Fetch Game Highscore stats from MongoDB
-        highScoresResult = JSON.parse(JSON.stringify(await highScores()));
+        let highRes = await highScores();
+        if (topRes == undefined) {
+            throw new Error('Could not query high scores')
+
+        }
+        highScoresResult = JSON.parse(JSON.stringify(highRes));
 
         // Fetch Recent Score stats from MongoDB
-        recentScoresResult = JSON.parse(JSON.stringify(await recentScores()));
+        let recentRes = await recentScores();
+        if (recentRes == undefined) {
+            throw new Error('Could not query recent scores')
+
+        }
+        recentScoresResult = JSON.parse(JSON.stringify(recentRes));
 
     } catch (error) {
         console.error("Failed to fetch leaderboard API queries", error)
