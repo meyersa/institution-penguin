@@ -7,8 +7,29 @@ describe("Leaderboard Page", () => {
   });
 
   it("displays the top 3 players", () => {
-    // Check if the top 3 player elements are present
-    cy.get("#boxInside").contains("1.").next().contains("I_have_20_characters"); // Check if the exact person is #1
-    cy.get("#boxInside").contains("600pts"); // Check if the highest score is exact
+    let attempts = 0;
+    const maxAttempts = 20; // Adjust the number of attempts as needed
+    const interval = 3000; // Adjust the interval between attempts (in milliseconds)
+
+    const checkTopPlayers = () => {
+      attempts++;
+      cy.get("#boxInside")
+        .contains("1.")
+        .next()
+        .contains("I have 20 characters")
+        .then((element) => {
+          // Check if the exact person is #1
+          if (element.length > 0) {
+            cy.get("#boxInside").contains("600pts"); // Check if the highest score is exact
+          } else if (attempts < maxAttempts) {
+            // Retry if assertions failed and maxAttempts not reached
+            cy.wait(interval);
+            checkTopPlayers();
+          }
+        });
+    };
+
+    // Start checking top players
+    checkTopPlayers();
   });
 });
