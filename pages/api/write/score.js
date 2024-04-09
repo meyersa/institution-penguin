@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   }
 
   // If game doesn't exist
-  if (!["flappypenguin", "triviapenguin"].includes(gameName)) {
+  if (!["flappypenguin", "triviapenguin", "pufflerecycler"].includes(gameName)) {
     return res.status(400).json({ error: "Game doesn't exist" });
   }
 
