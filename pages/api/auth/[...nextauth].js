@@ -57,7 +57,7 @@ export default NextAuth({
             return false; 
 
          }
-         let players = db.collection(ipCollection);
+         let players = ipCollection.collection("players");
 
          /*
           * Checking for existing user
@@ -70,6 +70,7 @@ export default NextAuth({
                email: authEmail,
                authSubID: authSubID,
             });
+
          } catch (e) {
             console.error("Error validating user is unique", e);
             return false;
@@ -157,15 +158,14 @@ export default NextAuth({
           * If this is a new token, set displayName
           */
          try {
-            // Get credentials from ENV
-            const { MONGODB_URL, MONGODB_DB } = process.env;
+            /*
+            * Connect to MongoDB
+            */
+            if (!ipCollection) {
+               return false; 
 
-            // Connect to MongoDB
-            const client = await MongoClient.connect(MONGODB_URL);
-
-            // Connect to specified DB and collection
-            const db = client.db(MONGODB_DB);
-            const players = db.collection("players");
+            }
+            let players = ipCollection.collection("players");
 
             // Get playerInfo
             const playerFullInfo = await players.findOne({
@@ -196,15 +196,14 @@ export default NextAuth({
           * Update user to reflect latest timestamp update
           */
          try {
-            // Get credentials from ENV
-            const { MONGODB_URL, MONGODB_DB } = process.env;
+            /*
+            * Connect to MongoDB
+            */
+            if (!ipCollection) {
+               return false; 
 
-            // Connect to MongoDB
-            const client = await MongoClient.connect(MONGODB_URL);
-
-            // Connect to specified DB and collection
-            const db = client.db(MONGODB_DB);
-            const players = db.collection("players");
+            }
+            let players = ipCollection.collection("players");
 
             // Update recent date
             await players.updateOne(
