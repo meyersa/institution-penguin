@@ -105,7 +105,7 @@ jobs:
       image: cypress/browsers:latest
     steps: 
       - name: Sleep for leaderboard to populate
-        run: sleep 60s
+        run: sleep 120s
         
       - name: Run cypress tests 
         uses: cypress-io/github-action@v6
