@@ -16,11 +16,9 @@ describe("Profile Page", () => {
 
   it("displays a 404 error when visiting a non-existent profile", () => {
     // Visit a non-existent profile page
-    cy.visit("/profile/abcd");
+    cy.visit("/profile/abcd", { failOnStatusCode: false });
 
     // Check if the URL contains '/404'
-    cy.location().should((loc) => {
-      expect(loc.pathname).to.eq("/404");
-    });
+    cy.location("pathname").should("eq", "/404");
   });
 });
