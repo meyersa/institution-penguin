@@ -104,7 +104,7 @@ export default function Leaderboard({ topPlayersResult, highScoresResult, recent
                                     <div style={pageCSS.leaderboardInside}>
                                         <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
                                         <div style={pageCSS.leaderboardNested}>
-                                            <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                            <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{String(res.displayName).replaceAll('_', ' ')}</Link>
                                             <a style={pageCSS.leaderboardSmallText}>Last seen {formatRelativeDate(res.lastActivityDate)}</a>
                                         </div>
                                     </div>
