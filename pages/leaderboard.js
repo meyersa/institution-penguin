@@ -4,6 +4,7 @@ import Footer from './components/Footer/index.js'
 import CenterContent from './components/CenterContent/index.js'
 import Image from 'next/image.js'
 import Link from 'next/link.js'
+import { formatRelativeDate } from '../util/time.js'
 
 const pageCSS = {
     leaderboardOutside: {
@@ -59,35 +60,10 @@ const pageCSS = {
     }
 }
 
-export default function Leaderboard({ playerScores, highScores, recentScores }, ) {
-
-    // Last active calculations
-    function formatRelativeDate(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-
-        const diffMs = now - date;
-        const diffSeconds = Math.round(diffMs / 1000);
-        const diffMinutes = Math.round(diffSeconds / 60);
-        const diffHours = Math.round(diffMinutes / 60);
-        const diffDays = Math.round(diffHours / 24);
-
-        if (diffSeconds < 60) {
-            return 'Just now';
-        } else if (diffMinutes < 60) {
-            return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
-        } else if (diffHours < 24) {
-            return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-        } else if (diffDays === 1) {
-            return 'Yesterday';
-        } else {
-            return `${diffDays} days ago`;
-        }
-    }
-
+export default function Leaderboard({ playerScores, highScores, recentScores },) {
     // Not fetched
     if (!Boolean(playerScores) && !Boolean(highScores) && !Boolean(recentScores)) {
-        
+
         return (
             <div id="loading">
                 <a >Loading...</a>
@@ -161,12 +137,12 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
 
 export async function getStaticProps() {
     // TODO: Just do the queries here and skip the fake DB 
-    
+
     let playerScores = null;
     let highScores = null;
     let recentScores = null;
-    let resTop = null; 
-    let resGHS = null; 
+    let resTop = null;
+    let resGHS = null;
     let resRec = null;
 
     try {
