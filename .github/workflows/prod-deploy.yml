@@ -55,7 +55,7 @@ jobs:
           docker compose --profile ip --file docker-compose.prod.yaml up -d 
 
       - name: Start website live build
-        run: curl -o /dev/null ${{ secrets.NEXTAUTH_URL }}
+        run: curl ${{ secrets.NEXTAUTH_URL }}
         
       # Second storage cleanup workaround
       - name: Clean-up docker

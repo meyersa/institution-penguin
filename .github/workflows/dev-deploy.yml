@@ -83,7 +83,6 @@ jobs:
       - name: Build docker containers
         run: |
           docker compose --profile db --file docker-compose.dev.yaml up -d 
-          sleep 30s
           docker compose --profile ip --file docker-compose.dev.yaml up -d
 
       - name: Start website live build
