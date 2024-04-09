@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Header from './components/Header/index.js'
 import Footer from './components/Footer/index.js'
-import CenterContent from './components/CenterContent/index.js'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
