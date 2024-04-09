@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
 
-import { MongoClient } from "mongodb";
+import ipCollection from "../../../util/mongoInit";
 
 export default NextAuth({
    providers: [
@@ -51,24 +51,13 @@ export default NextAuth({
          const authSubID = account.providerAccountId;
 
          /*
-          * Connecting to MongoDB
+          * Connect to MongoDB
           */
-         let players;
+         if (!ipCollection) {
+            return false; 
 
-         try {
-            // Get credentials from ENV
-            const { MONGODB_URL, MONGODB_DB } = process.env;
-
-            // Connect to MongoDB
-            const client = await MongoClient.connect(MONGODB_URL);
-
-            // Connect to specified DB and collection
-            const db = client.db(MONGODB_DB);
-            players = db.collection("players");
-         } catch (e) {
-            console.error("Error connecting to Mongo Players connection", e);
-            return false;
          }
+         let players = db.collection(ipCollection);
 
          /*
           * Checking for existing user

@@ -65,7 +65,7 @@ const pageCSS = {
 
 export default function Leaderboard({ topPlayersResult, highScoresResult, recentScoresResult },) {
     // Not fetched
-    if (!Boolean(topPlayersResult) && !Boolean(highScoresResult) && !Boolean(recentScoresResult)) {
+    if (!topPlayersResult || !highScoresResult || !recentScoresResult) {
         return (
             <div id="loading">
                 <Head>
@@ -183,7 +183,17 @@ export async function getStaticProps() {
 
     } catch (error) {
         console.error("Failed to fetch leaderboard API queries", error)
-
+        return {
+            props: {
+                topPlayersResult: null,
+                highScoresResult: null,
+                recentScoresResult: null,
+    
+            },
+            // Re-generate the page at most once every minute
+            revalidate: 15,
+    
+        }
     }
 
     // Pass player scores data to the component
