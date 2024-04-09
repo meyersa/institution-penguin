@@ -133,6 +133,7 @@ export default function Profile({ playerProfile }) {
 }
 
 export async function getServerSideProps({ params }) {
+    // TODO: Just do the DB query here and skip the fake API
     const { id } = params;
 
     // Fetch profile information from MongoDB

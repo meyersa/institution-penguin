@@ -160,6 +160,8 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
 }
 
 export async function getStaticProps() {
+    // TODO: Just do the queries here and skip the fake DB 
+    
     let playerScores = null;
     let highScores = null;
     let recentScores = null;
