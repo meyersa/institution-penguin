@@ -5,10 +5,6 @@
   flex-direction: column;
   align-items: center;
 }
-.CenterBox img {
-  height: 50%; 
-  width: 50%;
-}
 
 @media (max-width: 740px) { 
     .CenterBox {

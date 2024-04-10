@@ -4,6 +4,8 @@ import Footer from './components/Footer/index.js'
 import CenterContent from './components/CenterContent/index.js'
 import Image from 'next/image.js'
 import Link from 'next/link.js'
+import { formatRelativeDate } from '../util/time.js'
+import { topPlayers, highScores, recentScores } from '../util/mongoBackendQuery.js'
 
 const pageCSS = {
     leaderboardOutside: {
@@ -20,9 +22,9 @@ const pageCSS = {
     },
     leaderboardImage: {
         width: "auto",
-        height: "100%",
         maxHeight: "3rem",
-        objectFit: "contain"
+        borderRadius: "50%",
+        aspectRatio: "1",
     },
     leaderboardLink: {
         minWidth: "7rem",
@@ -59,38 +61,25 @@ const pageCSS = {
     }
 }
 
-export default function Leaderboard({ playerScores, highScores, recentScores }, ) {
-
-    // Last active calculations
-    function formatRelativeDate(dateString) {
-        const date = new Date(dateString);
-        const now = new Date();
-
-        const diffMs = now - date;
-        const diffSeconds = Math.round(diffMs / 1000);
-        const diffMinutes = Math.round(diffSeconds / 60);
-        const diffHours = Math.round(diffMinutes / 60);
-        const diffDays = Math.round(diffHours / 24);
-
-        if (diffSeconds < 60) {
-            return 'Just now';
-        } else if (diffMinutes < 60) {
-            return `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`;
-        } else if (diffHours < 24) {
-            return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-        } else if (diffDays === 1) {
-            return 'Yesterday';
-        } else {
-            return `${diffDays} days ago`;
-        }
-    }
-
+export default function Leaderboard({ topPlayersResult, highScoresResult, recentScoresResult },) {
     // Not fetched
-    if (!Boolean(playerScores) && !Boolean(highScores) && !Boolean(recentScores)) {
-        
+    if (!topPlayersResult || !highScoresResult || !recentScoresResult) {
         return (
             <div id="loading">
-                <a >Loading...</a>
+                <Head>
+                    <title>Institution Penguin</title>
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <Header />
+                <CenterContent>
+                    <div id='boxDisplay'>
+                        <div id='boxInside'>
+                            <h1>Leaderboard is still populating</h1>
+                            <a>Please check back soon to see if it has finished loading.</a>
+                        </div>
+                    </div>
+                </CenterContent>
+                <Footer />
             </div>
         )
     }
@@ -106,14 +95,30 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
                 <div id='boxDisplay'>
                     <div id='boxInside'>
                         <h1>Top 3 Players</h1>
-                        {playerScores.slice(0, 3).map((res, index) => (
+                        {topPlayersResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardNested} key={index}>
                                 <h2 style={pageCSS.leaderboardPlace}>{index + 1}.</h2>
                                 <div style={pageCSS.leaderboardOutside}>
                                     <div style={pageCSS.leaderboardInside}>
-                                        <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
+                                        {res.profilePic == undefined ? 
+                                            <Image 
+                                                src="/images/default-avatar.png" 
+                                                width={50} 
+                                                height={50} 
+                                                alt="Default avatar" 
+                                                style={pageCSS.leaderboardImage}
+                                            /> 
+                                            :
+                                            <Image 
+                                                src={res.profilePic} 
+                                                width={50} 
+                                                height={50} 
+                                                alt="Custom avatar" 
+                                                style={pageCSS.leaderboardImage}
+                                            />
+                                        }
                                         <div style={pageCSS.leaderboardNested}>
-                                            <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                            <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{String(res.displayName).replaceAll('_', ' ')}</Link>
                                             <a style={pageCSS.leaderboardSmallText}>Last seen {formatRelativeDate(res.lastActivityDate)}</a>
                                         </div>
                                     </div>
@@ -124,12 +129,28 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
                     </div>
                     <div id='boxInside'>
                         <h1>High Scores</h1>
-                        {highScores.slice(0, 3).map((res, index) => (
+                        {highScoresResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardOutside} key={index}>
                                 <div style={pageCSS.leaderboardInside}>
-                                    <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
+                                    {res.profilePic == undefined ? 
+                                        <Image 
+                                            src="/images/default-avatar.png" 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Default avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        /> 
+                                        :
+                                        <Image 
+                                            src={res.profilePic} 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Custom avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        />
+                                    }
                                     <div style={pageCSS.leaderboardNested}>
-                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{String(res.displayName).replaceAll('_', ' ')}</Link>
                                         <a style={pageCSS.leaderboardSmallText}>{res.gameName} {formatRelativeDate(res.timestamp)}</a>
                                     </div>
                                 </div>
@@ -139,12 +160,28 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
                     </div>
                     <div id='boxInside'>
                         <h1>Recent Scores</h1>
-                        {recentScores.slice(0, 3).map((res, index) => (
+                        {recentScoresResult.slice(0, 3).map((res, index) => (
                             <div style={pageCSS.leaderboardOutside} key={index}>
                                 <div style={pageCSS.leaderboardInside}>
-                                    <Image src="/images/default-avatar.png" width={"100"} height={"100"} alt="Default avatar" style={pageCSS.leaderboardImage} />
+                                    {res.profilePic == undefined ? 
+                                        <Image 
+                                            src="/images/default-avatar.png" 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Default avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        /> 
+                                        :
+                                        <Image 
+                                            src={res.profilePic} 
+                                            width={50} 
+                                            height={50} 
+                                            alt="Custom avatar" 
+                                            style={pageCSS.leaderboardImage}
+                                        />
+                                    }                                    
                                     <div style={pageCSS.leaderboardNested}>
-                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{res.displayName}</Link>
+                                        <Link href={`/profile/${res.displayName}`} style={pageCSS.leaderboardLink}>{String(res.displayName).replaceAll('_', ' ')}</Link>
                                         <a style={pageCSS.leaderboardSmallText}>{res.gameName} {formatRelativeDate(res.timestamp)}</a>
                                     </div>
                                 </div>
@@ -160,40 +197,57 @@ export default function Leaderboard({ playerScores, highScores, recentScores }, 
 }
 
 export async function getStaticProps() {
-    // TODO: Just do the queries here and skip the fake DB 
-    
-    let playerScores = null;
-    let highScores = null;
-    let recentScores = null;
-    let resTop = null; 
-    let resGHS = null; 
-    let resRec = null;
+    let topPlayersResult = null;
+    let highScoresResult = null;
+    let recentScoresResult = null;
 
     try {
         // Fetch Top Player stats from MongoDB
-        resTop = await fetch(process.env.NEXTAUTH_URL + '/api/read/topplayers');
-        playerScores = await resTop.json();
+        let topRes = await topPlayers();
+
+        if (topRes == undefined) {
+            throw new Error('Could not query top players')
+
+        }
+        topPlayersResult = JSON.parse(JSON.stringify(topRes));
 
         // Fetch Game Highscore stats from MongoDB
-        resGHS = await fetch(process.env.NEXTAUTH_URL + '/api/read/highscores');
-        highScores = await resGHS.json();
+        let highRes = await highScores();
+        if (topRes == undefined) {
+            throw new Error('Could not query high scores')
+
+        }
+        highScoresResult = JSON.parse(JSON.stringify(highRes));
 
         // Fetch Recent Score stats from MongoDB
-        resRec = await fetch(process.env.NEXTAUTH_URL + '/api/read/recentscores');
-        recentScores = await resRec.json();
+        let recentRes = await recentScores();
+        if (recentRes == undefined) {
+            throw new Error('Could not query recent scores')
+
+        }
+        recentScoresResult = JSON.parse(JSON.stringify(recentRes));
 
     } catch (error) {
         console.error("Failed to fetch leaderboard API queries", error)
-
+        return {
+            props: {
+                topPlayersResult: null,
+                highScoresResult: null,
+                recentScoresResult: null,
+    
+            },
+            // Re-generate the page at most once every minute
+            revalidate: 15,
+    
+        }
     }
-
 
     // Pass player scores data to the component
     return {
         props: {
-            playerScores,
-            highScores,
-            recentScores,
+            topPlayersResult,
+            highScoresResult,
+            recentScoresResult,
 
         },
         // Re-generate the page at most once every minute
