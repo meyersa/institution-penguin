@@ -104,8 +104,13 @@ jobs:
     container: 
       image: cypress/browsers:latest
     steps: 
-      - name: Run cypress tests 
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          config: baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
+      - name: Check out code 
+        uses: actions/checkout@v4
+
+      - name: Init Node
+        run: npm install
+
+      - name: Run cypress test 
+        run: npm run cypress:run
+        env: 
+          baseUrl: https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
