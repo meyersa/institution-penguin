@@ -3,6 +3,7 @@ services:
   dev-ip: 
     profiles: [ip, all]
     container_name: dev-${GITHUB_PR}-ip
+    user: 1000:1000
     build: .
     restart: always 
     env_file:
@@ -18,6 +19,7 @@ services:
   dev-ip-db: 
     profiles: [db, all]
     container_name: dev-${GITHUB_PR}-ip-db
+    user: 1000:1000
     image: mongo:latest 
     restart: always
     env_file:
