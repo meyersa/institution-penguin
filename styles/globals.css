@@ -127,8 +127,9 @@ ol {
   margin: 1rem; 
   width: calc(100% - 2rem); 
   box-shadow: .4em .4em .4em .4em var(--dark-grey);
-  max-height: max(calc(100vh - 10em - 2rem), 1000px);
-  max-width: calc(1000px * (16/9));
+  max-height: min(calc((100vh - 10em - 2rem - 2em)), 800px);
+  max-width: min(calc((100vh - 10em - 2rem - 2em) * (16/9)), calc(800px * 16/9));
+  
 }
 
 ::-webkit-scrollbar {
