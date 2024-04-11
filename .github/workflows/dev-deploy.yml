@@ -101,11 +101,21 @@ jobs:
     needs: deploy-app
     runs-on: self-hosted
     environment: Dev
-    container: 
-      image: cypress/browsers:latest
     steps: 
-      - name: Run cypress tests 
-        uses: cypress-io/github-action@v6
+      
+      # Storage cleanup workaround
+      - name: Clean up GitHub workspace
+        uses: docker://ubuntu:latest
         with:
-          browser: chrome
-          config: baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
+          args: find /github/workspace/. -name . -o -prune -exec rm -rf -- {} +
+    
+      - name: Checkout code
+        uses: actions/checkout@v4
+            
+      - name: Init NPM
+        run: npm ci 
+          
+      - name: Run cypress tests 
+        run: |
+          export CYPRESS_baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
+          npx cypress run
