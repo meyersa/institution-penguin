@@ -101,14 +101,11 @@ jobs:
     needs: deploy-app
     runs-on: self-hosted
     environment: Dev
+    container: 
+      image: cypress/browsers:latest
     steps: 
-      - name: Checkout code
-        uses: actions/checkout@v4
-            
-      - name: Init NPM
-        run: npm ci 
-          
       - name: Run cypress tests 
-        run: |
-          export CYPRESS_baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
-          npx cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          config: baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
