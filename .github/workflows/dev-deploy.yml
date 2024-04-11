@@ -94,8 +94,7 @@ jobs:
       - name: Init NPM
         run: npm ci 
 
-      - name: Set Env 
-        run: export CYPRESS_baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
-
       - name: Run cypress tests 
-        run: npm run cypress:run 
+        run: |
+          export CYPRESS_baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
+          npx cypress run
