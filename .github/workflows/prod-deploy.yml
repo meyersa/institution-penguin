@@ -42,6 +42,9 @@ jobs:
           echo "MONGO_INITDB_ROOT_PASSWORD=${{ secrets.MONGO_INITDB_ROOT_PASSWORD }}" >> .env
           echo "ENVIRONMENT=${{ secrets.ENVIRONMENT }}" >> .env
 
+      - name: Prebuild IP
+        run: docker compose --profile ip --file docker-compose.prod.yaml build 
+
       - name: Confirm no running containers
         run: docker compose --profile all --file docker-compose.prod.yaml down 
 
@@ -49,8 +52,8 @@ jobs:
       - name: Deploy docker
         run: |
           docker compose --profile db --file docker-compose.prod.yaml up -d
-          docker compose --profile ip --file docker-compose.prod.yaml up -d --build
-
+          docker compose --profile ip --file docker-compose.prod.yaml up -d 
+        
       # Second storage cleanup workaround
       - name: Clean-up docker
         run: docker system prune -f
