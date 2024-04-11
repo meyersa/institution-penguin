@@ -112,10 +112,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
             
-      - name: Init NPM
-        run: npm ci 
+      - name: Install cypress
+        run: npm install cypress 
           
       - name: Run cypress tests 
         run: |
           export CYPRESS_baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
-          npx cypress run
+          npx --yes cypress run
