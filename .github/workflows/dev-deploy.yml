@@ -113,4 +113,4 @@ jobs:
       - name: Run cypress test 
         run: npm run cypress:run
         env: 
-          baseUrl: https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
+          CYPRESS_BASEURL: https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
