@@ -118,4 +118,4 @@ jobs:
       - name: Run cypress tests 
         run: |
           export CYPRESS_baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
-          npx --yes cypress run
+          npx cypress run
