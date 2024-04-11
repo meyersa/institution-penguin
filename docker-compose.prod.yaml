@@ -4,6 +4,7 @@ services:
     profiles: [ip, all]
     build: .
     container_name: prod-ip 
+    user: 1000:1000
     restart: always 
     env_file:
       - .env
@@ -13,6 +14,7 @@ services:
   prod-ip-db: 
     profiles: [db, all]
     image: mongo:latest 
+    user: 1000:1000
     container_name: prod-ip-db 
     restart: always
     env_file:
