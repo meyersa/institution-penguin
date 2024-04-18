@@ -1,7 +1,12 @@
 # Builds the container and runs cypress tests 
 name: Deploy to Dev and run Cypress
+
 on:
   pull_request:
+  
+permissions:
+  pull-requests: write
+
 jobs:
   check-traefik:
     runs-on: self-hosted
