@@ -1,0 +1,19 @@
+.penguin {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-image: url('/images/sliding-penguin.png');
+    background-size: contain;
+    animation: slideUpDown 4s linear infinite alternate;
+    transform: rotate(90deg);
+  }
+  
+  @keyframes slideUpDown {
+    0% {
+      top: 6em;
+    }
+    100% {
+      top: calc(100vh - 6em - 50px);
+    }
+  }
+  

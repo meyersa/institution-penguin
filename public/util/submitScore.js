@@ -1,4 +1,3 @@
-// TODO: Stub for function that submits score
 export async function submitScore(score, gameName) {
     const response = await fetch("/api/write/score", {
       method: "POST",

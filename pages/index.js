@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
 import Script from 'next/script'
-
+import Penguins from './components/Penguins/index.js';
 import io from 'socket.io-client'
 let socket
 
@@ -81,8 +81,11 @@ export default function Home() {
         <Header />
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/6.0.0-rc/browser/pixi.min.js" onReady={() => { setPixiLoaded(true) }}/>
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.1/socket.io.js" onReady={() => { setSocketLoaded(true) }} />
-        <div id="game"></div>
+        <div id="game">
+          <canvas />
+        </div>
         <Footer />
+        <Penguins />
       </div>
     )
   } else {
