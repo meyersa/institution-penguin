@@ -73,6 +73,12 @@ export default function Header() {
           <Link className={styles.inside} href="/leaderboard">
             Leaderboard
           </Link>
+          <Link className={styles.inside} href="/information">
+            Info
+          </Link>
+          <Link className={styles.inside} href="https://github.com/meyersa/institution-penguin">
+            Github
+          </Link>
           <button id="profileButton" className={styles.profileButton} onClick={() => handleButtonClick()}>
             {loggedIn ? (
               <Image className={styles.headerImage} src={profPicture} height={50} width={50} alt="Profile picture" />
@@ -91,6 +97,12 @@ export default function Header() {
           </button>
           <button className={styles.menuitem} onClick={() => handleMobileRedirect("/leaderboard")}>
             Leaderboard
+          </button>
+          <button className={styles.menuitem} onClick={() => handleMobileRedirect("/information")}>
+            Information
+          </button>
+          <button className={styles.menuitem} onClick={() => handleMobileRedirect("https://github.com/meyersa/institution-penguin")}>
+            Github
           </button>
           <button className={styles.menuitem} onClick={() => handleMobileRedirect("/login")}>
             {loggedIn ? "Logout" : "Login"}

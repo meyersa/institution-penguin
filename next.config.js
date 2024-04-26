@@ -12,6 +12,11 @@ module.exports = {
             protocol: 'https', 
             hostname: 'cdn.discordapp.com',
             pathname: '/avatars/**'
+          },
+          {
+            protocol: 'https', 
+            hostname: 'friendoftheearth.org',
+            pathname: '/wp-content/uploads/**'
           }
         ],
       },

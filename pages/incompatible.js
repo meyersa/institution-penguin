@@ -34,6 +34,7 @@ export default function Incompatible() {
                 <Image src="/images/github.png" width="50" height="50" alt="Github logo" style={{ filter: "invert(100)" }} />
               </Link>
               <Link href="/about" style={{ padding: "1rem", background: "var(--light-white)", color: "var(--grey)", borderRadius: "0.5rem" }}>About</Link>
+              <Link href="/information" style={{ padding: "1rem", background: "var(--light-white)", color: "var(--grey)", borderRadius: "0.5rem" }}>Info</Link>
             </div>
           </div>
         </div>
