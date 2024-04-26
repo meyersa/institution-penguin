@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSession } from "next-auth/react"
 import Script from 'next/script'
-
+import Penguins from './components/Penguins/index.js';
 import io from 'socket.io-client'
 let socket
 
@@ -85,6 +85,7 @@ export default function Home() {
           <canvas />
         </div>
         <Footer />
+        <Penguins />
       </div>
     )
   } else {

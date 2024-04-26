@@ -510,13 +510,18 @@ function animate() {
     let moving = true;
 
     if (keys.w.pressed) {
-        for (let i = 0; i < boundaries.length; i++) {
+        for (let i = 0; i < bhcBoundaries.length; i++) {
+
             const boundary = boundaries[i];
             const bhcboundary = bhcBoundaries[i];
             const tmhcboundary = tmhcBoundaries[i];
             const blhcboundary = blhcBoundaries[i];
             const brhcboundary = brhcBoundaries[i];
+            console.log("i", i)
+            console.log("bhcBoundaries length", bhcBoundaries.length)
+            console.log("boundaries length", boundaries.length)
 
+            console.log("bhcboundary", bhcboundary)
             if (collisionDetection({
                 object1: player,
                 object2: { ...bhcboundary, position: { x: bhcboundary.position.x, y: bhcboundary.position.y + 2 } }
