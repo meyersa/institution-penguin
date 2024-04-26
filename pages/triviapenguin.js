@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Header from "./components/Header/index.js";
 import Footer from "./components/Footer/index.js";
+import CenterContent from "./components/CenterContent/index.js";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -15,6 +16,26 @@ export default function TriviaPenguin({ quizQuestions }) {
   const [multiplier, setMultiplier] = useState(1.0);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
+
+  // Conditions to be viewing page
+  useEffect(() => {
+    // Set initial compatibility for window size
+    if (window.innerWidth <= 1000) {
+      router.push("/incompatible");
+      return () => {};
+    }
+
+    // Not authenticated and is compatible
+    if (authStatus !== "authenticated" && authStatus !== "loading") {
+      router.push("/login");
+      return () => {};
+    }
+
+    // Conditions are met
+    if (authStatus === "authenticated") {
+      setCanLoad(true);
+    }
+  }, [router, authStatus]);
 
   // If questions are not loaded
   if (!quizQuestions) {
@@ -37,26 +58,6 @@ export default function TriviaPenguin({ quizQuestions }) {
       </div>
     );
   }
-
-  // Conditions to be viewing page
-  useEffect(() => {
-    // Set initial compatibility for window size
-    if (window.innerWidth <= 1000) {
-      router.push("/incompatible");
-      return () => {};
-    }
-
-    // Not authenticated and is compatible
-    if (authStatus !== "authenticated" && authStatus !== "loading") {
-      router.push("/login");
-      return () => {};
-    }
-
-    // Conditions are met
-    if (authStatus === "authenticated") {
-      setCanLoad(true);
-    }
-  }, [router, authStatus]);
 
   // Shuffle array function
   const shuffleArray = (array) => {
