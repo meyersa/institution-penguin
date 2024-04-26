@@ -30,7 +30,7 @@ export default function Penguins() {
     }, 3000); // Adjust the interval as needed
 
     return () => clearInterval(interval);
-  }, []);
+  }, [position]);
 
   return <div className={styles.penguin} style={position} />;
 }

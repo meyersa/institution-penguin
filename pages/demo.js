@@ -19,13 +19,13 @@ export default function About() {
                             <h1>Games</h1>
                             <h2>Lobby</h2>
                             <Image src="/demo/lobby.png" height="576" width="1024" alt="Lobby picture" style={{height: "auto"}}/>
-                            <a>Okay, maybe the lobby isn't a game, but it is loaded like one. Utilizing a lot of Javascript to draw sprites onto a canvas element, this may as well be a 2d game. The lobby also serves as the jump point between games. In the future it will include even more!</a>
+                            <a>Okay, maybe the lobby isn&apos;t a game, but it is loaded like one. Utilizing a lot of Javascript to draw sprites onto a canvas element, this may as well be a 2d game. The lobby also serves as the jump point between games. In the future it will include even more!</a>
                             <h2>FlappyPenguin</h2>
                             <Image src="/demo/flappypenguin.png" height="576" width="1024" alt="FlappyPenguin picture" style={{height: "auto"}} />
-                            <a>In the style of Flappy Bird, but with everyone's favorite mammal. This game challenges your ability to jump over incoming snowmen but also dodge flying snowballs. Can you make it!?</a>
+                            <a>In the style of Flappy Bird, but with everyone&apos;s favorite mammal. This game challenges your ability to jump over incoming snowmen but also dodge flying snowballs. Can you make it!?</a>
                             <h2>PuffleRecycler</h2>
                             <Image src="/demo/pufflerecycler.png" height="576" width="1024" alt="PuffleRecycler picture" style={{height: "auto"}} />
-                            <a>In this daring adventure you'll try and keep as many pieces of plastic from getting into the penguin's habitat, but don't remove their fish!</a>
+                            <a>In this daring adventure you&apos;ll try and keep as many pieces of plastic from getting into the penguin&apos;s habitat, but don&apos;t remove their fish!</a>
                             <h2>TriviaPenguin</h2>
                             <Image src="/demo/triviapenguin.png" height="576" width="1024" alt="TriviaPenguin picture" style={{height: "auto"}} />
                             <a>Put your knowledge of Penguins and habitat loss to the test in this Jeopardy style game. Answer as fast as possible and you might get some bonus points!</a>
@@ -42,7 +42,7 @@ export default function About() {
                             <a>See how many points other players have amassed, or see how many points they have been getting lately!</a>
                             <h2>Settings</h2>
                             <Image src="/demo/settings.png" height="576" width="1024" alt="Settings picture" style={{height: "auto"}} />
-                            <a>Customize your name, description, and profile picture. In the future you'll be able to style your penguin how you want!</a>
+                            <a>Customize your name, description, and profile picture. In the future you&apos;ll be able to style your penguin how you want!</a>
                         </div>
                         <div id='boxInside'>
                             <h1>Technology Used</h1>
@@ -54,7 +54,7 @@ export default function About() {
                             <h2>NextAuth</h2>
                             <a>In order to offload authentication from the server, using NextJS (NextAuth) was the obvious choice. The configurable backend lets us define everything we could need to include multiple OAuth providers.</a>
                             <h2>PixiJS</h2>
-                            <a>While some of our games are made without any additional libraries, PixiJS' 2d game engine makes the more complicated games much easier to develop.</a>
+                            <a>While some of our games are made without any additional libraries, PixiJS&apos; 2d game engine makes the more complicated games much easier to develop.</a>
                             <h2>Github</h2>
                             <a>The heart of the codebase, Github lets our team develop different parts of the project simultaneously while providing visibility, automated testing, and automated deployment.</a>
                             <h2>Docker</h2>
