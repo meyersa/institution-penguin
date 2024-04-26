@@ -206,3 +206,9 @@ export async function profileInfo(displayName) {
 
   return combinedResult;
 }
+
+export async function loadQuestions() {
+  const triviaRes = ipCollection.collection('triviaQuestions').find({}).toArray();
+
+  return triviaRes
+}
