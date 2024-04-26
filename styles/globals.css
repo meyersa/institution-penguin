@@ -127,8 +127,8 @@ ol {
   margin: 1rem; 
   width: calc(100% - 2rem); 
   box-shadow: .4em .4em .4em .4em var(--dark-grey);
-  max-height: min(calc((100vh - 12em)), 800px);
-  max-width: min(calc((100vh - 12em) * (16/9)), calc(800px * 16/9));
+  max-height: calc((100vh - 12em));
+  max-width: calc((100vh - 12em) * (16/9));
   
 }
 

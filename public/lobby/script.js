@@ -13,7 +13,8 @@ var tmhcMap = [];
 //BottomLeftHouseCollisonMap
 var blhcMap = [];
 //BotomRightHOuseCollisionMap
-var brhcMap = []
+var brhcMap = [];
+
 function valInit() {
     collisions = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -486,10 +487,10 @@ function startScript() {
 // Collision detection function
 function collisionDetection({ object1, object2 }) {
     return (
-        object1.position.x + playerImageWidth - 10 >= object2.position.x &&
-        object1.position.x <= object2.position.x + playerImageWidth - 50 &&
-        object1.position.y <= object2.position.y + playerImageHeight - 30 &&
-        object1.position.y + playerImageHeight - 5 >= object2.position.y
+        object1.position.x + (playerImageWidth / 1.47) >= object2.position.x &&
+        object1.position.x <= object2.position.x + (playerImageWidth  * (-0.22)) &&
+        object1.position.y <= object2.position.y + (playerImageHeight / 1.782) &&
+        object1.position.y + (playerImageHeight / 1.08) >= object2.position.y
     );
 }
 
@@ -510,18 +511,14 @@ function animate() {
     let moving = true;
 
     if (keys.w.pressed) {
-        for (let i = 0; i < bhcBoundaries.length; i++) {
 
-            const boundary = boundaries[i];
+
+        for(let i = 0; i< bhcBoundaries.length; i++){
             const bhcboundary = bhcBoundaries[i];
             const tmhcboundary = tmhcBoundaries[i];
             const blhcboundary = blhcBoundaries[i];
             const brhcboundary = brhcBoundaries[i];
-            console.log("i", i)
-            console.log("bhcBoundaries length", bhcBoundaries.length)
-            console.log("boundaries length", boundaries.length)
 
-            console.log("bhcboundary", bhcboundary)
             if (collisionDetection({
                 object1: player,
                 object2: { ...bhcboundary, position: { x: bhcboundary.position.x, y: bhcboundary.position.y + 2 } }
@@ -533,21 +530,26 @@ function animate() {
                 object2: { ...tmhcboundary, position: { x: tmhcboundary.position.x, y: tmhcboundary.position.y + 2 } }
             })) {
                 //Add location of Mini-Game
-                window.location.href = ""
+                window.location.href = "/flappypenguin"
             }else if (collisionDetection({
                 object1: player,
                 object2: { ...blhcboundary, position: { x: blhcboundary.position.x, y: blhcboundary.position.y + 2 } }
             })) {
                 //Add location of Mini-Game
-                window.location.href = ""
+                window.location.href = "/pufflerecycler"
             }
             else if (collisionDetection({
                 object1: player,
                 object2: { ...brhcboundary, position: { x: brhcboundary.position.x, y: brhcboundary.position.y + 2 } }
             })) {
                 //Add location of Mini-Game
-                window.location.href = ""
+                window.location.href = "/triviapenguin"
             }
+        }
+
+        for (let i = 0; i < boundaries.length; i++) {
+
+            const boundary = boundaries[i];
 
             if (collisionDetection({
                 object1: player,
@@ -559,7 +561,7 @@ function animate() {
             
         }
         if (moving)
-            player.position.y -= 1;
+            player.position.y -= 2;
     } else if (keys.a.pressed) {
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
@@ -572,7 +574,7 @@ function animate() {
             }
         }
         if (moving)
-            player.position.x -= 1;
+            player.position.x -= 2;
     } else if (keys.s.pressed) {
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
@@ -585,7 +587,7 @@ function animate() {
             }
         }
         if (moving)
-            player.position.y += 1;
+            player.position.y += 2;
     } else if (keys.d.pressed) {
         for (let i = 0; i < boundaries.length; i++) {
             const boundary = boundaries[i];
@@ -598,7 +600,7 @@ function animate() {
             }
         }
         if (moving)
-            player.position.x += 1;
+            player.position.x += 2;
     }
     // Update player movement animation
     player.moving = keys.w.pressed || keys.a.pressed || keys.s.pressed || keys.d.pressed;
