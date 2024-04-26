@@ -13,6 +13,7 @@ export default function Header() {
         <Link className={styles.link} href="/leaderboard">Leaderboard</Link>
         <Link className={styles.link} href="/login">Login</Link>
         <Link className={styles.link} href="/information">Info</Link>
+        <Link className={styles.link} href="/demo">Demo</Link>
         <Link className={styles.link} href="https://github.com/meyersa/institution-penguin">Github</Link>
         <a>Images provided by Dalle 3</a>
       </div>

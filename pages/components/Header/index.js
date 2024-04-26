@@ -76,6 +76,9 @@ export default function Header() {
           <Link className={styles.inside} href="/information">
             Info
           </Link>
+          <Link className={styles.inside} href="/demo">
+            Demo
+          </Link>
           <Link className={styles.inside} href="https://github.com/meyersa/institution-penguin">
             Github
           </Link>
@@ -100,6 +103,9 @@ export default function Header() {
           </button>
           <button className={styles.menuitem} onClick={() => handleMobileRedirect("/information")}>
             Information
+          </button>
+          <button className={styles.menuitem} onClick={() => handleMobileRedirect("/demo")}>
+            Demo
           </button>
           <button className={styles.menuitem} onClick={() => handleMobileRedirect("https://github.com/meyersa/institution-penguin")}>
             Github
