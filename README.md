@@ -25,3 +25,16 @@ CPS Senior Design project to make a chat space that resembles Club Penguin, but 
 
 - Merge branch to main
 - Runner rebuilds with pushes to main 
+
+## Todo
+
+- TODO: Add e2e test for multiplayer
+- TODO: Add e2e test for games 
+- TODO: Add health check to Mongo possible to make build faster
+- TODO: Add penguin facts in the footer, penguin slides over to reveal it? 
+- TODO: Fix penguin on side of screen 
+- TODO: Clean up files and add better documentation
+- TODO: Swap all score uploads over to util/submitScore
+- TODO: Add more providers for NextAuth
+- TODO: Add names to houses for redirects on lobby
+- TODO: Setup Google Temp Auth for provider to test logged in stuff
