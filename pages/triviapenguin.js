@@ -5,8 +5,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { loadQuestions } from "../util/mongoBackendQuery.js";
+import { submitScore } from "../public/util/submitScore.js";
 
-export default function TriviaGame({ quizQuestions }) {
+export default function TriviaPenguin({ quizQuestions }) {
   const router = useRouter();
   const { data: session, status: authStatus } = useSession();
   const [canLoad, setCanLoad] = useState(false);
@@ -43,14 +44,14 @@ export default function TriviaGame({ quizQuestions }) {
     }
     return array;
   };
+  // Shuffle the array of questions
+  const shuffledQuestions = shuffleArray(quizQuestions);
 
   // Handle user's answer
   const answerQuestion = (answer) => {
-    const shuffledQuestions = shuffleArray(quizQuestions)
-
     const currentQuestion = shuffledQuestions[questionIndex];
-    const isCorrect = answer === currentQuestion.correctAnswer;
-  
+    const isCorrect = answer == Boolean(currentQuestion.answer);
+
     if (isCorrect) {
       const currentScore = score + 5 * multiplier;
       setScore(currentScore);
@@ -59,27 +60,29 @@ export default function TriviaGame({ quizQuestions }) {
       endGame(); // End game if the answer is wrong
       return; // Return early to prevent updating state
     }
-  
+
     setQuestionIndex(questionIndex + 1);
     setAnsweredQuestions([...answeredQuestions, currentQuestion._id]);
   };
 
   const startGame = () => {
     document.getElementById("startPrompt").style.display = "none";
+    document.getElementById("question-box").style.display = "block";
     document.getElementById("canvas").style.filter = "blur(0)";
   };
 
   // End the game when all questions are answered
   const endGame = () => {
     document.getElementById("endPrompt").style.display = "block";
+    document.getElementById("question-box").style.display = "none";
     document.getElementById("canvas").style.filter = "blur(5px)";
+
+    submitScore(score, "triviapenguin"); 
+    
   };
 
   // Display the game interface
   if (canLoad) {
-    // Shuffle the array of questions
-    const shuffledQuestions = shuffleArray(quizQuestions);
-
     return (
       <div>
         <Head>
@@ -140,7 +143,7 @@ export default function TriviaGame({ quizQuestions }) {
           <div
             id="canvas"
             style={{
-              backgroundImage: "url('/triviagame/background.png')",
+              backgroundImage: "url('/triviapenguin/background.png')",
               backgroundPosition: "center",
               backgroundSize: "contain",
               filter: "blur(5px)",
@@ -150,7 +153,7 @@ export default function TriviaGame({ quizQuestions }) {
             }}
           >
             {questionIndex < shuffledQuestions.length && (
-              <div>
+              <div id="question-box" style={{ display: "none", maxWidth: "80%" }}>
                 <h2 style={{ color: "var(--white)", backgroundColor: "var(--blue)", padding: "1rem" }}>
                   Question: {shuffledQuestions[questionIndex].question}
                 </h2>
