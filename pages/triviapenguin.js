@@ -16,6 +16,28 @@ export default function TriviaPenguin({ quizQuestions }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
 
+  // If questions are not loaded
+  if (!quizQuestions) {
+    return (
+      <div id="loading">
+        <Head>
+          <title>Institution Penguin</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Header />
+        <CenterContent>
+          <div id="boxDisplay">
+            <div id="boxInside">
+              <h1>TriviaPenguin is still populating questions</h1>
+              <a>Please check back soon to see if it has finished loading.</a>
+            </div>
+          </div>
+        </CenterContent>
+        <Footer />
+      </div>
+    );
+  }
+
   // Conditions to be viewing page
   useEffect(() => {
     // Set initial compatibility for window size
@@ -77,8 +99,7 @@ export default function TriviaPenguin({ quizQuestions }) {
     document.getElementById("question-box").style.display = "none";
     document.getElementById("canvas").style.filter = "blur(5px)";
 
-    submitScore(score, "triviapenguin"); 
-    
+    submitScore(score, "triviapenguin");
   };
 
   // Display the game interface
@@ -154,14 +175,24 @@ export default function TriviaPenguin({ quizQuestions }) {
           >
             {questionIndex < shuffledQuestions.length && (
               <div id="question-box" style={{ display: "none", maxWidth: "80%" }}>
-                <h2 style={{ color: "var(--white)", backgroundColor: "var(--blue)", padding: "1rem" }}>
+                <h2
+                  style={{ color: "var(--white)", backgroundColor: "var(--blue)", padding: "1rem" }}
+                >
                   Question: {shuffledQuestions[questionIndex].question}
                 </h2>
                 <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-                  <button id="styled-button" style={{ width: "100%" }} onClick={() => answerQuestion(true)}>
+                  <button
+                    id="styled-button"
+                    style={{ width: "100%" }}
+                    onClick={() => answerQuestion(true)}
+                  >
                     True
                   </button>
-                  <button id="styled-button" style={{ width: "100%" }} onClick={() => answerQuestion(false)}>
+                  <button
+                    id="styled-button"
+                    style={{ width: "100%" }}
+                    onClick={() => answerQuestion(false)}
+                  >
                     False
                   </button>
                 </div>
