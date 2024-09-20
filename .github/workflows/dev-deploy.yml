@@ -121,7 +121,7 @@ jobs:
         run: npm install cypress 
 
       - name: Install Dep
-        run: apt install xvfb
+        run: sudo apt install xvfb
         
       - name: Run cypress tests 
         run: |
