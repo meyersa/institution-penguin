@@ -23,7 +23,7 @@
         "socket.io-client": "^4.7.5"
     },
     "devDependencies": {
-        "concurrently": "^8.2.2",
+        "concurrently": "^9.0.1",
         "cypress": "^13.9.0",
         "eslint": "8.57.0",
         "eslint-config-next": "14.2.3"
