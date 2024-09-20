@@ -119,7 +119,10 @@ jobs:
             
       - name: Install cypress
         run: npm install cypress 
-          
+
+      - name: Install Dep
+        run: apt install xvfb
+        
       - name: Run cypress tests 
         run: |
           export CYPRESS_baseUrl=https://dev-${{ github.event.number }}.${{ secrets.NEXTAUTH_URL }}
