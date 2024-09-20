@@ -121,7 +121,7 @@ jobs:
         run: npm install cypress 
 
       - name: Install Dep
-        run: sudo apt install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libnss3 libxss1 libasound2 libxtst6 xauth xvfb -y
+        run: sudo apt install libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb -y
         
       - name: Run cypress tests 
         run: |
