@@ -26,6 +26,6 @@
         "concurrently": "^8.2.2",
         "cypress": "^13.9.0",
         "eslint": "8.57.0",
-        "eslint-config-next": "14.2.3"
+        "eslint-config-next": "14.2.13"
     }
 }
